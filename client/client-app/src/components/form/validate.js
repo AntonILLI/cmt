@@ -1,0 +1,101 @@
+const validator = require("validator");
+
+const validateRegisterForm = data => {
+  const errors = {};
+  let message = "";
+  let isFormValid = true;
+
+  if (
+    !data ||
+    typeof data.firstname !== "string" ||
+    data.firstname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.firstname = "Please provide a first name.";
+  }
+  if (
+    !data ||
+    typeof data.lastname !== "string" ||
+    data.lastname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.lastname = "Please provide a last name.";
+  }
+
+  if (
+    !data ||
+    typeof data.email !== "string" ||
+    !validator.isEmail(data.email)
+  ) {
+    isFormValid = false;
+    errors.email = "Please provide a correct email address.";
+  }
+
+  if (
+    !data ||
+    typeof data.password !== "string" ||
+    data.password.trim().length < 8
+  ) {
+    isFormValid = false;
+    errors.password = "Password must have at least 8 characters.";
+  }
+
+  if (!data || data.confirmPassword !== data.password) {
+    isFormValid = false;
+    errors.confirmPassword = "Password confirmation doesn't match.";
+  }
+  if (!data) {
+    isFormValid = false;
+    errors.categories = "Please check your music profession";
+  }
+
+  if (!isFormValid) {
+    message = "Check the form for errors.";
+  }
+
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+};
+
+const validateLoginForm = data => {
+  const errors = {};
+  let message = "";
+  let isFormValid = true;
+
+  if (
+    !data ||
+    typeof data.password !== "string" ||
+    data.password.trim().length < 8
+  ) {
+    isFormValid = false;
+    errors.password = "Password must have at least 8 characters.";
+  }
+
+  if (
+    !data ||
+    typeof data.email !== "string" ||
+    !validator.isEmail(data.email)
+  ) {
+    isFormValid = false;
+    errors.email = "Please provide a correct email address.";
+  }
+
+  if (!isFormValid) {
+    message = "Check the form for errors.";
+  }
+
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+};
+//default opbjects success,message,errors,
+// return success,message,errors
+module.exports = {
+  validateLoginForm: validateLoginForm,
+  validateRegisterForm: validateRegisterForm
+};

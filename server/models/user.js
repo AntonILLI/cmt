@@ -92,6 +92,7 @@ userSchema.methods.comparePassword = function(userPassword, callback) {
     }
   });
 };
+
 //hasMatch kind of state just boolean
 userSchema.methods.generateToken = function(callback) {
   var user = this;

@@ -11,7 +11,8 @@ exports.getUser = (req, res) => {
 exports.saveUser = (req, res) => {
   const user = new User(req.body);
   user.save((err, doc) => {
-    if (err) return res.json({ success: false, err });
+    if (err) return res.status(400).send(err);
+    // res.json({ success: false, err });
     res.status(200).json({
       success: true,
       user: doc
@@ -36,15 +37,15 @@ exports.authUser = (req, res) => {
 
 exports.loginUser = (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
-    if (!user)
-      return res.json({
-        loginSuccess: false,
-        message: "Authentication fail,Email not found"
-      });
+    if (!user) return res.status(400).send(err);
+    // return res.json({
+    //   loginSuccess: false,
+    //   message: "Authentication fail,Email not found"
+    // });
 
     user.comparePassword(req.body.password, (err, hasMatch) => {
-      if (!hasMatch)
-        return res.json({ loginSuccess: false, message: "Wrong Password" });
+      if (!hasMatch) return res.status(400).send(err);
+      //res.json({ loginSuccess: false, message: "Wrong Password" })
 
       user.generateToken((err, user) => {
         if (err) return res.status(400).send(err);
@@ -70,5 +71,4 @@ exports.logoutUser = (req, res) => {
     }
   });
 };
-
 //comparePassword() one argument is password, 2 is function cal back
