@@ -29,6 +29,10 @@ const RegisterHook = () => {
     setCategories(event.target.value);
   };
 
+  const handleChangeUser = event => {
+    setUser(event.target.value);
+  };
+
   const registerSubmit = user => {
     const users = {
       firsrname: user.firstname,
@@ -46,8 +50,9 @@ const RegisterHook = () => {
           localStorage.isAuthenticated = true;
           window.location.reload();
         } else {
+          const errors = res.data.errors;
           setErrors({
-            errors: { message: res.data.message }
+            errors
           });
         }
       })
@@ -82,9 +87,7 @@ const RegisterHook = () => {
       });
     }
   };
-  const handleChange = prop => event => {
-    setShowPassword({ ...showPassword, [prop]: event.target.value });
-  };
+
   const handleClickShowPassword = () => {
     setShowPassword({ password: !showPassword.password });
   };
@@ -112,7 +115,7 @@ const RegisterHook = () => {
         isErrors={errors}
         user={user}
         categories={categories}
-        handleChange={handleChange}
+        handleChange={handleChangeUser}
         showPassword={showPassword}
         handleClickShowPassword={handleClickShowPassword}
         handleMouseDownPassword={handleMouseDownPassword}
