@@ -25,7 +25,6 @@ const LoginForm = ({ history, onSubmit, onChange, errors, user }) => {
 
       <form onSubmit={onSubmit}>
         <TextField
-          errors
           className={classes.textField}
           name="email"
           value={user.email}
@@ -38,7 +37,6 @@ const LoginForm = ({ history, onSubmit, onChange, errors, user }) => {
         />
 
         <TextField
-          errors
           className={classes.textField}
           name="password"
           floatingLabelText="password"

@@ -34,7 +34,7 @@ class Login extends Component {
     axios
       .post("/api/user/login", userData)
       .then(res => {
-        if (res.status === "200") {
+        if (res.status === 200) {
           this.setState({ histroy: true });
         }
       })

@@ -42,9 +42,9 @@ const validateRegisterForm = data => {
 
   if (!data || data.confirmPassword !== data.password) {
     isFormValid = false;
-    errors.confirmPassword = "Password confirmation doesn't match.";
+    errors.confirmPassword = "Password confirm doesn't match";
   }
-  if (!data) {
+  if (data !== []) {
     isFormValid = false;
     errors.categories = "Please check your music profession";
   }

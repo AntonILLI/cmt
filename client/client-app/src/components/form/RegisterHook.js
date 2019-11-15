@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RegisterFormHook from "./RegisterFormHook.js";
 import { validateRegisterForm } from "./validate";
 
 import axios from "axios";
 import "./style.css";
+const zxcvbn = require("zxcvbn");
+
+const initialState = {
+  firstname: "",
+  lastname: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  categories: []
+};
 
 const RegisterHook = () => {
-  const [user, setUser] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  });
-  const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState(initialState);
+  const [score, setScore] = useState({ score: 0 });
+
   const [errors, setErrors] = useState({});
-  //const [mask, setMask] = useState({ btnTxt: "show", type: "password" });
-  const [showPassword, setShowPassword] = useState({ password: false });
 
   const handleInputChange = event => {
     setUser({
@@ -26,11 +29,31 @@ const RegisterHook = () => {
   };
 
   const handleChangeMultiple = event => {
-    setCategories(event.target.value);
+    const { value, name } = event.target;
+    setUser({ [name]: value });
   };
 
-  const handleChangeUser = event => {
-    setUser(event.target.value);
+  const handlePassword = event => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
+    });
+
+    if (event.target.value === "") {
+      setScore(state =>
+        Object.assign({}, state, {
+          score: "0"
+        })
+      );
+    } else {
+      var pw = zxcvbn(event.target.value);
+
+      setScore(state =>
+        Object.assign({}, state, {
+          score: pw.score + 1
+        })
+      );
+    }
   };
 
   const registerSubmit = user => {
@@ -50,9 +73,8 @@ const RegisterHook = () => {
           localStorage.isAuthenticated = true;
           window.location.reload();
         } else {
-          const errors = res.data.errors;
           setErrors({
-            errors
+            errors: { message: res.data.message }
           });
         }
       })
@@ -60,65 +82,49 @@ const RegisterHook = () => {
         console.log("Sign up data submit error: ", err);
       });
   };
+
   // .then(res => res.data)
   // .catch(err => {
   //   console.log("Sign up data submit error: ", err);
   // });
 
-  const validateForm = (event, categories) => {
-    event.preventDefault();
-    //const { firstname, lastname, email, password } = user;
-    const data = validateRegisterForm(categories);
+  //Object.keys(data).length === 0
+  const validateForm = async event => {
+    await event.preventDefault();
+
+    const data = await validateRegisterForm(event.user);
     console.log(data);
+
     if (data.success) {
-      setErrors({
-        errors: {}
-      });
+      setErrors({});
 
-      const { firstname, lastname, password, email } = user;
-
-      registerSubmit({ firstname, lastname, password, email, categories });
-      // console.log(user);
+      registerSubmit({ user });
     } else {
-      // const errors = data.errors;
+      const errors = data.errors;
 
-      setErrors({
-        errors: data.errors
+      setErrors(prevError => {
+        return { ...prevError, ...errors };
       });
     }
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword({ password: !showPassword.password });
-  };
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-
-  // const passwordMask = event => {
-  //   event.preventDefault();
-  //   setMask(state =>
-  //     Object.assign({}, state, {
-  //       type: mask.type === "password" ? "input" : "password",
-  //       btnTxt: mask.btnTxt === "show" ? "hide" : "show"
-  //     })
-  //   );
-  // };
-
+  // useEffect(
+  //   event => {
+  //     validateForm(event);
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [validateForm]
+  // );
   return (
     <div>
       <RegisterFormHook
-        onSubmit={validateForm}
         onChange={handleInputChange}
         handleChangeMultiple={handleChangeMultiple}
-        isErrors={errors}
+        error={errors}
         user={user}
-        categories={categories}
-        handleChange={handleChangeUser}
-        showPassword={showPassword}
-        handleClickShowPassword={handleClickShowPassword}
-        handleMouseDownPassword={handleMouseDownPassword}
+        validateForm={validateForm}
+        handlePassword={handlePassword}
+        score={score}
       />
     </div>
   );
@@ -126,3 +132,22 @@ const RegisterHook = () => {
 
 export default RegisterHook;
 //   onSelectChange={handleMultipleInput}
+// const handleClickShowPassword = () => {
+//   setShowPassword({ password: !showPassword.password });
+// };
+
+//  setPicture(e.target.value[0]);
+
+// const handleMouseDownPassword = event => {
+//   event.preventDefault();
+// };
+
+// const passwordMask = event => {
+//   event.preventDefault();
+//   setMask(state =>
+//     Object.assign({}, state, {
+//       type: mask.type === "password" ? "input" : "password",
+//       btnTxt: mask.btnTxt === "show" ? "hide" : "show"
+//     })
+//   );
+// };
