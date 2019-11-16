@@ -10,22 +10,26 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import PasswordSet from "./PasswordSet";
-// import Visibility from "@material-ui/icons/Visibility";
-// import VisibilityOff from "@material-ui/icons/VisibilityOff";
-// import InputAdornment from "@material-ui/core/InputAdornment";
-// import IconButton from "@material-ui/core/IconButton";
-//import clsx from "clsx";
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 200
+    width: 300
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 300
+  },
+  button: {
+    margin: theme.spacing(1)
   }
 }));
 const ITEM_HEIGHT = 48;
@@ -45,30 +49,32 @@ const RegisterFormHook = ({
   onChange,
   error,
   user,
-  handleChangeMultiple,
   handlePassword,
   score,
-  validateForm
+  password,
+  validateForm,
+  mouseDownPassword,
+  clickPassword
 }) => {
   const classes = useStyles();
   return (
-    <div className="loginBox">
+    <div className="registerBox">
       <h1>Sign Up</h1>
-      {error.message && <p style={{ color: "red" }}>{error.message}</p>}
+      {error.message && (
+        <p style={{ color: "red", fontSize: 13 }}>{error.message}</p>
+      )}
 
       <form onSubmit={validateForm}>
         <TextField
           className={classes.textField}
           name="firstname"
           label="Filled First name"
-          variant="filled"
-          color="secondary"
           value={user.firstname}
           onChange={onChange}
           margin="normal"
         />
         {error.firstname && error.firstname.length >= 0 && (
-          <p style={{ color: "red" }}>{error.firstname}</p>
+          <p style={{ color: "red", fontSize: 13 }}>{error.firstname}</p>
         )}
 
         <TextField
@@ -78,11 +84,9 @@ const RegisterFormHook = ({
           onChange={onChange}
           margin="normal"
           label="Filled last name"
-          variant="filled"
-          color="secondary"
         />
         {error.lastname && error.lastname.length >= 0 && (
-          <p style={{ color: "red" }}>{error.lastname}</p>
+          <p style={{ color: "red", fontSize: 13 }}>{error.lastname}</p>
         )}
 
         <TextField
@@ -92,22 +96,37 @@ const RegisterFormHook = ({
           onChange={onChange}
           margin="normal"
           label="Filled email"
-          variant="filled"
-          color="secondary"
         />
 
-        {error.email && <p style={{ color: "red" }}>{error.email}</p>}
-        <TextField
-          className={classes.textField}
-          name="password"
-          value={user.password}
-          onChange={handlePassword}
-          label="Filled Password"
-          variant="filled"
-          color="secondary"
-          margin="normal"
-        />
-
+        {error.email && (
+          <p style={{ color: "red", fontSize: 13 }}>{error.email}</p>
+        )}
+        <FormControl className={clsx(classes.textField)}>
+          <Input
+            className={classes.textField}
+            style={{
+              height: 53,
+              marginTop: 20
+            }}
+            name="password"
+            value={user.password}
+            type={password.showPassword ? "text" : "password"}
+            onChange={handlePassword}
+            label="Filled Password"
+            margin="normal"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={clickPassword}
+                  onMouseDown={mouseDownPassword}
+                >
+                  {password.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         <div className="pwStrRow">
           {score.score >= 1 && (
             <div>
@@ -117,37 +136,37 @@ const RegisterFormHook = ({
         </div>
 
         <br />
-        {error.password && <p style={{ color: "red" }}>{error.password}</p>}
+        {error.password && (
+          <p style={{ color: "red", fontSize: 13 }}>{error.password}</p>
+        )}
 
         <TextField
           name="confirmPassword"
+          className={classes.textField}
           value={user.confirmPassword}
           onChange={onChange}
           label="Filled Confirm Password"
-          variant="filled"
-          color="secondary"
           margin="normal"
         />
         <br />
 
         {error.confirmPassword && (
-          <p style={{ color: "red" }}>{error.confirmPassword}</p>
+          <p style={{ color: "red", fontSize: 13 }}>{error.confirmPassword}</p>
         )}
 
-        <FormControl className={classes.formControl}>
+        <from className={classes.textField}>
           <InputLabel id="demo-mutiple-checkbox-label">Categories</InputLabel>
           <Select
+            className={classes.textField}
             labelId="demo-mutiple-checkbox-label"
             id="demo-mutiple-checkbox"
             multiple
             name="categories"
             value={user.categories}
-            onChange={handleChangeMultiple}
+            onChange={onChange}
             input={<Input />}
             renderValue={selected => selected.join(", ")}
             MenuProps={MenuProps}
-            variant="filled"
-            color="secondary"
           >
             {names.map(name => (
               <MenuItem key={name} value={name}>
@@ -157,12 +176,17 @@ const RegisterFormHook = ({
             ))}
           </Select>
           {error.categories && (
-            <p style={{ color: "red" }}>{error.categories}</p>
+            <p style={{ color: "red", fontSize: 13 }}>{error.categories}</p>
           )}
-        </FormControl>
+        </from>
         <br />
-        <Button className="signUpSubmit" primary type="submit" label="submit">
-          submit
+        <Button
+          variant="outlined"
+          type="submit"
+          color="primary"
+          className={classes.button}
+        >
+          Submit
         </Button>
       </form>
       <p>

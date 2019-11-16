@@ -18,19 +18,20 @@ const initialState = {
 const RegisterHook = () => {
   const [user, setUser] = useState(initialState);
   const [score, setScore] = useState({ score: 0 });
-
-  const [errors, setErrors] = useState({});
-
+  const [errors, setErrors] = useState(initialState);
+  const [password, setPassword] = useState({ showPassword: false });
   const handleInputChange = event => {
     setUser({
       ...user,
       [event.target.name]: event.target.value
     });
   };
+  const clickShowPassword = () => {
+    setPassword({ ...password, showPassword: !password.showPassword });
+  };
 
-  const handleChangeMultiple = event => {
-    const { value, name } = event.target;
-    setUser({ [name]: value });
+  const mouseDownPassword = event => {
+    event.preventDefault();
   };
 
   const handlePassword = event => {
@@ -58,11 +59,11 @@ const RegisterHook = () => {
 
   const registerSubmit = user => {
     const users = {
-      firsrname: user.firstname,
+      firstname: user.firstname,
       lastname: user.lastname,
       password: user.password,
       email: user.email,
-      categories: user.categories
+      category: user.categories
     };
 
     axios
@@ -73,8 +74,9 @@ const RegisterHook = () => {
           localStorage.isAuthenticated = true;
           window.location.reload();
         } else {
+          const message = res.data;
           setErrors({
-            errors: { message: res.data.message }
+            ...message
           });
         }
       })
@@ -89,22 +91,22 @@ const RegisterHook = () => {
   // });
 
   //Object.keys(data).length === 0
-  const validateForm = async event => {
-    await event.preventDefault();
+  const validateForm = event => {
+    event.preventDefault();
 
-    const data = await validateRegisterForm(event.user);
+    const data = validateRegisterForm(user);
     console.log(data);
 
     if (data.success) {
       setErrors({});
 
-      registerSubmit({ user });
+      const { firstname, lastname, password, email, categories } = user;
+
+      registerSubmit({ firstname, lastname, password, email, categories });
     } else {
       const errors = data.errors;
 
-      setErrors(prevError => {
-        return { ...prevError, ...errors };
-      });
+      setErrors({ ...errors });
     }
   };
 
@@ -119,35 +121,17 @@ const RegisterHook = () => {
     <div>
       <RegisterFormHook
         onChange={handleInputChange}
-        handleChangeMultiple={handleChangeMultiple}
         error={errors}
         user={user}
         validateForm={validateForm}
         handlePassword={handlePassword}
         score={score}
+        password={password}
+        clickPassword={clickShowPassword}
+        mouseDownPassword={mouseDownPassword}
       />
     </div>
   );
 };
 
 export default RegisterHook;
-//   onSelectChange={handleMultipleInput}
-// const handleClickShowPassword = () => {
-//   setShowPassword({ password: !showPassword.password });
-// };
-
-//  setPicture(e.target.value[0]);
-
-// const handleMouseDownPassword = event => {
-//   event.preventDefault();
-// };
-
-// const passwordMask = event => {
-//   event.preventDefault();
-//   setMask(state =>
-//     Object.assign({}, state, {
-//       type: mask.type === "password" ? "input" : "password",
-//       btnTxt: mask.btnTxt === "show" ? "hide" : "show"
-//     })
-//   );
-// };

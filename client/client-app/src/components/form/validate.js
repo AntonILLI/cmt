@@ -6,7 +6,7 @@ const validateRegisterForm = data => {
   let isFormValid = true;
 
   if (
-    !data ||
+    !data.firstname ||
     typeof data.firstname !== "string" ||
     data.firstname.trim().length === 0
   ) {
@@ -14,7 +14,7 @@ const validateRegisterForm = data => {
     errors.firstname = "Please provide a first name.";
   }
   if (
-    !data ||
+    !data.lastname ||
     typeof data.lastname !== "string" ||
     data.lastname.trim().length === 0
   ) {
@@ -23,7 +23,7 @@ const validateRegisterForm = data => {
   }
 
   if (
-    !data ||
+    !data.email ||
     typeof data.email !== "string" ||
     !validator.isEmail(data.email)
   ) {
@@ -32,7 +32,7 @@ const validateRegisterForm = data => {
   }
 
   if (
-    !data ||
+    !data.password ||
     typeof data.password !== "string" ||
     data.password.trim().length < 8
   ) {
@@ -40,17 +40,18 @@ const validateRegisterForm = data => {
     errors.password = "Password must have at least 8 characters.";
   }
 
-  if (!data || data.confirmPassword !== data.password) {
+  if (!data.confirmPassword || data.confirmPassword !== data.password) {
     isFormValid = false;
     errors.confirmPassword = "Password confirm doesn't match";
   }
-  if (data !== []) {
+
+  if (Array.isArray(data.categories) && data.categories.length === 0) {
     isFormValid = false;
     errors.categories = "Please check your music profession";
   }
 
   if (!isFormValid) {
-    message = "Check the form for errors.";
+    errors.message = "Check the form for errors.";
   }
 
   return {
@@ -84,7 +85,7 @@ const validateLoginForm = data => {
   }
 
   if (!isFormValid) {
-    message = "Check the form for errors.";
+    errors.message = "Check the form for errors.";
   }
 
   return {
@@ -93,8 +94,7 @@ const validateLoginForm = data => {
     errors
   };
 };
-//default opbjects success,message,errors,
-// return success,message,errors
+
 module.exports = {
   validateLoginForm: validateLoginForm,
   validateRegisterForm: validateRegisterForm

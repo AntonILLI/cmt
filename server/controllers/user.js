@@ -71,4 +71,3 @@ exports.logoutUser = (req, res) => {
     }
   });
 };
-//comparePassword() one argument is password, 2 is function cal back

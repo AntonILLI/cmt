@@ -1,8 +1,4 @@
-form {
-  width: 100%;
-}
-
-.loginBox {
+.registerBox {
   width: 50%;
   text-align: center;
   position: relative;
@@ -12,6 +8,17 @@ form {
   background-color: white;
   box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4);
 }
+
+/* .loginBox {
+  width: 50%;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 20%);
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4);
+} */
 
 .pwStrRow {
   width: 63%;

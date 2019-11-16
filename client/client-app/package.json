@@ -25,7 +25,7 @@
     "build": "react-scripts build",
     "client-app": "cd client-app && npm start",
     "server": "npm start",
-    "dev": "concurrently \"npm run client-app\" \"npm run server\""
+    "dev": "concurrently \"npm run server\" \"npm run client-app\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +45,5 @@
   "devDependencies": {
     "concurrently": "^5.0.0"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:3001"
 }
