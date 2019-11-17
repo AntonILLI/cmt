@@ -200,29 +200,3 @@ const RegisterFormHook = ({
   );
 };
 export default RegisterFormHook;
-// {isErrors.email && <p style={{ color: "red" }}>{isErrors.email}</p>}
-// <FormControl className={classes.textField}>
-//   <Input
-//     id="standard-adornment-password"
-//     type={showPassword.password ? "text" : "password"}
-//     value={user.password}
-//     name="password"
-//     onChange={handleChange}
-//     helperText={isErrors.password}
-//     margin="normal"
-//     label="Filled password"
-//     variant="filled"
-//     color="secondary"
-//     endAdornment={
-//       <InputAdornment position="end">
-//         <IconButton
-//           aria-label="toggle password visibility"
-//           onClick={handleClickShowPassword}
-//           onMouseDown={handleMouseDownPassword}
-//         >
-//           {showPassword.password ? <Visibility /> : <VisibilityOff />}
-//         </IconButton>
-//       </InputAdornment>
-//     }
-//   />
-// </FormControl>

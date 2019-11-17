@@ -70,9 +70,7 @@ const RegisterHook = () => {
       .post("/api/user/register", users)
       .then(res => {
         if (res.data.success === true) {
-          localStorage.token = res.data.token;
-          localStorage.isAuthenticated = true;
-          window.location.reload();
+          return res.data;
         } else {
           const message = res.data;
           setErrors({
@@ -85,10 +83,9 @@ const RegisterHook = () => {
       });
   };
 
-  // .then(res => res.data)
-  // .catch(err => {
-  //   console.log("Sign up data submit error: ", err);
-  // });
+  // localStorage.token = res.data.token;
+  // localStorage.isAuthenticated = true;
+  // window.location.reload();
 
   //Object.keys(data).length === 0
   const validateForm = event => {

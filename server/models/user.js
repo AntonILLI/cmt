@@ -96,7 +96,9 @@ userSchema.methods.comparePassword = function(userPassword, callback) {
 //hasMatch kind of state just boolean
 userSchema.methods.generateToken = function(callback) {
   var user = this;
-  var token = jwt.sign(user._id.toHexString(), process.env.PRIVATE);
+  var token = jwt.sign(user._id.toHexString(), process.env.PRIVATE, {
+    expiresIn: "1h"
+  });
   //to convert Hex decimal from string
   user.token = token;
   user.save(function(err, user) {

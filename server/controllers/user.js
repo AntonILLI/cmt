@@ -37,20 +37,26 @@ exports.authUser = (req, res) => {
 
 exports.loginUser = (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
-    if (!user) return res.status(400).send(err);
-    // return res.json({
-    //   loginSuccess: false,
-    //   message: "Authentication fail,Email not found"
-    // });
+    if (!user)
+      return res
+        .status(400)
+        .json({
+          loginSuccess: false,
+          message: "Authentication fail,Email not found"
+        })
+        .send(err);
 
     user.comparePassword(req.body.password, (err, hasMatch) => {
-      if (!hasMatch) return res.status(400).send(err);
-      //res.json({ loginSuccess: false, message: "Wrong Password" })
+      if (!hasMatch)
+        return res
+          .status(400)
+          .json({ loginSuccess: false, message: "Wrong Password" })
+          .send(err);
 
       user.generateToken((err, user) => {
         if (err) return res.status(400).send(err);
         res
-          .cookie("w_auth", user.token)
+          .cookie("w_auth", user.token, { httpOnly: true })
           .status(200)
           .json({
             loginSuccess: true
