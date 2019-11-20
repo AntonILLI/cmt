@@ -23,9 +23,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "client-app": "cd client-app && npm start",
+    "client": "cd client && npm start",
     "server": "npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client-app\""
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "eslintConfig": {
     "extends": "react-app"
