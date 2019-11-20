@@ -4,8 +4,11 @@
   "description": "web application",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefex client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +18,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.0.0",
     "cookie": "^0.4.0",
     "cookie-parser": "^1.4.4",
     "crypto": "^1.0.1",
