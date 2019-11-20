@@ -4,6 +4,7 @@
   "description": "web application",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
