@@ -1,62 +1,95 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import ApiContext from "../../components/api/apiContext";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AudiotrackSharpIcon from "@material-ui/icons/AudiotrackSharp";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import { lightBlue, deepOrange } from "@material-ui/core/colors";
 
-class Navbar extends Component {
-  state = {
-    page: [
-      {
-        name: "Home",
-        linkTo: "/",
-        public: true
-      }
-    ],
-    user: [
-      {
-        name: "Log in",
-        linkTo: "/user/login",
-        public: true
-      },
-      {
-        name: "Register",
-        linkTo: "/user/register",
-        public: true
-      },
-      {
-        name: "Log out",
-        linkTo: "/user/logout",
-        public: false
-      }
-    ]
+const Navbar = () => {
+  const apiContext = useContext(ApiContext);
+
+  const { logout, user, authUser, isAuthenticated } = apiContext;
+
+  useEffect(() => {
+    authUser();
+    //eslint-disable-next-line
+  }, []);
+  const handleLogout = e => {
+    logout();
   };
-
-  logoutUser() {
-    const request = axios
-      .post("/api/users/logout")
-      .then(response => response.data);
-    return request;
-  }
-
-  logoutHandler = () => {
-    this.logoutUser().then(response => {
-      if (response.payload.success) {
-        this.props.history.push("/");
-      }
-    });
-  };
-  render() {
+  function HomeIcon(props) {
     return (
-      <Fragment>
-        <ul>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-        </ul>
-      </Fragment>
+      <SvgIcon {...props}>
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </SvgIcon>
     );
   }
-}
+  const authLinks = (
+    <Fragment>
+      <div>
+        {user && (
+          <div>
+            {user.map(u => (
+              <div key={u.id}>Hello {u.firstname}</div>
+            ))}
+          </div>
+        )}
+      </div>
+      <Link to="/" onClick={handleLogout}>
+        <ExitToAppIcon />
+        <span>Logout</span>
+      </Link>
+    </Fragment>
+  );
+
+  const guestLinks = (
+    <Fragment>
+      <Link to="/">
+        <HomeIcon
+          color="primary"
+          fontSize="large"
+          component={svgProps => {
+            return (
+              <svg {...svgProps}>
+                <defs>
+                  <linearGradient id="gradient1">
+                    <stop offset="30%" stopColor={lightBlue[200]} />
+                    <stop offset="70%" stopColor={deepOrange[500]} />
+                  </linearGradient>
+                </defs>
+                {React.cloneElement(svgProps.children[0], {
+                  fill: "url(#gradient1)"
+                })}
+              </svg>
+            );
+          }}
+        />
+        Home
+      </Link>
+      <Link to="/register">
+        <AssignmentIcon />
+        Sign-Up
+      </Link>
+      <Link to="/login">
+        <AudiotrackSharpIcon />
+        Sign-In
+      </Link>
+
+      <Link to="/" onClick={handleLogout}>
+        <ExitToAppIcon />
+        <span>Logout</span>
+      </Link>
+    </Fragment>
+  );
+
+  return (
+    <div>
+      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+    </div>
+  );
+};
+
 export default Navbar;
+// <ul>{isAuthenticated ? authLinks : guestLinks}</ul>

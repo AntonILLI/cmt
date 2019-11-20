@@ -1,24 +1,40 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
+// import Navbar from "./components/layout/Navbar";
 import Home from "./components/layout/Home";
 import RegisterHook from "./components/form/RegisterHook";
 import Login from "./components/form/Login";
+import Navbar from "./components/layout/Navbar";
+import ApiState from "./components/api/apiState";
+
+const NavRoute = ({ exact, path, component: Component }) => (
+  <Route
+    exact={exact}
+    path={path}
+    render={props => (
+      <div>
+        <Navbar />
+        <Component {...props} />
+      </div>
+    )}
+  />
+);
 
 const App = () => {
   return (
-    <Router>
-      <Fragment>
-        <Navbar />
-        <div className="container">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/register" component={RegisterHook} />
-            <Route exact path="/login" component={Login} />
-          </Switch>
-        </div>
-      </Fragment>
-    </Router>
+    <ApiState>
+      <Router>
+        <Fragment>
+          <div className="container">
+            <Switch>
+              <NavRoute exact path="/" component={Home} />
+              <NavRoute exact path="/register" component={RegisterHook} />
+              <NavRoute exact path="/login" component={Login} />
+            </Switch>
+          </div>
+        </Fragment>
+      </Router>
+    </ApiState>
   );
 };
 

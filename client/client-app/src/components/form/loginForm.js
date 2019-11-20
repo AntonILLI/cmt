@@ -29,35 +29,37 @@ const LoginForm = ({ history, onSubmit, onChange, errors, user }) => {
           name="email"
           value={user.email}
           onChange={onChange}
-          helperText={errors.email}
           margin="normal"
           label="Filled email"
           variant="filled"
           color="secondary"
         />
-
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
         <TextField
           className={classes.textField}
           name="password"
-          floatingLabelText="password"
           value={user.password}
           onChange={onChange}
-          helperText={errors.password}
           margin="normal"
           label="Filled Password"
           variant="filled"
           color="secondary"
         />
+        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
         <br />
-        <Button className="loginSubmit" primary type="submit" label="submit">
-          Login
+        <Button
+          variant="outlined"
+          color="inherit"
+          type="submit"
+          className={classes.button}
+        >
+          Submit
         </Button>
-
-        <pre>{JSON.stringify(user, null, 2)}</pre>
       </form>
     </div>
   );
 };
 
 export default LoginForm;
+//    <pre>{JSON.stringify(user, null, 2)}</pre>

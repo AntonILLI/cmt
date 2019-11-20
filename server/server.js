@@ -36,11 +36,10 @@ db.on("error", err => {
   console.log(`DB connection error: ${err.message}`);
 });
 
+app.use(bodyParser.urlencoded({ extended: true }));
+//allow to yeld some res, req function
 app.use(bodyParser.json());
 //support parsing of application/x-www-form-urlencoded post data
-app.use(bodyParser.urlencoded({ extended: false }));
-//allow to yeld some res, req function
-
 app.use(cookieParser());
 
 app.use("/api", userRoutes);

@@ -31,7 +31,8 @@ const userSchema = mongoose.Schema({
   },
   bio: {
     type: String,
-    maxlength: 1000
+    maxlength: 1000,
+    default: ""
   },
   teacherInfo: {
     type: String,
@@ -39,7 +40,8 @@ const userSchema = mongoose.Schema({
     default: ""
   },
   thumbnail: {
-    type: String
+    type: String,
+    default: ""
   },
   date: {
     type: Date,
@@ -93,12 +95,9 @@ userSchema.methods.comparePassword = function(userPassword, callback) {
   });
 };
 
-//hasMatch kind of state just boolean
 userSchema.methods.generateToken = function(callback) {
   var user = this;
-  var token = jwt.sign(user._id.toHexString(), process.env.PRIVATE, {
-    expiresIn: "1h"
-  });
+  var token = jwt.sign(user._id.toHexString(), process.env.PRIVATE);
   //to convert Hex decimal from string
   user.token = token;
   user.save(function(err, user) {
@@ -110,20 +109,16 @@ userSchema.methods.generateToken = function(callback) {
   });
 };
 
-userSchema.statics.findByToken = function(token, callback) {
+userSchema.statics.findByToken = function(token, cb) {
   var user = this;
 
-  jwt.verify(token, process.env.PRIVATE, function(err, decryptId) {
-    user.findOne({ _id: decryptId, token: token }, function(err, user) {
-      if (err) {
-        return callback(err);
-      } else {
-        callback(null, user);
-      }
+  jwt.verify(token, process.env.PRIVATE, function(err, decode) {
+    user.findOne({ _id: decode, token: token }, function(err, user) {
+      if (err) return cb(err);
+
+      cb(null, user);
     });
   });
 };
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = { User };
+module.exports = mongoose.model("user", userSchema);

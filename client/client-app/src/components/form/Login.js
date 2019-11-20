@@ -1,85 +1,86 @@
-import React, { Component } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import ApiContext from "../../components/api/apiContext";
 import LoginForm from "./loginForm.js";
 import { validateLoginForm } from "./validate";
-import axios from "axios";
+
 import "./style.css";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
+const initialValue = {
+  email: "",
+  password: ""
+};
 
-    this.state = {
-      errors: {},
-      user: {
-        email: "",
-        password: ""
-      },
-      history: false
-    };
-  }
-  handleInputChange = event => {
-    const currentUser = this.state.user;
-    currentUser[event.target.name] = event.target.value;
-    this.setState({
-      user: currentUser
+const Login = props => {
+  const apiContext = useContext(ApiContext);
+  const { login, isAuthenticated } = apiContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+  }, [isAuthenticated, props.history]);
+
+  const [user, setUser] = useState(initialValue);
+  const [errors, setErrors] = useState(initialValue);
+
+  const handleInputChange = event => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
     });
   };
 
-  loginSubmit(user) {
-    const userData = {
-      email: user.email,
-      password: user.password
-    };
-
-    axios
-      .post("/api/user/login", userData)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({ histroy: true });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    this.setState({ email: "", password: "", history: false });
-  }
-
-  validateForm(event) {
+  const validateForm = event => {
     event.preventDefault();
-    const data = validateLoginForm(this.state.user);
+    const data = validateLoginForm(user);
     console.log(data);
     if (data.success) {
-      this.setState({
-        errors: {}
-      });
-      const user = {
-        password: this.state.user.password,
-        email: this.state.user.email
-      };
-      this.loginSubmit(user);
+      setErrors({});
+
+      const { password, email } = user;
+
+      login({ password, email });
       // console.log(user);
     } else {
       const errors = data.errors;
 
-      this.setState({
-        errors
+      setErrors({
+        ...errors
       });
     }
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <LoginForm
-          onSubmit={event => this.validateForm(event)}
-          onChange={event => this.handleInputChange(event)}
-          errors={this.state.errors}
-          user={this.state.user}
-          history={this.state.history}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <LoginForm
+        onSubmit={event => validateForm(event)}
+        onChange={event => handleInputChange(event)}
+        errors={errors}
+        user={user}
+      />
+    </div>
+  );
+};
 
 export default Login;
+
+// const loginSubmit = user => {
+//   const userData = {
+//     email: user.email,
+//     password: user.password
+//   };
+
+//   axios
+//     .post("/api/user/login", userData)
+//     .then(res => {
+//       if (res.status === 200) {
+//         this.setState({ histroy: true });
+//       } else {
+//         throw new Error("Something went wrong ...");
+//       }
+//     })
+//     .catch(error => {
+//       setErrors({ error });
+//     });
+//   // this.setState({ email: "", password: "", history: false });
+// };

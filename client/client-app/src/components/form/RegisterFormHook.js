@@ -21,11 +21,15 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     width: 300
   },
   formControl: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     width: 300
   },
   button: {
@@ -71,7 +75,6 @@ const RegisterFormHook = ({
           label="Filled First name"
           value={user.firstname}
           onChange={onChange}
-          margin="normal"
         />
         {error.firstname && error.firstname.length >= 0 && (
           <p style={{ color: "red", fontSize: 13 }}>{error.firstname}</p>
@@ -82,7 +85,6 @@ const RegisterFormHook = ({
           name="lastname"
           value={user.lastname}
           onChange={onChange}
-          margin="normal"
           label="Filled last name"
         />
         {error.lastname && error.lastname.length >= 0 && (
@@ -94,7 +96,6 @@ const RegisterFormHook = ({
           name="email"
           value={user.email}
           onChange={onChange}
-          margin="normal"
           label="Filled email"
         />
 
@@ -104,16 +105,11 @@ const RegisterFormHook = ({
         <FormControl className={clsx(classes.textField)}>
           <Input
             className={classes.textField}
-            style={{
-              height: 53,
-              marginTop: 20
-            }}
             name="password"
             value={user.password}
             type={password.showPassword ? "text" : "password"}
             onChange={handlePassword}
             label="Filled Password"
-            margin="normal"
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -146,7 +142,6 @@ const RegisterFormHook = ({
           value={user.confirmPassword}
           onChange={onChange}
           label="Filled Confirm Password"
-          margin="normal"
         />
         <br />
 
@@ -154,15 +149,15 @@ const RegisterFormHook = ({
           <p style={{ color: "red", fontSize: 13 }}>{error.confirmPassword}</p>
         )}
 
-        <from className={classes.textField}>
+        <FormControl className={classes.textField}>
           <InputLabel id="demo-mutiple-checkbox-label">Categories</InputLabel>
           <Select
             className={classes.textField}
             labelId="demo-mutiple-checkbox-label"
             id="demo-mutiple-checkbox"
             multiple
-            name="categories"
-            value={user.categories}
+            name="category"
+            value={user.category}
             onChange={onChange}
             input={<Input />}
             renderValue={selected => selected.join(", ")}
@@ -170,7 +165,7 @@ const RegisterFormHook = ({
           >
             {names.map(name => (
               <MenuItem key={name} value={name}>
-                <Checkbox checked={user.categories.indexOf(name) > -1} />
+                <Checkbox checked={user.category.indexOf(name) > -1} />
                 <ListItemText primary={name} />
               </MenuItem>
             ))}
@@ -178,7 +173,7 @@ const RegisterFormHook = ({
           {error.categories && (
             <p style={{ color: "red", fontSize: 13 }}>{error.categories}</p>
           )}
-        </from>
+        </FormControl>
         <br />
         <Button
           variant="outlined"
@@ -193,10 +188,11 @@ const RegisterFormHook = ({
         Aleady have an account? <br />
         <a href="/login">Log in here</a>
       </p>
-      <pre>{JSON.stringify(error, null, 2)}</pre>
-      <pre>{JSON.stringify(score, null, 2)}</pre>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
   );
 };
 export default RegisterFormHook;
+
+/* <pre>{JSON.stringify(error, null, 2)}</pre>
+      <pre>{JSON.stringify(score, null, 2)}</pre>
+      <pre>{JSON.stringify(user, null, 2)}</pre> */

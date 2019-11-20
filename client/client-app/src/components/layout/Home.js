@@ -1,66 +1,53 @@
-import React, { Component } from "react";
+import React, { useEffect, useContext } from "react";
 import LoadingComponent from "../loading/LoadingComponent";
-import { toast } from "react-toastify";
-import axios from "axios";
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: [],
-      error: false,
-      loading: false
-    };
-  }
+//import { toast } from "react-toastify";
+import ApiContext from "../api/apiContext";
 
-  componentDidMount() {
-    this.useData();
-  }
+const Home = () => {
+  const apiContext = useContext(ApiContext);
+  const { userLoad, users, loading, error } = apiContext;
 
-  delay(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-  }
+  useEffect(() => {
+    userLoad();
+    //eslint-disable-next-line
+  }, []);
 
-  errorMsg() {
-    toast.error("some error occurred, while fetching api!", {
-      position: toast.POSITION.TOP_LEFT
-    });
-  }
-
-  async useData() {
-    try {
-      const res = await axios.get("/api/user");
-      const { data } = await res;
-
-      this.setState({ users: data, error: false, loading: true });
-      await this.delay(10000);
-    } catch (err) {
-      this.setState({ error: true, loading: true });
-      console.log(err);
-    }
-    this.setState({ loading: false });
-  }
-
-  render() {
-    const { users, error, isloading } = this.state;
-    if (isloading) return <LoadingComponent />;
-
-    return (
-      <React.Fragment>
-        {users.map((user, i) => (
-          <ul key={i}>
-            <li key={i}>{user.email}</li>
-          </ul>
-        ))}
-        <p>{error && <p>{error}</p>}</p>
-      </React.Fragment>
-    );
-  }
-}
-
+  if (loading) return <LoadingComponent />;
+  return (
+    <React.Fragment>
+      <div>
+        {users !== null &&
+          users.map((user, i) => (
+            <ul key={i}>
+              <li>{user.email}</li>
+              <li>{user.firstname}</li>
+              <li>{user.category}</li>
+            </ul>
+          ))}
+      </div>
+    </React.Fragment>
+  );
+};
 export default Home;
+//   <pre>{JSON.stringify(users, null, 2)}</pre>
+//<p>{error && <p>{error}</p>}</p>
+// const UseData = async () => {
+//   try {
+//     setLoading(true);
+//     await delay(5000);
+//     const res = await axios.get("/api/user");
+//     const { data } = await res;
+//     setUsers(data);
+//     setError(false);
+//   } catch (err) {
+//     setError(true);
+//     console.log(err);
+//   }
+//   setLoading(false);
+// };
 
-// componentDidMount() {
-//   axios
-//     .get("/api/user" )
-//     .then((res, err) => this.setState({ users: res.data, error: err }));
-// }
+// const errorMsg = () => {
+//   toast.error("some error occurred, while fetching api!", {
+//     position: toast.POSITION.TOP_LEFT
+//   });
+// };

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import RegisterFormHook from "./RegisterFormHook.js";
 import { validateRegisterForm } from "./validate";
+import ApiContext from "../../components/api/apiContext";
 
-import axios from "axios";
 import "./style.css";
 const zxcvbn = require("zxcvbn");
 
@@ -12,14 +12,27 @@ const initialState = {
   email: "",
   password: "",
   confirmPassword: "",
-  categories: []
+  category: []
 };
 
-const RegisterHook = () => {
+const RegisterHook = props => {
+  const apiContext = useContext(ApiContext);
+
+  const { register, isAuthenticated } = apiContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+    // eslint-disable-next-line
+  }, [isAuthenticated, props.history]);
+
   const [user, setUser] = useState(initialState);
-  const [score, setScore] = useState({ score: 0 });
   const [errors, setErrors] = useState(initialState);
+
+  const [score, setScore] = useState({ score: 0 });
   const [password, setPassword] = useState({ showPassword: false });
+
   const handleInputChange = event => {
     setUser({
       ...user,
@@ -57,37 +70,6 @@ const RegisterHook = () => {
     }
   };
 
-  const registerSubmit = user => {
-    const users = {
-      firstname: user.firstname,
-      lastname: user.lastname,
-      password: user.password,
-      email: user.email,
-      category: user.categories
-    };
-
-    axios
-      .post("/api/user/register", users)
-      .then(res => {
-        if (res.data.success === true) {
-          return res.data;
-        } else {
-          const message = res.data;
-          setErrors({
-            ...message
-          });
-        }
-      })
-      .catch(err => {
-        console.log("Sign up data submit error: ", err);
-      });
-  };
-
-  // localStorage.token = res.data.token;
-  // localStorage.isAuthenticated = true;
-  // window.location.reload();
-
-  //Object.keys(data).length === 0
   const validateForm = event => {
     event.preventDefault();
 
@@ -97,9 +79,9 @@ const RegisterHook = () => {
     if (data.success) {
       setErrors({});
 
-      const { firstname, lastname, password, email, categories } = user;
+      const { firstname, lastname, password, email, category } = user;
 
-      registerSubmit({ firstname, lastname, password, email, categories });
+      register({ firstname, lastname, password, email, category });
     } else {
       const errors = data.errors;
 
@@ -107,13 +89,6 @@ const RegisterHook = () => {
     }
   };
 
-  // useEffect(
-  //   event => {
-  //     validateForm(event);
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [validateForm]
-  // );
   return (
     <div>
       <RegisterFormHook
@@ -132,3 +107,31 @@ const RegisterHook = () => {
 };
 
 export default RegisterHook;
+
+// const registerSubmit = user => {
+//   const users = {
+//     firstname: user.firstname,
+//     lastname: user.lastname,
+//     password: user.password,
+//     email: user.email,
+//     category: user.categories
+//   };
+
+//   axios
+//     .post("/api/user/register", users)
+//     .then(res => {
+//       if (res.data.success === true) {
+//         window.location.reload();
+//       } else {
+//         const message = res.data;
+//         setErrors({
+//           ...message
+//         });
+//       }
+//     })
+//     .catch(err => {
+//       console.log("Sign up data submit error: ", err);
+//     });
+// };
+
+//Object.keys(data).length === 0
