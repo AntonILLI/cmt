@@ -30,21 +30,6 @@ const Home = () => {
 };
 export default Home;
 //   <pre>{JSON.stringify(users, null, 2)}</pre>
-//<p>{error && <p>{error}</p>}</p>
-// const UseData = async () => {
-//   try {
-//     setLoading(true);
-//     await delay(5000);
-//     const res = await axios.get("/api/user");
-//     const { data } = await res;
-//     setUsers(data);
-//     setError(false);
-//   } catch (err) {
-//     setError(true);
-//     console.log(err);
-//   }
-//   setLoading(false);
-// };
 
 // const errorMsg = () => {
 //   toast.error("some error occurred, while fetching api!", {
