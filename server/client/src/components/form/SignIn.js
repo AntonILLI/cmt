@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import ApiContext from "../../components/api/apiContext";
-import LoginForm from "./loginForm.js";
+import SignInForm from "./SignInForm.js";
 import { validateLoginForm } from "./validate";
 
 import "./style.css";
@@ -10,7 +10,7 @@ const initialValue = {
   password: ""
 };
 
-const Login = props => {
+const SignIn = props => {
   const apiContext = useContext(ApiContext);
   const { login, isAuthenticated } = apiContext;
 
@@ -52,7 +52,7 @@ const Login = props => {
 
   return (
     <div>
-      <LoginForm
+      <SignInForm
         onSubmit={event => validateForm(event)}
         onChange={event => handleInputChange(event)}
         errors={errors}
@@ -62,7 +62,7 @@ const Login = props => {
   );
 };
 
-export default Login;
+export default SignIn;
 
 // const loginSubmit = user => {
 //   const userData = {

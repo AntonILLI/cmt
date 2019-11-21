@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import Navbar from "./components/layout/Navbar";
 import Home from "./components/layout/Home";
 import RegisterHook from "./components/form/RegisterHook";
-import Login from "./components/form/Login";
+import SignIn from "./components/form/SignIn";
 import Navbar from "./components/layout/Navbar";
 import ApiState from "./components/api/apiState";
 
@@ -29,7 +29,7 @@ const App = () => {
             <Switch>
               <NavRoute exact path="/" component={Home} />
               <NavRoute exact path="/register" component={RegisterHook} />
-              <NavRoute exact path="/login" component={Login} />
+              <NavRoute exact path="/login" component={SignIn} />
             </Switch>
           </div>
         </Fragment>
