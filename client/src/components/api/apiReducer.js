@@ -15,8 +15,6 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case USER_LOADED:
-      console.log("users:", action.payload);
-
       return {
         ...state,
         isAuthenticated: true,
