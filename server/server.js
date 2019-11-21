@@ -17,7 +17,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
-
 // heroku ,port 3001-> 3000, client json package proxy also 3001->3000
 //mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
 //mongodb://localhost:27017/server
