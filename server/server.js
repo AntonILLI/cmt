@@ -10,22 +10,12 @@ const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
 if (process.env.NODE_ENV === "production") {
-  app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/client/build/index.html"));
-  });
-}
-
-if (process.env.NOVE_ENV === "production") {
-  app.use(express.static("client/build"));
-  const path = require("path");
-
   app.use(express.static(path.join(__dirname, "build")));
-  app.get("/*", (req, res) => {
+  app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "build", "index.html"));
   });
 }
-// var distDir = __dirname + "/dist/";
-// app.use(express.static(distDir));
+
 // heroku ,port 3001-> 3000, client json package proxy also 3001->3000
 //mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
 //mongodb://localhost:27017/server
