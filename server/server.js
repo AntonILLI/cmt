@@ -9,15 +9,17 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
-if (process.env.NODE_ENV === "production") {
-  // Exprees will serve up production assets
-  app.use(express.static("client/build"));
+// if (process.env.NODE_ENV === "production") {
+//   // Exprees will serve up production assets
 
-  //.use(express.static(path.join(__dirname, "build")));
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
-}
+//   app.use(express.static(path.join(__dirname, "build")));
+//   app.get("/*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "build", "index.html"));
+//   });
+// }
+
+var distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
 // heroku ,port 3001-> 3000, client json package proxy also 3001->3000
 //mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
 //mongodb://localhost:27017/server
