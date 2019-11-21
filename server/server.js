@@ -9,8 +9,6 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
-app.use("/api", userRoutes);
-
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/build")));
@@ -19,7 +17,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
-// heroku ,port 3001-> 3000, client json package proxy also 3001->3000
 //mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
 //mongodb://localhost:27017/server
 mongoose
@@ -118,6 +115,8 @@ app.use(cookieParser());
 //     res.json({ filename: file.name, filePath: `/uploads/${file.name}` });
 //   });
 // });
+app.use("/api", userRoutes);
+
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`Rocken roll on port ${PORT}`));
