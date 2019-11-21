@@ -26,6 +26,13 @@ var db = mongoose.connection;
 db.on("error", err => {
   console.log(`DB connection error: ${err.message}`);
 });
+app.use(bodyParser.urlencoded({ extended: true }));
+//allow to yeld some res, req function
+app.use(bodyParser.json());
+//support parsing of application/x-www-form-urlencoded post data
+app.use(cookieParser());
+
+app.use("/api", userRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
@@ -34,14 +41,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
-
-app.use(bodyParser.urlencoded({ extended: true }));
-//allow to yeld some res, req function
-app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
-app.use(cookieParser());
-
-app.use("/api", userRoutes);
 
 // const storage = multer.diskStorage({
 //   destination: "./public/uploads/",
