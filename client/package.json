@@ -22,6 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "client": "cd client && npm start",
     "server": "npm start"
   },
