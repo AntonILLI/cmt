@@ -9,12 +9,11 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (request, response) => {
-    response.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
-}
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 //   app.use(express.static(path.join(__dirname, "build")));
 //   app.get("/*", (req, res) => {
 //     res.sendFile(path.join(__dirname, "build", "index.html"));
