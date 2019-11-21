@@ -9,21 +9,35 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
-if (process.env.NOVE_ENV === "production") {
-  app.use(express.static("client/build"));
-  const path = require("path");
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+if (process.env.NODE_ENV === "production") {
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
   });
 }
-//   app.use(express.static(path.join(__dirname, "build")));
-//   app.get("/*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "build", "index.html"));
+
+app.use(express.static(path.join(__dirname)));
+app.set("views", __dirname);
+app.set("view engine", "html");
+app.engine("html", require("ejs").renderFile);
+
+app.get("/test", function(req, res, next) {
+  res.render("test.html");
+});
+// if (process.env.NOVE_ENV === "production") {
+//   app.use(express.static("client/build"));
+//   const path = require("path");
+
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 //   });
 // }
+// app.use(express.static(path.join(__dirname, "build")));
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
-var distDir = __dirname + "/dist/";
-app.use(express.static(distDir));
+// var distDir = __dirname + "/dist/";
+// app.use(express.static(distDir));
 // heroku ,port 3001-> 3000, client json package proxy also 3001->3000
 //mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
 //mongodb://localhost:27017/server
