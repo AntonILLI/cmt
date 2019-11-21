@@ -9,6 +9,8 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
+app.use("/api", userRoutes);
+
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/build")));
@@ -43,8 +45,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //support parsing of application/x-www-form-urlencoded post data
 app.use(cookieParser());
-
-app.use("/api", userRoutes);
 
 // const storage = multer.diskStorage({
 //   destination: "./public/uploads/",
