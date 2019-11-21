@@ -9,7 +9,7 @@
     "server": "nodemon server.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run --prefix client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm --prefix client install && npm --prefix client run build "
   },
   "author": "",
   "license": "ISC",
@@ -32,5 +32,8 @@
     "multer": "^1.4.2",
     "serve": "^11.2.0",
     "uuid": "^3.3.3"
+  },
+  "engines": {
+    "node": "12.13.1"
   }
 }
