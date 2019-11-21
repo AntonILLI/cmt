@@ -31,8 +31,8 @@ const Navbar = () => {
       <div>
         {user && (
           <div>
-            {user.map(u => (
-              <div key={u.id}>Hello {u.firstname}</div>
+            {user.map((u, i) => (
+              <div key={i}>Hello {u.firstname}</div>
             ))}
           </div>
         )}

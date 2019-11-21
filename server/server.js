@@ -9,16 +9,6 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
-if (process.env.NODE_ENV === "production") {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, "client/build")));
-  // Handle React routing, return all requests to React app
-  app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
-}
-//mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
-//mongodb://localhost:27017/server
 mongoose
   .connect("mongodb://admin:c107152cc@dbh22.mlab.com:27227/music-teacher", {
     useNewUrlParser: true,
@@ -36,12 +26,21 @@ var db = mongoose.connection;
 db.on("error", err => {
   console.log(`DB connection error: ${err.message}`);
 });
-
 app.use(bodyParser.urlencoded({ extended: true }));
 //allow to yeld some res, req function
 app.use(bodyParser.json());
 //support parsing of application/x-www-form-urlencoded post data
 app.use(cookieParser());
+
+app.use("/api", userRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/build")));
+
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
 
 // const storage = multer.diskStorage({
 //   destination: "./public/uploads/",
@@ -115,7 +114,6 @@ app.use(cookieParser());
 //     res.json({ filename: file.name, filePath: `/uploads/${file.name}` });
 //   });
 // });
-app.use("/api", userRoutes);
 
 const PORT = process.env.PORT || 3001;
 
