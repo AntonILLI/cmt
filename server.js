@@ -28,9 +28,8 @@ db.on("error", err => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Serve any static files
   app.use(express.static(path.join(__dirname, "client/build")));
-  // Handle React routing, return all requests to React app
+
   app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
@@ -41,6 +40,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //support parsing of application/x-www-form-urlencoded post data
 app.use(cookieParser());
+
+app.use("/api", userRoutes);
 
 // const storage = multer.diskStorage({
 //   destination: "./public/uploads/",
@@ -114,7 +115,6 @@ app.use(cookieParser());
 //     res.json({ filename: file.name, filePath: `/uploads/${file.name}` });
 //   });
 // });
-app.use("/api", userRoutes);
 
 const PORT = process.env.PORT || 3001;
 
