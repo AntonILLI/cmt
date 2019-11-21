@@ -34,6 +34,7 @@ app.use(cookieParser());
 
 app.use("/api", userRoutes);
 
+// dont move below code //
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
