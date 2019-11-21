@@ -9,19 +9,15 @@ const userRoutes = require("./Routes/user");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 
-var app = express();
-app.use(express.static(pub));
-app.use("/css", express.static(__dirname + "/css"));
-app.use("/font", express.static(__dirname + "/font"));
-app.use("/img", express.static(__dirname + "/img"));
-app.use("/js", express.static(__dirname + "/js"));
-app.use("/video", express.static(__dirname + "/video"));
+if (process.env.NODE_ENV === "production") {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, "client/build")));
+  // Handle React routing, return all requests to React app
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
 
-app.use(express.static("client/build"));
-
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 // heroku ,port 3001-> 3000, client json package proxy also 3001->3000
 //mongodb+srv://admin:admin@cluster0-xngyq.mongodb.net/test?retryWrites=true&w=majority
 //mongodb://localhost:27017/server
