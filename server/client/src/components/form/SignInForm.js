@@ -102,7 +102,6 @@ export default function SignInForm({
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               name="password"
               value={user.password}
