@@ -22,6 +22,7 @@ const Home = () => {
               <li>{user.email}</li>
               <li>{user.firstname}</li>
               <li>{user.category}</li>
+              <li>{user.bio}</li>
             </ul>
           ))}
       </div>

@@ -14,9 +14,10 @@ const Navbar = () => {
 
   useEffect(() => {
     authUser();
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
   const handleLogout = e => {
+    e.preventDefault();
     logout();
   };
   function HomeIcon(props) {
@@ -32,11 +33,38 @@ const Navbar = () => {
         {user && (
           <div>
             {user.map((u, i) => (
-              <div key={i}>Hello {u.firstname}</div>
+              <div key={i}>Hello {u.isAuth && u.firstname}</div>
             ))}
           </div>
         )}
       </div>
+      <Link to="/">
+        <HomeIcon
+          color="primary"
+          fontSize="large"
+          component={svgProps => {
+            return (
+              <svg {...svgProps}>
+                <defs>
+                  <linearGradient id="gradient1">
+                    <stop offset="30%" stopColor={lightBlue[200]} />
+                    <stop offset="70%" stopColor={deepOrange[500]} />
+                  </linearGradient>
+                </defs>
+                {React.cloneElement(svgProps.children[0], {
+                  fill: "url(#gradient1)"
+                })}
+              </svg>
+            );
+          }}
+        />
+        Home
+      </Link>
+      <Link to="/admin">
+        <ExitToAppIcon />
+        <span>DashBoard</span>
+      </Link>
+
       <Link to="/" onClick={handleLogout}>
         <ExitToAppIcon />
         <span>Logout</span>
@@ -87,6 +115,7 @@ const Navbar = () => {
   return (
     <div>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
   );
 };

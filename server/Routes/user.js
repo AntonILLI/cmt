@@ -1,14 +1,9 @@
 const express = require("express");
 //express multiple middleware request untill response
 const { auth } = require("../helpers/auth");
+const { check, validationResult } = require("express-validator");
 const User = require("../models/user");
 const router = express.Router();
-
-//router.get("/user", getUser);
-//router.get("/user/auth", auth, authUser);
-//router.get("/user/logout", auth, logoutUser);
-//router.post("/user/register", saveUser);
-//router.post("/user/login", loginUser);
 
 //get user
 router.get("/user", async (req, res) => {
@@ -48,19 +43,19 @@ router.get("/user/logout", auth, (req, res) => {
 });
 
 //register user
-router.post("/user/register", async (req, res) => {
-  const user = await new User(req.body);
-  user.save((err, doc) => {
-    if (err) {
-      return res.status(400).send({ success: false, message: err });
-    } else {
-      res.status(200).json({
-        success: true,
-        user: doc
-      });
-    }
-  });
-});
+// router.post("/user/register", async (req, res) => {
+//   const user = await new User(req.body);
+//   user.save((err, doc) => {
+//     if (err) {
+//       return res.status(400).send({ success: false, message: err });
+//     } else {
+//       res.status(200).json({
+//         success: true,
+//         user: doc
+//       });
+//     }
+//   });
+// });
 //login user
 router.post("/user/login", async (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -87,6 +82,73 @@ router.post("/user/login", async (req, res) => {
       });
     });
   });
+});
+
+router.post(
+  "/user/save",
+  [
+    auth,
+    [
+      check("name", "Name is required")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array() });
+    }
+    const user = await new User(req.body);
+    user.save((err, doc) => {
+      if (err) {
+        return res.status(400).send({ success: false, message: err });
+      } else {
+        res.status(200).json({
+          success: true,
+          user: doc
+        });
+      }
+    });
+  }
+);
+
+router.put("/user/:id", auth, async (req, res, file) => {
+  try {
+    let user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ message: "Counl not found" });
+
+    if (user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+    user = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    res.json(user);
+  } catch (err) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ message: "Contact not found" });
+
+    if (user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    await User.findByIdAndRemove(req.params.id);
+
+    res.json({ message: "Contact removed" });
+  } catch (err) {
+    return res.status(500).json({ message: "server error" });
+  }
 });
 
 module.exports = router;

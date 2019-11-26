@@ -16,7 +16,8 @@ import {
 
 const ApiState = props => {
   const initialState = {
-    users: [],
+    users: null,
+    user: null,
     isAuthenticated: null,
     loading: true,
     error: null
@@ -74,7 +75,6 @@ const ApiState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      // authUser();
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
@@ -93,8 +93,8 @@ const ApiState = props => {
       value={{
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
-        user: state.user,
         users: state.users,
+        user: state.user,
         error: state.error,
         authUser,
         userLoad,

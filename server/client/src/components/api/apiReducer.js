@@ -31,6 +31,12 @@ export default (state, action) => {
       };
 
     case REGISTER_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: false,
+        loading: false
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,

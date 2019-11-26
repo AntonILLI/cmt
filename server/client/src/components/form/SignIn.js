@@ -17,6 +17,7 @@ const SignIn = props => {
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/");
+      window.location.reload(true);
     }
   }, [isAuthenticated, props.history]);
 
