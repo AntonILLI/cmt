@@ -4,6 +4,8 @@ const { auth } = require("../helpers/auth");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/user");
 const router = express.Router();
+// const fileUpload = require("express-fileupload");
+// const multer = require("multer");
 
 //get user
 router.get("/user", async (req, res) => {
@@ -152,3 +154,76 @@ router.delete("/:id", auth, async (req, res) => {
 });
 
 module.exports = router;
+
+// const storage = multer.diskStorage({
+//   destination: "./public/uploads/",
+//   filename: function(req, file, cd) {
+//     cd(
+//       null,
+//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+//     ); //jpeg , gif
+//     //1 null, file name,timestamp,inputname//file.fieldname
+//   }
+// });
+//init upload
+
+// const upload = multer({
+//   storage: storage,
+//   limits: { fileSize: 1000000 },
+//   fileFilter: function(req, file, cb) {
+//     checkFileType(file, cb);
+//   }
+// }).single("myImage"); //field name //multiple use array html enctype= 'multipart/form-data
+// function checkFileType(file, cb) {
+//   // Allowed extensions
+//   const filetypes = /jpeg|jpg|png|gif/;
+//   //check ext
+//   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+//   //check mime
+//   const mimetype = filetypes.test(file.mimetype);
+
+//   if (mimetype && extname) {
+//     return cb(null, true);
+//   } else {
+//     cd("Error: Images only!");
+//   }
+// }
+
+// app.post("/upload", (res, req) => {
+//   upload(req, res, err => {
+//     if (err) {
+//       res.render("index", {
+//         msg: err
+//       });
+//     } else {
+//       if (req.file == undefined) {
+//         res.render("index", {
+//           msg: "Error:No File Selected!"
+//         });
+//       } else {
+//         res.render("index", {
+//           msg: "File Uploaded!",
+//           file: `uploads/${req.file.filename}`
+//         });
+//       }
+//     }
+//   });
+// });
+
+//<img src="">
+
+// app.use(fileUpload());
+// app.post("/upload", (req, res) => {
+//   if (req.files === null) {
+//     return res.status(400).json({ message: "No file uploaded" });
+//   }
+//   const file = req.files.file;
+//   //mv move
+//   file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send(err);
+//     }
+//     res.json({ filename: file.name, filePath: `/uploads/${file.name}` });
+//   });
+// });

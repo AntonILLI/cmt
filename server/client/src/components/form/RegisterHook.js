@@ -3,7 +3,7 @@ import RegisterFormHook from "./RegisterFormHook.js";
 import { validateRegisterForm } from "./validate";
 import ApiContext from "../../components/api/apiContext";
 
-import "./style.css";
+// import "./style.css";
 const zxcvbn = require("zxcvbn");
 
 const initialState = {

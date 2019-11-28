@@ -3,7 +3,7 @@ import ApiContext from "../../components/api/apiContext";
 import SignInForm from "./SignInForm.js";
 import { validateLoginForm } from "./validate";
 
-import "./style.css";
+// import "./style.css";
 
 const initialValue = {
   email: "",
@@ -17,7 +17,6 @@ const SignIn = props => {
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/");
-      window.location.reload(true);
     }
   }, [isAuthenticated, props.history]);
 
@@ -41,6 +40,7 @@ const SignIn = props => {
       const { password, email } = user;
 
       login({ password, email });
+      window.location.reload(true);
       // console.log(user);
     } else {
       const errors = data.errors;

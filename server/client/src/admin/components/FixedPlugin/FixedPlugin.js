@@ -4,18 +4,20 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classnames from "classnames";
-import Icon from "@material-ui/core/Icon";
 
 import imagine1 from "../../assets/img/sidebar-1.jpg";
 import imagine2 from "../../assets/img/sidebar-2.jpg";
 import imagine3 from "../../assets/img/sidebar-3.jpg";
 import imagine4 from "../../assets/img/sidebar-4.jpg";
 
+import DoubleArrowTwoToneIcon from "@material-ui/icons/DoubleArrowTwoTone";
+
 export default function FixedPlugin(props) {
   const [bgImage, setBgImage] = React.useState(props.bgImage);
   const handleClick = () => {
     props.handleFixedClick();
   };
+
   // <i className="fa fa-cog fa-x2" />  <script src="https://use.fontawesome.com/82bc5afd64.js"></script>
   return (
     <div
@@ -25,8 +27,9 @@ export default function FixedPlugin(props) {
     >
       <div id="fixedPluginClasses" className={props.fixedClasses}>
         <div onClick={handleClick}>
-          <Icon className="fa fa-plus-circle" color="action" />
-          <i className="fa fa-cog fa-x2" />
+          <DoubleArrowTwoToneIcon
+            style={{ fontSize: 60 }}
+          ></DoubleArrowTwoToneIcon>
         </div>
         <ul className="dropdown-menu">
           <li className="header-title">SIDEBAR FILTERS</li>

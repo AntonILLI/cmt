@@ -6,7 +6,7 @@ import RegisterHook from "./components/form/RegisterHook";
 import SignIn from "./components/form/SignIn";
 import Navbar from "./components/layout/Navbar";
 import ApiState from "./components/api/apiState";
-
+import "./css/style.css";
 // import AdminDashboard from "./components/admin/adminDashboard";
 import Admin from "../src/admin/layouts/Admin";
 const NavRoute = ({ exact, path, component: Component }) => (
