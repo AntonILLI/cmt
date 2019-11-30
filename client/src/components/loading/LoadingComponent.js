@@ -25,7 +25,7 @@ const LaodingComponent = () => {
       <FadeIn>
         <div className="d-flex justify-content-center align-items-center">
           <h1>Loading.....</h1>
-          <Lottie options={defaultOptions} height={800} width={800} />
+          <Lottie options={defaultOptions} height={800} width={"100%"} />
         </div>
       </FadeIn>
     </div>

@@ -17,7 +17,7 @@ export default (state, action) => {
     case USER_LOADED:
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: false,
         loading: false,
         users: action.payload
       };
@@ -25,12 +25,19 @@ export default (state, action) => {
     case AUTH_USER:
       return {
         ...state,
+        //user: state.user.filter(u => u !== action.payload),
         user: [action.payload],
         isAuthenticated: true,
-        loading: false
+        loading: true
       };
 
     case REGISTER_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        isAuthenticated: false,
+        loading: false
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,

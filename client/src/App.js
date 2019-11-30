@@ -6,7 +6,9 @@ import RegisterHook from "./components/form/RegisterHook";
 import SignIn from "./components/form/SignIn";
 import Navbar from "./components/layout/Navbar";
 import ApiState from "./components/api/apiState";
-
+import "./css/style.css";
+// import AdminDashboard from "./components/admin/adminDashboard";
+import Admin from "../src/admin/layouts/Admin";
 const NavRoute = ({ exact, path, component: Component }) => (
   <Route
     exact={exact}
@@ -30,6 +32,7 @@ const App = () => {
               <NavRoute exact path="/" component={Home} />
               <NavRoute exact path="/register" component={RegisterHook} />
               <NavRoute exact path="/login" component={SignIn} />
+              <Route path="/admin" component={Admin} />
             </Switch>
           </div>
         </Fragment>
@@ -37,5 +40,5 @@ const App = () => {
     </ApiState>
   );
 };
-
+//<Route exact path="/admin" component={AdminDashboard} />
 export default App;

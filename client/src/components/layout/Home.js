@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import LoadingComponent from "../loading/LoadingComponent";
 //import { toast } from "react-toastify";
 import ApiContext from "../api/apiContext";
+import HomeLayout from "./HomeLayout";
 
 const Home = () => {
   const apiContext = useContext(ApiContext);
@@ -22,9 +23,11 @@ const Home = () => {
               <li>{user.email}</li>
               <li>{user.firstname}</li>
               <li>{user.category}</li>
+              <li>{user.bio}</li>
             </ul>
           ))}
       </div>
+      <HomeLayout />
     </React.Fragment>
   );
 };
