@@ -6,8 +6,6 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const userRoutes = require("./Routes/user");
-const fileUpload = require("express-fileupload");
-const multer = require("multer");
 
 mongoose
   .connect("mongodb://admin:c107152cc@dbh22.mlab.com:27227/music-teacher", {
