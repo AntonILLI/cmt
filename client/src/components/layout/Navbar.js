@@ -78,7 +78,69 @@ const Navbar = () => {
 
   const guestLinks = (
     <header>
-      <div className="d-flex justify-content-center">
+
+
+
+
+
+              <nav className="brown darken-4">
+                <div className="nav-wrapper">
+                  <a href="#!" className="brand-logo">Logo</a>
+                  <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
+                  <ul className="right hide-on-med-and-down">
+                    <li>
+                    <Link className="nav-link">
+                    Home <span className="sr-only">(current)</span>
+                    </Link>
+                    </li>
+                    <li><a href="badges.html">Components</a></li>
+                    <li><a href="collapsible.html">Javascript</a></li>
+                    <li>
+                    <Link to="login">
+                      {/* <AudiotrackSharpIcon /> */}
+                      <span>Sign-IN</span>
+                    </Link>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            
+              <ul className="sidenav" id="mobile-demo">
+                <li>
+                  <Link className="nav-link">
+                  Home <span className="sr-only">(current)</span>
+                  </Link>
+                </li>
+                <li><a href="badges.html">Components</a></li>
+                <li><a href="collapsible.html">Javascript</a></li>
+                <li>
+                  <Link to="login">
+                    {/* <AudiotrackSharpIcon /> */}
+                    <span>Sign-IN</span>
+                  </Link>
+                </li>
+              </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* <div className="d-flex justify-content-center">
         <nav className="navbar fixed-top navbar-toggleable-md navbar-dark bg-primary">
           <div className="container">
             <button
@@ -136,7 +198,7 @@ const Navbar = () => {
             </div>
           </div>
         </nav>
-      </div>
+      </div> */}
     </header>
   );
 
