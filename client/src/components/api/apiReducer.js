@@ -27,8 +27,8 @@ export default (state, action) => {
         ...state,
         //user: state.user.filter(u => u !== action.payload),
         user: [action.payload],
-        isAuthenticated: true,
-        loading: true
+        isAuthenticated: false,
+        loading: false
       };
 
     case REGISTER_SUCCESS:
