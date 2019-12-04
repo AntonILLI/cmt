@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <React.Fragment>
       <div>
-        {users !== null &&
+        {/* {users !== null &&
           users.map((user, i) => (
             <ul key={i}>
               <li>{user.email}</li>
@@ -25,7 +25,7 @@ const Home = () => {
               <li>{user.category}</li>
               <li>{user.bio}</li>
             </ul>
-          ))}
+          ))} */}
       </div>
       <HomeLayout />
     </React.Fragment>
