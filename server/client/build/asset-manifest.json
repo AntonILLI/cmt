@@ -1,21 +1,37 @@
 {
   "files": {
-    "main.css": "/static/css/main.0d762f11.chunk.css",
-    "main.js": "/static/js/main.d09b0b32.chunk.js",
-    "main.js.map": "/static/js/main.d09b0b32.chunk.js.map",
+    "main.css": "/static/css/main.f21f3f5d.chunk.css",
+    "main.js": "/static/js/main.582334ba.chunk.js",
+    "main.js.map": "/static/js/main.582334ba.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.b240f91f.js",
     "runtime-main.js.map": "/static/js/runtime-main.b240f91f.js.map",
-    "static/js/2.fa32d567.chunk.js": "/static/js/2.fa32d567.chunk.js",
-    "static/js/2.fa32d567.chunk.js.map": "/static/js/2.fa32d567.chunk.js.map",
+    "static/css/2.d0176e96.chunk.css": "/static/css/2.d0176e96.chunk.css",
+    "static/js/2.9155349b.chunk.js": "/static/js/2.9155349b.chunk.js",
+    "static/js/2.9155349b.chunk.js.map": "/static/js/2.9155349b.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.18c1d13119677ad0b07a318b8943e8bb.js": "/precache-manifest.18c1d13119677ad0b07a318b8943e8bb.js",
+    "precache-manifest.0d848fe82a30973974168dc4129f2f2f.js": "/precache-manifest.0d848fe82a30973974168dc4129f2f2f.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.0d762f11.chunk.css.map": "/static/css/main.0d762f11.chunk.css.map"
+    "static/css/2.d0176e96.chunk.css.map": "/static/css/2.d0176e96.chunk.css.map",
+    "static/css/main.f21f3f5d.chunk.css.map": "/static/css/main.f21f3f5d.chunk.css.map",
+    "static/media/style.css": "/static/media/girl.95a856be.jpg",
+    "static/media/marc.jpg": "/static/media/marc.8880a65c.jpg",
+    "static/media/p_anna_profile.jpg": "/static/media/p_anna_profile.3e96721d.jpg",
+    "static/media/p_natasha_profile.jpg": "/static/media/p_natasha_profile.df78b4a0.jpg",
+    "static/media/piano-3505109_1920.jpg": "/static/media/piano-3505109_1920.647dc26c.jpg",
+    "static/media/sidebar-1.jpg": "/static/media/sidebar-1.8e9f0a3c.jpg",
+    "static/media/sidebar-2.jpg": "/static/media/sidebar-2.310509c9.jpg",
+    "static/media/sidebar-3.jpg": "/static/media/sidebar-3.25031690.jpg",
+    "static/media/sidebar-4.jpg": "/static/media/sidebar-4.fc9cb053.jpg",
+    "static/media/singing-kids.jpg": "/static/media/singing-kids.399a21ac.jpg",
+    "static/media/trombon3.jpg": "/static/media/trombon3.df90e827.jpg",
+    "static/media/violin-lesson2.jpg": "/static/media/violin-lesson2.371578ea.jpg",
+    "static/media/voice-lesson3.jpg": "/static/media/voice-lesson3.400926ad.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.b240f91f.js",
-    "static/js/2.fa32d567.chunk.js",
-    "static/css/main.0d762f11.chunk.css",
-    "static/js/main.d09b0b32.chunk.js"
+    "static/css/2.d0176e96.chunk.css",
+    "static/js/2.9155349b.chunk.js",
+    "static/css/main.f21f3f5d.chunk.css",
+    "static/js/main.582334ba.chunk.js"
   ]
 }

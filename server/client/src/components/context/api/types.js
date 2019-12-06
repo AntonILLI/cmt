@@ -1,0 +1,14 @@
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const AUTH_USER = "USER_USER";
+export const AUTH_ERROR = "AUTH_ERROR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const USER_LOADED = "USER_LOADED";
+export const USER_ERROR = "USER_ERROR";
+export const UPDATE_USER = "UPDATE_USER";
+export const UPDATE_ERROR = "UPDATE_ERROR";
+export const DELETE_USER = "DELETE_USER";
+export const DELETE_ERROR = "DELETE_ERROR";

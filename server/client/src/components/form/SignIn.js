@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import ApiContext from "../../components/api/apiContext";
+import ApiContext from "../context/api/apiContext";
 import SignInForm from "./SignInForm.js";
 import { validateLoginForm } from "./validate";
 
@@ -40,7 +40,7 @@ const SignIn = props => {
       const { password, email } = user;
 
       login({ password, email });
-      window.location.reload(true);
+      // window.location.reload(true);
       // console.log(user);
     } else {
       const errors = data.errors;

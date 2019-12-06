@@ -1,51 +1,16 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+import LoadingComponent from "../../../components/loading/LoadingComponent";
 import { withStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import TwitterIcon from "@material-ui/icons/Twitter";
+import AdminContext from "../../../components/context/adminAPI/adminContext";
 
-const activeCore = [
-  {
-    name: "Olivier Tassinari",
-    github: "oliviertassinari",
-    twitter: "olivtassinari",
-    flag: "v1.x co-creator",
-    city: "Paris, France"
-  },
-  {
-    name: "Matt Brookes",
-    github: "mbrookes",
-    twitter: "randomtechdude",
-    flag: "Core team",
-    city: "London, UK"
-  },
-  {
-    name: "Sebastian Silbermann",
-    github: "eps1lon",
-    twitter: "sebsilbermann",
-    flag: "Core team",
-    city: "Dresden, Germany"
-  },
-  {
-    name: "Josh Wooding",
-    github: "joshwooding",
-    twitter: "JoshWooding_",
-    flag: "Core team",
-    city: "UK"
-  },
-  {
-    name: "Maik Marschner",
-    github: "leMaik",
-    twitter: "leMaikOfficial",
-    flag: "Core Team",
-    city: "Hannover, Germany"
-  }
-];
+// import IconButton from "@material-ui/core/IconButton";
+// import GitHubIcon from "@material-ui/icons/GitHub";
+// import TwitterIcon from "@material-ui/icons/Twitter";
 
 const styles = theme => ({
   details: {
@@ -69,7 +34,16 @@ const styles = theme => ({
 });
 
 function Group(props) {
-  const { title, description, classes, members } = props;
+  const adminContext = useContext(AdminContext);
+  const { adminUsers, teams, loading } = adminContext;
+
+  useEffect(() => {
+    adminUsers();
+    //eslint-disable-next-line
+  }, []);
+
+  const { title, description, classes } = props;
+  if (loading) return <LoadingComponent />;
   return (
     <div>
       <Typography gutterBottom component="h2" variant="h5">
@@ -77,29 +51,68 @@ function Group(props) {
       </Typography>
       <Typography>{description}</Typography>
       <Grid container spacing={2} className={classes.container}>
-        {members.map(member => (
-          <Grid key={member.name} item xs={12} md={6}>
-            <Paper>
-              <Grid container wrap="nowrap">
-                <Grid item>
-                  <CardMedia
-                    className={classes.cover}
-                    image={`https://github.com/${member.github}.png`}
-                    title="Avatar"
-                  />
+        {teams.length > 0 &&
+          teams.map((team, id) => (
+            <Grid key={id} item xs={12} md={6}>
+              <Paper>
+                <Grid container wrap="nowrap">
+                  <Grid item>
+                    <CardMedia
+                      className={classes.cover}
+                      image={require(`../../assets/img/${team.photo}`)}
+                      title="Avatar"
+                    />
+                  </Grid>
+                  <Grid item>
+                    <div className={classes.details}>
+                      <Typography component="h3" variant="h6">
+                        {team.firstname}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {team.title}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {team.description}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {team.carrers}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {team.pricing}
+                      </Typography>
+                    </div>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <div className={classes.details}>
-                    <Typography component="h3" variant="h6">
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {member.flag}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {member.city}
-                    </Typography>
-                    <Grid container>
+              </Paper>
+            </Grid>
+          ))}
+      </Grid>
+    </div>
+  );
+}
+
+Group.propTypes = {
+  classes: PropTypes.object.isRequired,
+  description: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+};
+
+function Team(props) {
+  return (
+    <div>
+      <Group
+        title="Canterbury Music Teachers"
+        description={`canterbury music teacher's profiles`}
+        {...props}
+      />
+    </div>
+  );
+}
+
+export default withStyles(styles)(Team);
+
+{
+  /* <Grid container>
                       {member.github && (
                         <IconButton
                           aria-label="github"
@@ -120,36 +133,5 @@ function Group(props) {
                           <TwitterIcon fontSize="inherit" />
                         </IconButton>
                       )}
-                    </Grid>
-                  </div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
-  );
+                    </Grid> */
 }
-
-Group.propTypes = {
-  classes: PropTypes.object.isRequired,
-  description: PropTypes.string.isRequired,
-  members: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired
-};
-
-function Team(props) {
-  return (
-    <div>
-      <Group
-        title="Active Core Team"
-        description={`canterbury music teacher's profiles`}
-        members={activeCore}
-        {...props}
-      />
-    </div>
-  );
-}
-
-export default withStyles(styles)(Team);
