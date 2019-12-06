@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import LoadingComponent from "../loading/LoadingComponent";
-//import { toast } from "react-toastify";
-import ApiContext from "../api/apiContext";
+import ApiContext from "../context/api/apiContext";
 import HomeLayout from "./HomeLayout";
 
 const Home = () => {
@@ -22,17 +21,16 @@ const Home = () => {
             <ul key={i}>
               <li>{user.email}</li>
               <li>{user.firstname}</li>
-              <li>{user.category}</li>
-              <li>{user.bio}</li>
             </ul>
           ))}
       </div>
+      <pre>{JSON.stringify(users, null, 2)}</pre>
+
       <HomeLayout />
     </React.Fragment>
   );
 };
 export default Home;
-//   <pre>{JSON.stringify(users, null, 2)}</pre>
 
 // const errorMsg = () => {
 //   toast.error("some error occurred, while fetching api!", {

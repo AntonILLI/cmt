@@ -1,38 +1,74 @@
 const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const cookieParser = require("cookie-parser");
 const path = require("path");
-const userRoutes = require("./Routes/user");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const colors = require("colors");
+var bodyParser = require("body-parser");
+const fileupload = require("express-fileupload");
+const mongoose = require("mongoose");
+const errorHandler = require("./middleware/error");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+dotenv.config({ path: "./config/config.env" });
 
-mongoose
-  .connect("mongodb://admin:c107152cc@dbh22.mlab.com:27227/music-teacher", {
+const connectDB = async () => {
+  const conn = await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useCreateIndex: true,
     useFindAndModify: false,
-    useCreateIndex: true
-  })
-  .then(() => {
-    console.log("DB Connected");
+    useUnifiedTopology: true
   });
-// .catch(err => console.error(err));
+  console.log(`MongoDB Connected:${conn.connection.host}`.cyan.underline.bold);
+};
 
-var db = mongoose.connection;
+connectDB();
 
-db.on("error", err => {
-  console.log(`DB connection error: ${err.message}`);
-});
-app.use(bodyParser.urlencoded({ extended: true }));
-//allow to yeld some res, req function
-app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
+//Route
+const auth = require("./routes/auth");
+const users = require("./routes/users");
+const blogs = require("./routes/blogs");
+const app = express();
+
+app.use(express.json());
+//Cookie parser
 app.use(cookieParser());
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+app.use(fileupload());
 
-app.use("/api", userRoutes);
+app.use(cors());
 
-// dont move below code //
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(morgan("dev"));
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type, Authorization"
+  );
+  next();
+});
+
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Authorization, Content-Type, Accept"
+//   );
+//   next();
+// });
+//set static folder // read file
+app.use(express.static(path.join(__dirname, "pablic")));
+app.use("/api/v1/auth", auth);
+app.use("/api/v1/users", users);
+app.use("/api/v1/blogs", blogs);
+app.use(errorHandler);
+
+// dont move below code //NodODE_ENV = development
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
@@ -41,6 +77,19 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => console.log(`Rocken roll on port ${PORT}`));
+const server = app.listen(
+  PORT,
+  console.log(
+    `Server rocking on the ${process.env.NODE_ENV} 
+made on port ${PORT}
+`.yellow.bold
+  )
+);
+
+//Handle unhandled rejections connection reject
+process.on("unhandledRejection", (err, promise) => {
+  console.log(`Error:${err.message}`.red);
+  server.close(() => process.exit(1));
+});

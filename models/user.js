@@ -1,124 +1,109 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-require("dotenv").config();
-
-const userSchema = mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 5
-  },
+const crypto = require("crypto");
+const UserSchema = new mongoose.Schema({
   firstname: {
     type: String,
+    required: [true, "Please add a firstname"],
     trim: true,
-    maxlength: 32
+    maxlength: [10, "First Name can not be more than 10 characters"]
   },
   lastname: {
     type: String,
+    required: [true, "Please add a lastname"],
     trim: true,
-    maxlength: 32
+    maxlength: [10, "Last Name can not be more than 10 characters"]
   },
-  category: {
-    type: Array
-  },
-  bio: {
+  email: {
     type: String,
-    maxlength: 1000,
-    default: ""
+    required: [true, "Please add an email"],
+    match: [
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "please add a valid email"
+    ]
   },
-  teacherInfo: {
+  password: {
     type: String,
-    maxlength: 1000,
-    default: ""
+    required: [true, "Please add a password"],
+    miflength: 6
   },
-  thumbnail: {
+  careers: {
+    type: [String],
+    enum: [
+      "Piano",
+      "viollin",
+      "guitar",
+      "flute",
+      "Jazz",
+      "vacal training",
+      "Other"
+    ]
+  },
+  title: {
     type: String,
-    default: ""
+    trim: true,
+    maxlength: 100
   },
-  date: {
-    type: Date,
-    default: Date.now()
+  description: {
+    type: String
   },
   pricing: {
-    type: Array
+    type: [Number]
+  },
+  photo: {
+    type: String,
+    default: "no-photo.jpg"
   },
   role: {
-    type: Number,
-    default: 0
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
   },
-  token: {
-    type: String
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 });
 
-//pre before save() run function //es6 does not work
-//user = userShema//isModified if someting modified ,run
-
-userSchema.pre("save", function(next) {
-  var user = this;
-
-  if (user.isModified("password")) {
-    bcrypt.genSalt(10, function(err, salt) {
-      if (err) return next(err);
-
-      bcrypt.hash(user.password, salt, function(err, hash) {
-        if (err) {
-          return next(err);
-        } else {
-          user.password = hash;
-          next();
-        }
-      });
-    });
-  } else {
+//Encript password using bcrypt hash//unless not modified the password, skip the hashing
+UserSchema.pre("save", async function(next) {
+  if (!this.isModified("password")) {
     next();
   }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
-//when compare the password , cb will be run then go back
-//login function ,1 argment is props, 2 is function
 
-userSchema.methods.comparePassword = function(userPassword, callback) {
-  bcrypt.compare(userPassword, this.password, function(err, hasMatch) {
-    if (err) {
-      return callback(err);
-    } else {
-      callback(null, hasMatch);
-    }
+//Sign JWT mongo id//add expire time
+UserSchema.methods.getSignedJwtToken = function() {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE
   });
 };
 
-userSchema.methods.generateToken = function(callback) {
-  var user = this;
-  var token = jwt.sign(user._id.toHexString(), process.env.PRIVATE);
-  //to convert Hex decimal from string
-  user.token = token;
-  user.save(function(err, user) {
-    if (err) {
-      return callback(err);
-    } else {
-      callback(null, user);
-    }
-  });
+//compare user entered password & hashed password
+UserSchema.methods.matchPassword = async function(enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.statics.findByToken = function(token, cb) {
-  var user = this;
+//reset password and generate hashed token
+UserSchema.methods.getResetPasswordToken = function() {
+  //Generate token //randomBytes generate random data //buffer formatted to string
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  //Hash token and ,'sha256'//digest as hex string
+  //about cript hashing--> https://nodejs.org/en/knowledge/cryptography/how-to-use-crypto-module/
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
 
-  jwt.verify(token, process.env.PRIVATE, function(err, decode) {
-    user.findOne({ _id: decode, token: token }, function(err, user) {
-      if (err) return cb(err);
+  // Set expire date
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
-      cb(null, user);
-    });
-  });
+  return resetToken;
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("User", UserSchema);
