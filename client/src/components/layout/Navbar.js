@@ -1,11 +1,10 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ApiContext from "../context/api/apiContext";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+
 //import AudiotrackSharpIcon from "@material-ui/icons/AudiotrackSharp";
 // import AssignmentIcon from "@material-ui/icons/Assignment";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import { lightBlue, deepOrange } from "@material-ui/core/colors";
 
 const Navbar = () => {
   const apiContext = useContext(ApiContext);
@@ -20,16 +19,9 @@ const Navbar = () => {
     e.preventDefault();
     logout();
   };
-  function HomeIcon(props) {
-    return (
-      <SvgIcon {...props}>
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </SvgIcon>
-    );
-  }
 
   const authLinks = (
-    <Fragment>
+    <>
       <div>
         {user && (
           <div>
@@ -39,74 +31,114 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <Link to="/">
-        <HomeIcon
-          color="primary"
-          fontSize="large"
-          component={svgProps => {
-            return (
-              <svg {...svgProps}>
-                <defs>
-                  <linearGradient id="gradient1">
-                    <stop offset="30%" stopColor={lightBlue[200]} />
-                    <stop offset="70%" stopColor={deepOrange[500]} />
-                  </linearGradient>
-                </defs>
-                {React.cloneElement(svgProps.children[0], {
-                  fill: "url(#gradient1)"
-                })}
-              </svg>
-            );
-          }}
-        />
-        Home
-      </Link>
-      <Link to="/admin">
-        <ExitToAppIcon />
-        <span>DashBoard</span>
-      </Link>
+      <header>
+        <nav className="brown darken-4">
+          <div className="nav-wrapper">
+            <a href="#!" className="brand-logo">
+              Logo
+            </a>
+            <a href="#" data-target="mobile-demo" className="sidenav-trigger">
+              <i className="material-icons">menu</i>
+            </a>
+            <ul className="right hide-on-med-and-down">
+              <li>
+                <Link className="nav-link">
+                  Home <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+              <li>
+                <a href="badges.html">Components</a>
+              </li>
+              <li>
+                <a href="admin/dashboard">Dashboard</a>
+              </li>
+              <li>
+                <Link to="login">
+                  {/* <AudiotrackSharpIcon /> */}
+                  <span>Sign-IN</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
-      <Link to="/" onClick={handleLogout}>
-        <ExitToAppIcon />
-        <span>Logout</span>
-      </Link>
-    </Fragment>
+        <ul className="sidenav" id="mobile-demo">
+          <li>
+            <Link className="nav-link">
+              Home <span className="sr-only">(current)</span>
+            </Link>
+          </li>
+          <li>
+            <a href="badges.html">Components</a>
+          </li>
+          <li>
+            <Link to="admin/dashboard">Javascript</Link>
+          </li>
+          <li>
+            <Link to="login">
+              {/* <AudiotrackSharpIcon /> */}
+              <span>Sign-IN</span>
+            </Link>
+          </li>
+        </ul>
+      </header>
+    </>
   );
 
   const guestLinks = (
-    <Fragment>
-      <Link to="/">
-        <HomeIcon
-          color="primary"
-          fontSize="large"
-          component={svgProps => {
-            return (
-              <svg {...svgProps}>
-                <defs>
-                  <linearGradient id="gradient1">
-                    <stop offset="30%" stopColor={lightBlue[200]} />
-                    <stop offset="70%" stopColor={deepOrange[500]} />
-                  </linearGradient>
-                </defs>
-                {React.cloneElement(svgProps.children[0], {
-                  fill: "url(#gradient1)"
-                })}
-              </svg>
-            );
-          }}
-        />
-        Home
-      </Link>
-      <Link to="login">
-        <ExitToAppIcon />
-        <span>Login</span>
-      </Link>
+    <>
+      <header>
+        <nav className="brown darken-4">
+          <div className="nav-wrapper">
+            <a href="#!" className="brand-logo">
+              Logo
+            </a>
+            <a href="#" data-target="mobile-demo" className="sidenav-trigger">
+              <i className="material-icons">menu</i>
+            </a>
+            <ul className="right hide-on-med-and-down">
+              <li>
+                <Link className="nav-link">
+                  Home <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+              <li>
+                <a href="badges.html">Components</a>
+              </li>
+              <li>
+                <a href="collapsible.html">Javascript</a>
+              </li>
+              <li>
+                <Link to="login">
+                  {/* <AudiotrackSharpIcon /> */}
+                  <span>Sign-IN</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
-      <Link to="/" onClick={handleLogout}>
-        <ExitToAppIcon />
-        <span>Logout</span>
-      </Link>
-    </Fragment>
+        <ul className="sidenav" id="mobile-demo">
+          <li>
+            <Link className="nav-link">
+              Home <span className="sr-only">(current)</span>
+            </Link>
+          </li>
+          <li>
+            <a href="badges.html">Components</a>
+          </li>
+          <li>
+            <a href="">DashBaord</a>
+          </li>
+          <li>
+            <Link to="login">
+              {/* <AudiotrackSharpIcon /> */}
+              <span>Sign-IN</span>
+            </Link>
+          </li>
+        </ul>
+      </header>
+    </>
   );
 
   return (
@@ -117,29 +149,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-// <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
-// {user.map((u, i) => {
-//   return <ul key={i}>{u.isAdmin ? authLinks : guestLinks}</ul>;
-// })}
-/* <Link to="/">
-                  <HomeIcon
-                    color="primary"
-                    fontSize="large"
-                    component={svgProps => {
-                      return (
-                        <svg {...svgProps}>
-                          <defs>
-                            <linearGradient id="gradient1">
-                              <stop offset="30%" stopColor={lightBlue[200]} />
-                              <stop offset="70%" stopColor={deepOrange[500]} />
-                            </linearGradient>
-                          </defs>
-                          {React.cloneElement(svgProps.children[0], {
-                            fill: "url(#gradient1)"
-                          })}
-                        </svg>
-                      );
-                    }}
-                  />
-                  Home
-                </Link> */

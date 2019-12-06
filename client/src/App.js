@@ -7,6 +7,7 @@ import Navbar from "./components/layout/Navbar";
 import ApiState from "./components/context/api/apiState";
 import AdminState from "./components/context/adminAPI/adminState";
 import "./css/style.css";
+import 'materialize-css/dist/css/materialize.min.css';
 // import AdminDashboard from "./components/admin/adminDashboard";
 import Admin from "../src/admin/layouts/Admin";
 const NavRoute = ({ exact, path, component: Component }) => (
@@ -25,18 +26,21 @@ const NavRoute = ({ exact, path, component: Component }) => (
 const App = () => {
   return (
     <AdminState>
-      <ApiState>
-        <Router>
-          <Fragment>
+    <ApiState>
+      <Router>
+        <Fragment>
+          {/* <div className="container"> */}
             <Switch>
               <NavRoute exact path="/" component={Home} />
               <NavRoute exact path="/login" component={SignIn} />
               <Route path="/admin" component={Admin} />
             </Switch>
+
           </Fragment>
         </Router>
       </ApiState>
     </AdminState>
+
   );
 };
 //<Route exact path="/admin" component={AdminDashboard} />

@@ -27,8 +27,10 @@ export default (state, action) => {
     case AUTH_USER:
       return {
         ...state,
-        user: [action.payload.data],
-        isAuthenticated: true,
+
+        //user: state.user.filter(u => u !== action.payload),
+        user: [action.payload],
+        isAuthenticated: false,
         loading: false
       };
 
