@@ -12,7 +12,7 @@ const User = require("../models/User");
 
 const router = express.Router();
 const advancedResults = require("../middleware/advancedResults");
-const { authorize, protect } = require("../middleware/auth");
+const { protect } = require("../middleware/auth");
 //advancedResults
 //all below protect route using mergeParams:true
 

@@ -10,8 +10,8 @@ import imagine2 from "../../assets/img/sidebar-2.jpg";
 import imagine3 from "../../assets/img/sidebar-3.jpg";
 import imagine4 from "../../assets/img/sidebar-4.jpg";
 
-import DoubleArrowTwoToneIcon from "@material-ui/icons/DoubleArrowTwoTone";
-
+//import DoubleArrowTwoToneIcon from "@material-ui/icons/DoubleArrowTwoTone";
+import GraphicEqIcon from "@material-ui/icons/GraphicEq";
 export default function FixedPlugin(props) {
   const [bgImage, setBgImage] = React.useState(props.bgImage);
   const handleClick = () => {
@@ -27,9 +27,7 @@ export default function FixedPlugin(props) {
     >
       <div id="fixedPluginClasses" className={props.fixedClasses}>
         <div onClick={handleClick}>
-          <DoubleArrowTwoToneIcon
-            style={{ fontSize: 60 }}
-          ></DoubleArrowTwoToneIcon>
+          <GraphicEqIcon style={{ fontSize: 40 }}></GraphicEqIcon>
         </div>
         <ul className="dropdown-menu">
           <li className="header-title">SIDEBAR FILTERS</li>

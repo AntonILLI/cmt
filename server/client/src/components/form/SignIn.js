@@ -16,7 +16,7 @@ const SignIn = props => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/");
+      props.history.push("/admin/dashboard");
     }
   }, [isAuthenticated, props.history]);
 
@@ -64,24 +64,3 @@ const SignIn = props => {
 };
 
 export default SignIn;
-
-// const loginSubmit = user => {
-//   const userData = {
-//     email: user.email,
-//     password: user.password
-//   };
-
-//   axios
-//     .post("/api/user/login", userData)
-//     .then(res => {
-//       if (res.status === 200) {
-//         this.setState({ histroy: true });
-//       } else {
-//         throw new Error("Something went wrong ...");
-//       }
-//     })
-//     .catch(error => {
-//       setErrors({ error });
-//     });
-//   // this.setState({ email: "", password: "", history: false });
-// };

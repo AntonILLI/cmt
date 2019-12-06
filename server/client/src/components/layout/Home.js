@@ -16,15 +16,15 @@ const Home = () => {
   return (
     <React.Fragment>
       <div>
-        {users !== null &&
+        {/* {users !== null &&
           users.map((user, i) => (
             <ul key={i}>
               <li>{user.email}</li>
               <li>{user.firstname}</li>
             </ul>
-          ))}
+          ))} */}
       </div>
-      <pre>{JSON.stringify(users, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(users, null, 2)}</pre> */}
 
       <HomeLayout />
     </React.Fragment>
