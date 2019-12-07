@@ -6,7 +6,7 @@ const colors = require("colors");
 var bodyParser = require("body-parser");
 const fileupload = require("express-fileupload");
 const mongoose = require("mongoose");
-const errorHandler = require("../server/middleware/error");
+const errorHandler = require("./middleware/error.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 dotenv.config({ path: "./config/config.env" });
