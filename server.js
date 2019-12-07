@@ -6,7 +6,7 @@ const colors = require("colors");
 var bodyParser = require("body-parser");
 const fileupload = require("express-fileupload");
 const mongoose = require("mongoose");
-//const errorHandler = require("./middleware/error.js");
+const errorHandler = require("./middleware/error.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 dotenv.config({ path: "./config/config.env" });
@@ -66,7 +66,7 @@ app.use(express.static(path.join(__dirname, "pablic")));
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/blogs", blogs);
-//app.use(errorHandler);
+app.use(errorHandler);
 
 // dont move below code //NodODE_ENV = development
 if (process.env.NODE_ENV === "production") {
