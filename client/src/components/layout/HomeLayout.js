@@ -60,9 +60,9 @@ class MaterializeHomePage extends Component {
               <p className="bold flow-text">Natasha Chernousova</p>
               </blockquote>
             </span>
-            <a href="#modal1" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition">
+            <button href="" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition">
               <i className="material-icons">audiotrack</i>
-            </a>
+            </button>
           </div>
           <div className="card-content">
             <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
@@ -199,23 +199,23 @@ class MaterializeHomePage extends Component {
               <div className="input-field col l6 m6 s12">
                 <i className="material-icons prefix">account_circle</i>
                 <input id="first_name" type="text" className="validate" />
-                <label for="first_name">First Name</label>
+                <label htmlFor="first_name">First Name</label>
               </div>
               <div className="input-field col l6 m6 s12">
                 <i className="material-icons prefix">phone</i>
                 <input id="icon_telephone" type="tel" className="validate" />
-                <label for="icon_telephone">Telephone</label>
+                <label htmlFor="icon_telephone">Telephone</label>
               </div>
                 <div className="input-field col s12">
                   <i className="material-icons prefix">email</i>
                   <input id="email" type="email" className="validate" />
-                  <label for="email">Email</label>
+                  <label htmlFor="email">Email</label>
                   <span className="helper-text" data-error="wrong" data-success="right">Helper text</span>
                 </div>
                   <div className="input-field col s12">
                     <i className="material-icons prefix">mode_edit</i>
                     <textarea id="icon_prefix2" className="materialize-textarea"></textarea>
-                    <label for="icon_prefix2">Message</label>
+                    <label htmlFor="icon_prefix2">Message</label>
                   </div>
                 </div>
             </form>
