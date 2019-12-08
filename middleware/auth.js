@@ -4,7 +4,7 @@ const asyncHandler = require("./async");
 const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/User");
 
-//Protect routes
+//Protect
 exports.protect = asyncHandler(async (req, res, next) => {
   console.log(req.headers);
 
