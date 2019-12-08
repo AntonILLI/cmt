@@ -62,7 +62,7 @@ app.use(function(req, res, next) {
 //   next();
 // });
 //set static folder // read file
-app.use(express.static(path.join(__dirname, "pablic")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/blogs", blogs);
