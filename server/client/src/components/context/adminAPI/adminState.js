@@ -25,12 +25,12 @@ const AdminState = props => {
 
   const addUsers = async userData => {
     try {
-      const res = await axios.post("/api/users", userData);
+      const res = await axios.post("/api/v1/users", userData);
       dispatch({ type: ADD_USERS, payload: res.data }); //response data to server
     } catch (err) {
       dispatch({
         type: ADD_ERROR,
-        payload: err.response.msg
+        payload: err.response.message
       });
     }
   };

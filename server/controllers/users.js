@@ -22,10 +22,57 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 //@route POST/api/v1/auth/users/users//@accsss Private
 
 exports.createUser = asyncHandler(async (req, res, next) => {
-  const user = await User.create(req.body);
-  res.status(201).json({
-    success: true,
-    data: user
+  //const user = await User.create(req.body);
+
+  console.log(req.files); //file objects... size,encoding,mimetype
+  //startswith mimetype -->'image'/jpeg//the file will be accessible from req.files.
+  const file = req.files.file;
+
+  // //make sure the image is a photo
+  if (!file.mimetype.startsWith("image")) {
+    return next(new ErrorResponse(`Please upload an image file`, 400));
+  }
+  //Check filesize
+  if (file.size > process.env.MAX_FILE_UPLOAD) {
+    return next(
+      new ErrorResponse(
+        `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`
+      )
+    );
+  }
+  //mv mode directory//ext extention
+  //Create custom filename //file name extension original photo._id & original file name
+  file.name = `photo_${path.parse(file.name).ext}`;
+
+  //upload path
+
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err => {
+    if (err) {
+      console.error(err);
+      return next(new ErrorResponse(`Problem with file upload`, 500));
+    }
+    const {
+      firstname,
+      lastname,
+      email,
+      password,
+      description,
+      title
+    } = req.body;
+    const user = await User.create({
+      firstname,
+      lastname,
+      email,
+      password,
+      description,
+      title,
+      photo: file.name
+    });
+
+    res.status(200).json({
+      success: true,
+      data: user
+    });
   });
 });
 
@@ -74,9 +121,6 @@ exports.userPhotoUpload = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // if (!req.files) {
-  //   return next(new ErrorResponse(`Please upload a file`, 400));
-  // }
   console.log(req.files); //file objects... size,encoding,mimetype
   //startswith mimetype -->'image'/jpeg//the file will be accessible from req.files.
   const file = req.files.file;
@@ -105,11 +149,13 @@ exports.userPhotoUpload = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(`Problem with file upload`, 500));
     }
 
-    await User.findByIdAndUpdate(req.params.id, { photo: file.name });
+    const user = await User.create(req.params.id, {
+      photo: file.name
+    });
 
     res.status(200).json({
       success: true,
-      data: file.name
+      data: user
     });
   });
 });

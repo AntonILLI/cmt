@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 // core components
+
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
@@ -15,7 +16,7 @@ import CardFooter from "../../components/Card/CardFooter.js";
 
 import avatar from "../../assets/img/faces/marc.jpg";
 import AdminContext from "../../../components/context/adminAPI/adminContext";
-
+//import FileUploads from "../../utils/FileUploads";
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -40,26 +41,67 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
   const classes = useStyles();
   const adminContext = useContext(AdminContext);
-  const { addUsers, teams, loading } = adminContext;
+  const { addUsers, loading } = adminContext;
 
-  const [user, setUser] = useState({
+  const [values, setValues] = useState({
     firstname: "",
     lastname: "",
+    email: "",
     title: "",
-    title: "",
-    description: ""
+    phone: "",
+    photo: "",
+    description: "",
+    error: "",
+    formData: "",
+    loading: false
   });
+  const {
+    firstname,
+    lastname,
+    title,
+    email,
+    photo,
+    phone,
+    description,
+    formData,
+    error
+  } = values;
 
-  const onChange = e => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = name => event => {
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    //let formData = new FormData();
+    const formData = new FormData();
+    const userData = formData.set(name, value);
+    setValues({ ...values, [name]: value, formData: userData });
+
+    // setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
-    e.preventDefault();
-    addUsers(user);
+  const onSubmit = event => {
+    event.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+    console.log(formData);
+    addUsers(formData).then(err => {
+      if (err) {
+        setValues({ ...values, error: err });
+      } else {
+        setValues({
+          firstname: "",
+          lastname: "",
+          email: "",
+          title: "",
+          phone: "",
+          photo: "",
+          description: "",
+          error: "",
+          formData: "",
+          loading: false
+        });
+      }
+    });
   };
   return (
-    <div>
+    <form onSubmit={onSubmit}>
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
@@ -73,6 +115,9 @@ export default function UserProfile() {
                   <CustomInput
                     labelText="First Name"
                     id="firstName"
+                    value={firstname}
+                    name="firstname"
+                    onChange={onChange}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -82,6 +127,8 @@ export default function UserProfile() {
                   <CustomInput
                     labelText="Last Name"
                     id="lastName"
+                    value={lastname}
+                    onChange={onChange}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -93,6 +140,9 @@ export default function UserProfile() {
                   <CustomInput
                     labelText="Email"
                     id="email"
+                    value={email}
+                    name="email"
+                    onChange={onChange}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -102,6 +152,9 @@ export default function UserProfile() {
                   <CustomInput
                     labelText="Phone"
                     id="phone"
+                    value={phone}
+                    name="phone"
+                    onChange={onChange}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -111,9 +164,34 @@ export default function UserProfile() {
 
               <GridContainer>
                 <GridItem xs={12} sm={12} md={11}>
+                  <InputLabel style={{ color: "#AAAAAA" }}>
+                    Upload file
+                  </InputLabel>
+                  <input
+                    onChange={onChange("photo")}
+                    accept="image/*"
+                    value={photo}
+                    name="photo"
+                    className={classes.input}
+                    style={{ display: "none" }}
+                    id="raised-button-file"
+                    multiple
+                    type="file"
+                  />
+
+                  <Button containerelement="label" label="file upload">
+                    <input type="file" />
+                  </Button>
+                </GridItem>
+              </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={11}>
                   <CustomInput
                     labelText="Title"
                     id="title"
+                    value={title}
+                    name="title"
+                    onChange={onChange}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -121,7 +199,39 @@ export default function UserProfile() {
                 </GridItem>
               </GridContainer>
 
-              {/* <GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
+                  <CustomInput
+                    labelText="Tell me about yourself"
+                    id="aboutMe"
+                    value={description}
+                    onChange={onChange}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      multiline: true,
+                      rows: 10
+                    }}
+                  />
+                </GridItem>
+              </GridContainer>
+            </CardBody>
+            <CardFooter>
+              <Button type="submit" color="primary">
+                Update Profile
+              </Button>
+            </CardFooter>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    </form>
+  );
+}
+
+{
+  /* <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="City"
@@ -149,30 +259,11 @@ export default function UserProfile() {
                     }}
                   />
                 </GridItem>
-              </GridContainer> */}
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                  <CustomInput
-                    labelText="Tell me about yourself"
-                    id="aboutMe"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 10
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-            <CardFooter>
-              <Button color="primary">Update Profile</Button>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
+              </GridContainer> */
+}
+
+{
+  /* <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardAvatar profile>
               <a href="#pablo" onClick={e => e.preventDefault()}>
@@ -192,8 +283,5 @@ export default function UserProfile() {
               </Button>
             </CardBody>
           </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
-  );
+        </GridItem> */
 }
