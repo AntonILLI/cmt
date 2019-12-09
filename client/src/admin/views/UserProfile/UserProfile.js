@@ -176,11 +176,15 @@ export default function UserProfile() {
                     style={{ display: "none" }}
                     id="raised-button-file"
                     multiple
-                    type="file"
                   />
 
                   <Button containerelement="label" label="file upload">
-                    <input type="file" />
+                    <input
+                      type="file"
+                      value={photo}
+                      name="photo"
+                      onChange={onChange("photo")}
+                    />
                   </Button>
                 </GridItem>
               </GridContainer>
