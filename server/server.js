@@ -26,7 +26,7 @@ connectDB();
 //Route
 const auth = require("./routes/auth");
 const users = require("./routes/users");
-const blogs = require("./routes/blogs");
+const events = require("./routes/events");
 const app = express();
 
 app.use(express.json());
@@ -62,10 +62,10 @@ app.use(function(req, res, next) {
 //   next();
 // });
 //set static folder // read file
-app.use(express.static(path.join(__dirname, "pablic")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
-app.use("/api/v1/blogs", blogs);
+app.use("/api/v1/events", events);
 app.use(errorHandler);
 
 // dont move below code //NodODE_ENV = development

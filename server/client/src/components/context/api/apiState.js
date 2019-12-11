@@ -80,35 +80,6 @@ const ApiState = props => {
     dispatch({ type: LOGOUT });
   };
 
-  const updateUser = async id => {
-    try {
-      const res = await axios.get(`/api/v1/users/${id}`);
-
-      dispatch({ type: UPDATE_USER, payload: res.data });
-    } catch (err) {
-      dispatch({ type: UPDATE_ERROR });
-    }
-  };
-  const deleteUser = async id => {
-    try {
-      await axios.get(`/api/v1/users/${id}`);
-
-      dispatch({ type: DELETE_USER, payload: id });
-    } catch (err) {
-      dispatch({ type: DELETE_ERROR });
-    }
-  };
-
-  // const selectUser = async () => {
-  //   try {
-  //     const res = await axios.get("/api/users/:id");
-
-  //     dispatch({ type: USER_LOADED, payload: res.data });
-  //   } catch (err) {
-  //     dispatch({ type: USER_ERROR });
-  //   }
-  // };
-
   return (
     <ApiContext.Provider
       value={{
@@ -120,10 +91,8 @@ const ApiState = props => {
         error: state.error,
         authUser,
         userLoad,
-        updateUser,
         login,
-        logout,
-        deleteUser
+        logout
       }}
     >
       {props.children}

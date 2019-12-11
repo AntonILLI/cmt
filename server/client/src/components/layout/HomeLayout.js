@@ -60,9 +60,9 @@ class MaterializeHomePage extends Component {
               <p className="bold flow-text">Natasha Chernousova</p>
               </blockquote>
             </span>
-            <a href="#modal1" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition">
+            <button href="" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition">
               <i className="material-icons">audiotrack</i>
-            </a>
+            </button>
           </div>
           <div className="card-content">
             <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
@@ -199,23 +199,23 @@ class MaterializeHomePage extends Component {
               <div className="input-field col l6 m6 s12">
                 <i className="material-icons prefix">account_circle</i>
                 <input id="first_name" type="text" className="validate" />
-                <label for="first_name">First Name</label>
+                <label htmlFor="first_name">First Name</label>
               </div>
               <div className="input-field col l6 m6 s12">
                 <i className="material-icons prefix">phone</i>
                 <input id="icon_telephone" type="tel" className="validate" />
-                <label for="icon_telephone">Telephone</label>
+                <label htmlFor="icon_telephone">Telephone</label>
               </div>
                 <div className="input-field col s12">
                   <i className="material-icons prefix">email</i>
                   <input id="email" type="email" className="validate" />
-                  <label for="email">Email</label>
+                  <label htmlFor="email">Email</label>
                   <span className="helper-text" data-error="wrong" data-success="right">Helper text</span>
                 </div>
                   <div className="input-field col s12">
                     <i className="material-icons prefix">mode_edit</i>
                     <textarea id="icon_prefix2" className="materialize-textarea"></textarea>
-                    <label for="icon_prefix2">Message</label>
+                    <label htmlFor="icon_prefix2">Message</label>
                   </div>
                 </div>
             </form>
@@ -263,174 +263,7 @@ const HomeLayout = () => {
   return (
     // <>
           <MaterializeHomePage />
-      //     <div className="jumbotron jumbotron-fluid" style={styles.container}>
-      //   <div className="container" style={{ color: "ivory" }}>
-      //     <h1 className="display-4">Hello, world!</h1>
-      //     <p className="lead">
-      //       This is a simple hero unit, a simple jumbotron-style component for
-      //       calling extra attention to featured content or information.
-      //     </p>
-      //     <hr className="my-4" />
-      //     <p>
-      //       It uses utility classes for typography and spacing to space content
-      //       out within the larger container.
-      //     </p>
-      //     <p className="lead">
-      //       <a className="btn btn-primary btn-lg" href="#" role="button">
-      //         Learn more
-      //       </a>
-      //     </p>
-      //   </div>
-      // </div>
-
-      // <div className="row m-0">
-      //   <div className="d-flex justify-content-center col-md-8">
-      //     <div className="card-deck">
-      //       <div
-      //         className="card border-dark text-center"
-      //         style={{ width: "45rem" }}
-      //       >
-      //         <img
-      //           className="card-img-top"
-      //           src={photo_natasha}
-      //           alt="Card image cap"
-      //         />
-      //         <div className="card-body">
-      //           <h5 className="card-title">Teacher's Name</h5>
-      //           <p className="d-md-none d-lg-block card-text font-italic font-weight-light">
-      //             "With supporting text below as a natural lead-in to additional
-      //             content."
-      //           </p>
-      //         </div>
-      //         <a href="#" className="btn btn-primary btn-lg btn-block m-0">
-      //           Get in touch
-      //         </a>
-      //       </div>
-
-      //       <div
-      //         className="card border-dark text-center"
-      //         style={{ width: "45rem" }}
-      //       >
-      //         <img className="card-img-top" src={photo_anna} alt="Card image cap" />
-      //         <div className="card-body">
-      //           <h5 className="card-title">Teacher's Name</h5>
-      //           <p className="d-md-none d-lg-block card-text font-italic font-weight-light">
-      //             "With supporting text below as a natural lead-in to additional
-      //             content."
-      //           </p>
-      //         </div>
-      //         <a href="#" className="btn btn-primary btn-lg btn-block m-0">
-      //           Get in touch
-      //         </a>
-      //       </div>
-
-      //       <div
-      //         className="card border-dark text-center"
-      //         style={{ width: "45rem" }}
-      //       >
-      //         <img
-      //           className="card-img-top"
-      //           src={photo_valeriy}
-      //           alt="Card image cap"
-      //         />
-      //         <div className="card-body">
-      //           <h5 className="card-title">Teacher's Name</h5>
-      //           <p className="d-md-none d-lg-block card-text font-italic font-weight-light">
-      //             "With supporting text below as a natural lead-in to additional
-      //             content."
-      //           </p>
-      //         </div>
-      //         <a href="#" className="btn btn-primary btn-lg btn-block m-0">
-      //           Get in touch
-      //         </a>
-      //       </div>
-      //     </div>
-      //   </div>
-
-      //   <aside className="col-md-4 blog-sidebar">
-      //     <div
-      //       id="carouselExampleIndicators"
-      //       className="carousel slide"
-      //       data-ride="carousel"
-      //     >
-      //       <ol className="carousel-indicators">
-      //         <li
-      //           data-target="#carouselExampleIndicators"
-      //           data-slide-to="0"
-      //           className="active"
-      //         ></li>
-      //         <li
-      //           data-target="#carouselExampleIndicators"
-      //           data-slide-to="1"
-      //         ></li>
-      //         <li
-      //           data-target="#carouselExampleIndicators"
-      //           data-slide-to="2"
-      //         ></li>
-      //       </ol>
-      //       <div className="carousel-inner">
-      //         <div className="carousel-item active">
-      //           <img className="d-block w-100" src="" alt="First slide" />
-      //           <div className="carousel-caption">
-      //             <a to="/">
-      //               <h5 style={{ color: "ivory" }}>Event name</h5>
-      //             </a>
-      //             <p>Event description</p>
-      //           </div>
-      //         </div>
-
-      //         <div className="carousel-item">
-      //           <img
-      //             className="d-block w-100"
-      //             src=""
-      //             alt="Second slide"
-      //           />
-      //           <div className="carousel-caption">
-      //             <a href="/">
-      //               <h5 style={{ color: "ivory" }}>Event name</h5>
-      //             </a>
-      //             <p>Event description</p>
-      //           </div>
-      //         </div>
-
-      //         <div className="carousel-item">
-      //           <img className="d-block w-100" src="" alt="Third slide" />
-      //           <div className="carousel-caption">
-      //             <a href="#">
-      //               <h5 style={{ color: "ivory" }}>Event name</h5>
-      //             </a>
-      //             <p>Event description</p>
-      //           </div>
-      //         </div>
-      //       </div>
-      //       <a
-      //         className="carousel-control-prev"
-      //         href="#carouselExampleIndicators"
-      //         role="button"
-      //         data-slide="prev"
-      //       >
-      //         <span
-      //           className="carousel-control-prev-icon"
-      //           aria-hidden="true"
-      //         ></span>
-      //         <span className="sr-only">Previous</span>
-      //       </a>
-      //       <a
-      //         className="carousel-control-next"
-      //         href="#carouselExampleIndicators"
-      //         role="button"
-      //         data-slide="next"
-      //       >
-      //         <span
-      //           className="carousel-control-next-icon"
-      //           aria-hidden="true"
-      //         ></span>
-      //         <span className="sr-only">Next</span>
-      //       </a>
-      //     </div>
-      //   </aside>
-      // </div>
-    // </>
+  
   );
 };
 export default HomeLayout;
