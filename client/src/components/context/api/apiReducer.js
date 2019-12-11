@@ -5,11 +5,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  USER_LOADED,
-  UPDATE_USER,
-  UPDATE_ERROR,
-  DELETE_USER,
-  DELETE_ERROR
+  USER_LOADED
 } from "./types";
 
 //state management
@@ -29,7 +25,7 @@ export default (state, action) => {
         ...state,
 
         //user: state.user.filter(u => u !== action.payload),
-        user: [action.payload],
+        user: [action.payload.data],
         isAuthenticated: false,
         loading: false
       };
@@ -62,22 +58,6 @@ export default (state, action) => {
         user: null,
         users: null,
         error: action.payload
-      };
-    // case UPDATE_USER:
-    //   return {
-    //     ...state,
-    //     users: state.users.map(user => {
-    //       user._id === action.payload._id ? action.payload : user;
-    //     }),
-    //     loading: false
-    //   };
-
-    case DELETE_USER:
-      return {
-        ...state,
-        users: state.data.filter(user => user.id !== action.id),
-        loading: false,
-        user: action.payload.data
       };
 
     default:

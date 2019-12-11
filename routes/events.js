@@ -1,14 +1,14 @@
 const express = require("express");
 
 const {
-  getBlogs,
-  getBlog,
-  createBlog,
-  updateBlog,
-  deleteBlog
-} = require("../controllers/blogs");
+  getEvents,
+  getEvent,
+  createEvent,
+  updateEvent,
+  deleteEvent
+} = require("../controllers/events");
 
-const Blog = require("../models/Blog");
+const Event = require("../models/Event");
 
 const router = express.Router({ mergeParams: true });
 const advancedResults = require("../middleware/advancedResults");
@@ -17,18 +17,18 @@ const { authorize, protect } = require("../middleware/auth");
 router
   .route("/")
   .get(
-    advancedResults(Blog, {
+    advancedResults(Event, {
       path: "user",
       select: "name description"
     }),
-    getBlogs
+    getEvents
   )
-  .post(protect, createBlog);
+  .post(protect, createEvent);
 //getCOurse func populate({path:'bootcamp',select:'name descroption '})populate path them
 router
   .route("/:id")
-  .get(getBlog)
-  .put(protect, updateBlog)
-  .delete(protect, deleteBlog);
+  .get(getEvent)
+  .put(protect, updateEvent)
+  .delete(protect, deleteEvent);
 //cant not (/:id/id)get(:/id)
 module.exports = router;

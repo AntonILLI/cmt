@@ -26,7 +26,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 
   console.log(req.files); //file objects... size,encoding,mimetype
   //startswith mimetype -->'image'/jpeg//the file will be accessible from req.files.
-  const file = req.files.file;
+  const file = req.files.photo;
 
   // //make sure the image is a photo
   if (!file.mimetype.startsWith("image")) {

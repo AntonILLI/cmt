@@ -12,7 +12,6 @@ const Navbar = () => {
   const { logout, user, authUser, isAuthenticated } = apiContext;
   useEffect(() => {
     authUser();
-
     // eslint-disable-next-line
   }, []);
   const handleLogout = e => {

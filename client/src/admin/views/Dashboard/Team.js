@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import AdminContext from "../../../components/context/adminAPI/adminContext";
-
+import Button from "@material-ui/core/Button";
 // import IconButton from "@material-ui/core/IconButton";
 // import GitHubIcon from "@material-ui/icons/GitHub";
 // import TwitterIcon from "@material-ui/icons/Twitter";
@@ -35,12 +35,15 @@ const styles = theme => ({
 
 function Group(props) {
   const adminContext = useContext(AdminContext);
-  const { adminUsers, teams, loading } = adminContext;
+  const { adminUsers, teams, loading, deleteUser, updateUser } = adminContext;
 
   useEffect(() => {
     adminUsers();
     //eslint-disable-next-line
   }, []);
+  function onRemove(userId) {
+    deleteUser(userId);
+  }
 
   const { title, description, classes } = props;
   if (loading) return <LoadingComponent />;
@@ -80,6 +83,13 @@ function Group(props) {
                       <Typography variant="body2" color="textSecondary">
                         {team.pricing}
                       </Typography>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => onRemove(team._id)}
+                      >
+                        Delete
+                      </Button>
                     </div>
                   </Grid>
                 </Grid>

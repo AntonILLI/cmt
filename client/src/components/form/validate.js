@@ -33,68 +33,69 @@ const validateLoginForm = data => {
     errors
   };
 };
-// const validateRegisterForm = data => {
-//   const errors = {};
-//   let message = "";
-//   let isFormValid = true;
 
-//   if (
-//     !data.firstname ||
-//     typeof data.firstname !== "string" ||
-//     data.firstname.trim().length === 0
-//   ) {
-//     isFormValid = false;
-//     errors.firstname = "Please provide a first name.";
-//   }
-//   if (
-//     !data.lastname ||
-//     typeof data.lastname !== "string" ||
-//     data.lastname.trim().length === 0
-//   ) {
-//     isFormValid = false;
-//     errors.lastname = "Please provide a last name.";
-//   }
+const validateUpdateForm = data => {
+  const errors = {};
+  let message = "";
+  let isFormValid = true;
 
-//   if (
-//     !data.email ||
-//     typeof data.email !== "string" ||
-//     !validator.isEmail(data.email)
-//   ) {
-//     isFormValid = false;
-//     errors.email = "Please provide a correct email address.";
-//   }
+  if (
+    !data.firstname ||
+    typeof data.firstname !== "string" ||
+    data.firstname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.firstname = "Please provide a first name.";
+  }
+  if (
+    !data.lastname ||
+    typeof data.lastname !== "string" ||
+    data.lastname.trim().length === 0
+  ) {
+    isFormValid = false;
+    errors.lastname = "Please provide a last name.";
+  }
 
-//   if (
-//     !data.password ||
-//     typeof data.password !== "string" ||
-//     data.password.trim().length < 8
-//   ) {
-//     isFormValid = false;
-//     errors.password = "Password must have at least 8 characters.";
-//   }
+  if (
+    !data.email ||
+    typeof data.email !== "string" ||
+    !validator.isEmail(data.email)
+  ) {
+    isFormValid = false;
+    errors.email = "Please provide a correct email address.";
+  }
 
-//   if (!data.confirmPassword || data.confirmPassword !== data.password) {
-//     isFormValid = false;
-//     errors.confirmPassword = "Password confirm doesn't match";
-//   }
+  // if (
+  //   !data.password ||
+  //   typeof data.password !== "string" ||
+  //   data.password.trim().length < 8
+  // ) {
+  //   isFormValid = false;
+  //   errors.password = "Password must have at least 8 characters.";
+  // }
 
-//   if (Array.isArray(data.categories) && data.categories.length === 0) {
-//     isFormValid = false;
-//     errors.categories = "Please check your music profession";
-//   }
+  // if (!data.confirmPassword || data.confirmPassword !== data.password) {
+  //   isFormValid = false;
+  //   errors.confirmPassword = "Password confirm doesn't match";
+  // }
 
-//   if (!isFormValid) {
-//     errors.message = "Check the form for errors.";
-//   }
+  // if (Array.isArray(data.categories) && data.categories.length === 0) {
+  //   isFormValid = false;
+  //   errors.categories = "Please check your music profession";
+  // }
 
-//   return {
-//     success: isFormValid,
-//     message,
-//     errors
-//   };
-// };
+  if (!isFormValid) {
+    errors.message = "Check the form for errors.";
+  }
+
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+};
 
 module.exports = {
-  validateLoginForm: validateLoginForm
-  // validateRegisterForm: validateRegisterForm
+  validateLoginForm: validateLoginForm,
+  validateUpdateForm: validateUpdateForm
 };
