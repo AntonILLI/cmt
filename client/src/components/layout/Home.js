@@ -7,10 +7,10 @@ const Home = () => {
   const apiContext = useContext(ApiContext);
   const { userLoad, users, loading, error } = apiContext;
 
-  useEffect(() => {
-    userLoad();
-    //eslint-disable-next-line
-  }, []);
+  // useEffect(() => {
+  //   userLoad();
+  //   //eslint-disable-next-line
+  // }, []);
 
   if (loading) return <LoadingComponent />;
   return (
@@ -27,6 +27,7 @@ const Home = () => {
       {/* <pre>{JSON.stringify(users, null, 2)}</pre> */}
 
       <HomeLayout />
+
     </React.Fragment>
   );
 };

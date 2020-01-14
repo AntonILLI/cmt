@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import Piano from "./Piano";
+
 //src pictures imported
 import photo_natasha from "../../img/p_natasha_profile.jpg";
 import photo_anna from "../../img/p_anna_profile.jpg";
@@ -10,6 +12,8 @@ import "../../css/materialize.css";
 import M from 'materialize-css';
 let piano = require("../../img/piano-3505109_1920.jpg");
 
+
+
 const styles = {
   container: {
     backgroundImage: `url(${piano})`,
@@ -18,6 +22,34 @@ const styles = {
     paddingTop: 6.5
   }
 };
+
+class Card extends Component {
+
+render() {
+  return (
+  <div className="col s12 m6">
+    <div className="card hoverable">
+      <div className="card-image">
+        <img src={this.props.photo} />
+        <span className="card-title">
+          <blockquote>
+            <p className="bold flow-text">{this.props.name}</p>
+          </blockquote>
+        </span>
+        <button href="" className="tooltipped btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition" data-position="top" data-tooltip="Hello!">
+          <i className="material-icons">audiotrack</i>
+        </button>
+      </div>
+      <div className="card-content">
+        <p>{this.props.greeting}</p>
+      </div>
+    </div>
+  </div>
+  )
+}
+
+}
+
 
 class MaterializeHomePage extends Component {
 
@@ -50,81 +82,24 @@ class MaterializeHomePage extends Component {
              
   <div className="row">
 
+      <Card photo={photo_natasha} name="Natasha Chernousova"
+      greeting="I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively."/>
 
-      <div className="col s12 m6">
-        <div className="card hoverable">
-          <div className="card-image">
-            <img src={photo_natasha} />
-            <span className="card-title">
-              <blockquote>
-              <p className="bold flow-text">Natasha Chernousova</p>
-              </blockquote>
-            </span>
-            <button href="" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition">
-              <i className="material-icons">audiotrack</i>
-            </button>
-          </div>
-          <div className="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-          </div>
-        </div>
-      </div>
+      <Card photo={photo_anna} name="Anna Maxymova"
+      greeting="I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively."/>
 
-      <div className="col s12 m6">
-        <div className="card hoverable">
-          <div className="card-image">
-            <img src={photo_anna} />
-            <span className="card-title">
-              <blockquote>
-                <p className="flow-text">Anna Maxymova</p>
-              </blockquote>
-            </span>
-            <a href="#modal1" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition"><i className="material-icons">audiotrack</i></a>
-          </div>
-          <div className="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-          </div>
-        </div>
-      </div>
+  </div>
+ 
+  <div className="row">
 
+      <Card photo={photo_valeriy} name="Valeriy Maxymov"
+      greeting="I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively."/>
 
-    </div>
-    
-    <div className="row">
+      <Card photo={photo_iryna} name="Iryna Maxymova"
+      greeting="I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively."/>
 
+  </div>
 
-        <div className="col s12 m6">
-            <div className="card hoverable">
-              <div className="card-image">
-                <img src={photo_valeriy} />
-                <span className="card-title">
-                  <blockquote>
-                  <p className="flow-text">Valeriy Maxymov</p>
-                </blockquote></span>
-                <a href="#modal1" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition"><i className="material-icons">audiotrack</i></a>
-              </div>
-              <div className="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-              </div>
-            </div>
-          </div>
-
-
-        <div className="col s12 m6">
-          <div className="card hoverable">
-            <div className="card-image">
-              <img src={photo_iryna} />
-              <span className="card-title"><blockquote><p className="flow-text">Iryna Maxymova</p></blockquote></span>
-              <a href="#modal1" className="btn-large btn-floating halfway-fab waves-effect waves-light brown darken-4 pulse scale-transition"><i className="material-icons">audiotrack</i></a>
-            </div>
-            <div className="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
 </div>
 </div>
 
@@ -252,7 +227,13 @@ class MaterializeHomePage extends Component {
             </div>
           </footer>
 
+<div className="section white">
+<div className="row container">
 
+  <Piano />
+
+</div>
+</div>
 
 </div>
     )
