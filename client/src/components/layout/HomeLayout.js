@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Piano from "./Piano";
+import ContactForm from "./ContactForm";
 
 //src pictures imported
 import photo_natasha from "../../img/p_natasha_profile.jpg";
@@ -7,12 +8,9 @@ import photo_anna from "../../img/p_anna_profile.jpg";
 import photo_valeriy from "../../img/p_valeriy_profile.jpg";
 import photo_iryna from "../../img/p_iryna_profile.jpg";
 
-
 import "../../css/materialize.css";
 import M from 'materialize-css';
 let piano = require("../../img/piano-3505109_1920.jpg");
-
-
 
 const styles = {
   container: {
@@ -169,32 +167,8 @@ class MaterializeHomePage extends Component {
     <h2 className="header">Contact Us</h2>
 
       <div className="row">
-          <form className="col s12">
-            <div className="row">
-              <div className="input-field col l6 m6 s12">
-                <i className="material-icons prefix">account_circle</i>
-                <input id="first_name" type="text" className="validate" />
-                <label htmlFor="first_name">First Name</label>
-              </div>
-              <div className="input-field col l6 m6 s12">
-                <i className="material-icons prefix">phone</i>
-                <input id="icon_telephone" type="tel" className="validate" />
-                <label htmlFor="icon_telephone">Telephone</label>
-              </div>
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">email</i>
-                  <input id="email" type="email" className="validate" />
-                  <label htmlFor="email">Email</label>
-                  <span className="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                </div>
-                  <div className="input-field col s12">
-                    <i className="material-icons prefix">mode_edit</i>
-                    <textarea id="icon_prefix2" className="materialize-textarea"></textarea>
-                    <label htmlFor="icon_prefix2">Message</label>
-                  </div>
-                </div>
-            </form>
-        </div>
+          <ContactForm />
+      </div>
 
 
 </div>
