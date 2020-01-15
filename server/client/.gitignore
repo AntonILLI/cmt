@@ -8,7 +8,7 @@
 
 # production
 /build
-
+/public/uploads/photo_5df1fb9bb603a8ffe6cfbdd2.png
 # misc
 .DS_Store
 .env.local
