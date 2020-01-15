@@ -1,28 +1,28 @@
-.nav-wrapper, footer {
-    background: radial-gradient(#5d4037 , #3e2723);
+.nav-wrapper,
+footer {
+    background: radial-gradient(#5d4037, #3e2723);
 }
 
 .slider .indicators .indicator-item.active {
-background-color: #ee6e73;
+    background-color: #ee6e73;
 }
 
 #firstImage {
-height: 560px;
+    height: 560px;
 }
 
 @font-face {
-font-family: 'Rhodyn Chalk Rhodyn Chalk';
-font-style: normal;
-font-weight: bold;
-src: local('Rhodyn Chalk Rhodyn Chalk'), url('Rhodyn Chalk.woff') format('woff');
+    font-family: 'Rhodyn Chalk Rhodyn Chalk';
+    font-style: normal;
+    font-weight: bold;
+    src: local('Rhodyn Chalk Rhodyn Chalk'), url('Rhodyn Chalk.woff') format('woff');
 }
 
 #header {
-font-family: 'Rhodyn Chalk Rhodyn Chalk';
-color: #efebe9  ;
+    font-family: 'Rhodyn Chalk Rhodyn Chalk';
+    color: #efebe9;
 }
 
 .flow-text {
-font-weight: bold;
+    font-weight: bold;
 }
-  

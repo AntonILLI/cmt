@@ -22,10 +22,24 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 //@route POST/api/v1/auth/users/users//@accsss Private
 
 exports.createUser = asyncHandler(async (req, res, next) => {
-  //const user = await User.create(req.body);
+  const user = await User.findById(req.params.id);
 
+  if (!user) {
+    return next(
+      new ErrorResponse(`user not found with id of ${req.params.id}`, 404)
+    );
+  }
+
+  // if (user.toString() !== req.user.id) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.params.id} is not authorized to update this data`,
+  //       401
+  //     )
+  //   );
+  // }
   console.log(req.files); //file objects... size,encoding,mimetype
-  //startswith mimetype -->'image'/jpeg//the file will be accessible from req.files.
+
   const file = req.files.photo;
 
   // //make sure the image is a photo
@@ -42,7 +56,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
   }
   //mv mode directory//ext extention
   //Create custom filename //file name extension original photo._id & original file name
-  file.name = `photo_${path.parse(file.name).ext}`;
+  file.name = `photo_${user._id}${path.parse(file.name).ext}`;
 
   //upload path
 

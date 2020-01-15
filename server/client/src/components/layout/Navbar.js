@@ -4,7 +4,6 @@ import ApiContext from "../context/api/apiContext";
 
 //import AudiotrackSharpIcon from "@material-ui/icons/AudiotrackSharp";
 // import AssignmentIcon from "@material-ui/icons/Assignment";
-import SvgIcon from "@material-ui/core/SvgIcon";
 
 const Navbar = () => {
   const apiContext = useContext(ApiContext);

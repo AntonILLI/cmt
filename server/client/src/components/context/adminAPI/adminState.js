@@ -32,9 +32,9 @@ const AdminState = props => {
     }
   };
 
-  const addUsers = async userData => {
+  const addUsers = async (userData, userId) => {
     try {
-      const res = await axios.post("/api/v1/users", userData, {
+      const res = await axios.post(`/api/v1/users/${userId}`, userData, {
         headers: {
           "Content-type": "multipart/form-data"
         }
