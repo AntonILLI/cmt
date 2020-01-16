@@ -34,8 +34,8 @@ class ContactForm extends React.Component {
                     <label htmlFor="message">Message</label>
                   </div>
                 </div>
-                <button class="btn waves-effect waves-light" type="submit" onClick={alertMessage}>Submit
-                  <i class="material-icons right">send</i>
+                <button className="btn waves-effect waves-light" type="submit" onClick={alertMessage}>Submit
+                  <i className="material-icons right">send</i>
                 </button>
             </form>
         );
