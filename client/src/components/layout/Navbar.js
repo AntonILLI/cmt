@@ -8,27 +8,15 @@ import ApiContext from "../context/api/apiContext";
 const Navbar = () => {
   const apiContext = useContext(ApiContext);
 
-  const { logout, user, authUser, isAuthenticated } = apiContext;
-  useEffect(() => {
-    authUser();
-    // eslint-disable-next-line
-  }, []);
+  const { logout, isAuthenticated } = apiContext;
+
   const handleLogout = e => {
     e.preventDefault();
     logout();
   };
 
-  const authLinks = (
+  const authLink = (
     <>
-      <div>
-        {user && (
-          <div>
-            {user.map((u, i) => (
-              <div key={i}>Hello {u.firstname}</div>
-            ))}
-          </div>
-        )}
-      </div>
       <header>
         <nav className="brown darken-4">
           <div className="nav-wrapper">
@@ -40,25 +28,16 @@ const Navbar = () => {
             </a>
             <ul className="right hide-on-med-and-down">
               <li>
-                <Link className="nav-link">
+                <Link to="/" className="nav-link">
                   Home <span className="sr-only">(current)</span>
                 </Link>
               </li>
               <li>
-                <a href="badges.html">Components</a>
-              </li>
-              <li>
-                <a href="admin/dashboard">Dashboard</a>
-              </li>
-              <li>
-                <Link to="login">
-                  {/* <AudiotrackSharpIcon /> */}
-                  <span>Sign-IN</span>
-                </Link>
+                <Link to="#">Components</Link>
               </li>
               <li>
                 <Link to="/" onClick={handleLogout}>
-                  Logout
+                  Sing-Out
                 </Link>
               </li>
             </ul>
@@ -72,23 +51,17 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <a href="badges.html">Components</a>
+            <Link to="#">Components</Link>
           </li>
           <li>
-            <Link to="admin/dashboard">Javascript</Link>
-          </li>
-          <li>
-            <Link to="login">
-              {/* <AudiotrackSharpIcon /> */}
-              <span>Sign-IN</span>
-            </Link>
+            <Link to="logout">Sign-Out</Link>
           </li>
         </ul>
       </header>
     </>
   );
 
-  const guestLinks = (
+  const guestLink = (
     <>
       <header>
         <nav className="brown darken-4">
@@ -106,13 +79,13 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <a href="badges.html">Components</a>
+                <Link to="#">Components</Link>
               </li>
               <li>
-                <a href="collapsible.html">Javascript</a>
+                <Link href="#">Javascript</Link>
               </li>
               <li>
-                <Link to="login">
+                <Link to="signIn">
                   {/* <AudiotrackSharpIcon /> */}
                   <span>Sign-IN</span>
                 </Link>
@@ -128,13 +101,11 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <a href="badges.html">Components</a>
+            <Link to="#">Components</Link>
           </li>
+
           <li>
-            <a href="">DashBaord</a>
-          </li>
-          <li>
-            <Link to="login">
+            <Link to="signIn">
               {/* <AudiotrackSharpIcon /> */}
               <span>Sign-IN</span>
             </Link>
@@ -146,7 +117,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+      <ul>{isAuthenticated ? authLink : guestLink}</ul>
     </div>
   );
 };

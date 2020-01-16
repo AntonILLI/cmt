@@ -12,14 +12,12 @@ import {
   UPDATE_ERROR,
   DELETE_USER,
   DELETE_ERROR,
-  USER_LOADED,
+  USER_LOAD,
   USER_ERROR
 } from "./types";
-import setAuthToken from "../../utils/setAuthToken";
 
 const ApiState = props => {
   const initialState = {
-    token: localStorage.getItem("token"),
     users: null,
     user: null,
     isAuthenticated: null,
@@ -34,12 +32,9 @@ const ApiState = props => {
   const [state, dispatch] = useReducer(apiReducer, initialState);
 
   const userLoad = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
     try {
       const res = await axios.get("/api/v1/users");
-      dispatch({ type: USER_LOADED, payload: res.data });
+      dispatch({ type: USER_LOAD, payload: res.data });
       console.log(res.data);
     } catch (err) {
       dispatch({ type: USER_ERROR });
@@ -83,7 +78,6 @@ const ApiState = props => {
   return (
     <ApiContext.Provider
       value={{
-        token: state.token,
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
         users: state.users,

@@ -124,10 +124,8 @@ function FormField({ userId }) {
             touched,
             handleSubmit,
             isSubmitting,
-            isValidating,
             handleReset,
             dirty,
-            height,
             isValid
           }) => {
             return (

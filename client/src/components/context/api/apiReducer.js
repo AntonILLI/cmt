@@ -5,14 +5,14 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  USER_LOADED
+  USER_LOAD
 } from "./types";
 
 //state management
 
 export default (state, action) => {
   switch (action.type) {
-    case USER_LOADED:
+    case USER_LOAD:
       return {
         ...state,
         users: action.payload.data,
@@ -26,7 +26,7 @@ export default (state, action) => {
 
         //user: state.user.filter(u => u !== action.payload),
         user: [action.payload.data],
-        isAuthenticated: false,
+        isAuthenticated: true,
         loading: false
       };
 

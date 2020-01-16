@@ -11,7 +11,7 @@ const Sidebar = () => {
         <MenuToggle />
         <ul className="icons-list">
           <li>
-            <Link to="/admin/dashboard" className="icon-link">
+            <Link to="/admin" className="icon-link">
               <i className="fab fa-codepen"></i>
             </Link>
           </li>
@@ -34,13 +34,13 @@ const Sidebar = () => {
           </li>
 
           <li>
-            <Link to="/home" className="icon-link">
+            <Link to="/" className="icon-link">
               <i className="fas fa-home"></i>
             </Link>
           </li>
 
           <li>
-            <Link to="/logOut" className="icon-link">
+            <Link to="/" className="icon-link">
               <i className="fas fa-sign-out-alt"></i>
             </Link>
           </li>

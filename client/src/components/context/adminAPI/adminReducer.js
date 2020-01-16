@@ -12,21 +12,22 @@ export default (state, action) => {
     case ADMIN_USERS:
       return {
         ...state,
-        teams: action.payload.data,
+        teachers: action.payload.data,
         loading: false
       };
 
     case ADD_USERS:
       return {
         ...state,
-        teams: action.payload.data,
+        teachers: action.payload.data,
+
         loading: false
       };
     case UPDATE_USER:
       return {
         ...state,
-        contacts: state.teams.map(team =>
-          team._id === action.payload._id ? action.payload : team
+        contacts: state.teachers.map(teacher =>
+          teacher._id === action.payload._id ? action.payload : teacher
         ),
         loading: false
       };
@@ -34,7 +35,9 @@ export default (state, action) => {
     case DELETE_USER:
       return {
         ...state,
-        teams: state.teams.filter(team => team.id !== action.payload),
+        teachers: state.teachers.filter(
+          teacher => teacher.id !== action.payload
+        ),
         loading: false,
         user: action.payload.data
       };
