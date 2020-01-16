@@ -51,7 +51,7 @@ function Admin() {
                 <Switch location={item}>
                   <Route
                     exact
-                    path="/admin/dashboard"
+                    path="/admin"
                     component={Dashboard}
                     location={location}
                   />

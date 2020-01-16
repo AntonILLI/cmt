@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
-import PopupMessage from "../../globals/PupupMessage";
+import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
 import styled from "styled-components";
 import ImgDropAndCrop from "./ImgDropAndCrop";
@@ -124,10 +124,8 @@ function FormField({ userId }) {
             touched,
             handleSubmit,
             isSubmitting,
-            isValidating,
             handleReset,
             dirty,
-            height,
             isValid
           }) => {
             return (

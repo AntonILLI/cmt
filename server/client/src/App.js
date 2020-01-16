@@ -1,19 +1,14 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import Navbar from "./components/layout/Navbar";
+
 import Home from "./components/layout/Home";
-// import SignIn from "./components/form/SignIn";
+import SignIn from "./components/form/SignIn";
 import Navbar from "./components/layout/Navbar";
 import ApiState from "./components/context/api/apiState";
 import AdminState from "./components/context/adminAPI/adminState";
-
-// import 'materialize-css/dist/css/materialize.min.css';
-// import AdminDashboard from "./components/admin/adminDashboard";
-import Admin from "../src/admin/Admin";
-
-// const AdminParams = () => {
-//   let { params } = useParams();
-// };
+import Auth from "./components/utils/AuthRoute";
+import Admin from "./admin/Admin";
+import NotFound from "./components/utils/NotFound";
 
 const NavRoute = ({ exact, path, component: Component }) => (
   <Route
@@ -33,14 +28,14 @@ const App = () => {
     <AdminState>
       <ApiState>
         <Router>
-          <Fragment>
-           
+          <>
             <Switch>
               <NavRoute exact path="/" component={Home} />
-              {/* <NavRoute exact path="/login" component={SignIn} /> */}
-              <Route path="/admin" component={Admin} />
+              <NavRoute exact path="/signIn" component={SignIn} />
+              <Auth path="/admin" component={Admin} />
+              <Route path="*" component={NotFound} />
             </Switch>
-          </Fragment>
+          </>
         </Router>
       </ApiState>
     </AdminState>

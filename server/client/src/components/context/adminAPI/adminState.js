@@ -15,7 +15,7 @@ import {
 
 const AdminState = props => {
   const initialState = {
-    teams: {},
+    teachers: [],
     error: null,
     loading: null
   };
@@ -24,17 +24,17 @@ const AdminState = props => {
 
   const adminUsers = async () => {
     try {
-      const res = await axios.get("/api/v1/users/admin");
-      console.log(res.data);
+      const res = await axios.get("/api/v1/users/admin", {});
+      console.log(res);
       dispatch({ type: ADMIN_USERS, payload: res.data });
     } catch (err) {
       dispatch({ type: ADMIN_ERROR });
     }
   };
 
-  const addUsers = async (userData, userId) => {
+  const addUsers = async userData => {
     try {
-      const res = await axios.post(`/api/v1/users/${userId}`, userData, {
+      const res = await axios.post("/api/v1/users", userData, {
         headers: {
           "Content-type": "multipart/form-data"
         }
@@ -48,14 +48,18 @@ const AdminState = props => {
     }
   };
 
-  const updateUser = async team => {
+  const updateUser = async teacher => {
     const config = {
       headers: {
         "Content-Type": "application/json"
       }
     };
     try {
-      const res = await axios.put(`/api/v1/users/${team._id}`, team, config);
+      const res = await axios.put(
+        `/api/v1/users/${teacher._id}`,
+        teacher,
+        config
+      );
       dispatch({ type: UPDATE_USER, payload: res.data }); //response data to server
     } catch (err) {
       dispatch({
@@ -78,7 +82,7 @@ const AdminState = props => {
   return (
     <AdminContext.Provider
       value={{
-        teams: state.teams,
+        teachers: state.teachers,
         error: state.error,
         loading: state.loading,
         adminUsers,

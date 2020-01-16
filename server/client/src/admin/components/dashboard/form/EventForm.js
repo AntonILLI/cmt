@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Formik, Form } from "formik";
-import PopupMessage from "../../globals/PupupMessage";
+import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
 import { useTrail, animated } from "react-spring";
 import styled from "styled-components";

@@ -200,7 +200,7 @@ const Navigation = () => {
 
       <MyNavigationList className="browser-default">
         <li className="navigation-item">
-          <Link to="/admin/dashboard" className="navigation-link">
+          <Link to="/admin" className="navigation-link">
             Admin-Dashboard
           </Link>
         </li>
@@ -222,13 +222,13 @@ const Navigation = () => {
         </li>
 
         <li className="navigation-item ">
-          <Link to="#" className="navigation-link">
+          <Link to="/" className="navigation-link">
             Home
           </Link>
         </li>
 
         <li className="navigation-item ">
-          <Link to="#" className="navigation-link">
+          <Link to="/" className="navigation-link">
             log-out
           </Link>
         </li>

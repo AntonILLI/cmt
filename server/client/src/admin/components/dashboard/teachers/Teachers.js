@@ -1,5 +1,5 @@
 //teachers cards page component admindashboard landing page
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ReactParticles from "react-particles-js";
 import configJson from "../../globals/configJson.js";
@@ -12,8 +12,9 @@ import EditIcon from "../svg-icons/Edit";
 import RemoveIcon from "../svg-icons/Remove";
 
 import CallModal from "../../modal/CallModal";
+// import AdminContext from "../../../../components/context/adminAPI/adminContext";
 
-function Teachers() {
+function Teachers({ teachers }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const ReadMore = ({ children, maxCharacter = 100 }) => {
@@ -42,37 +43,6 @@ function Teachers() {
     );
   };
 
-  const data = [
-    {
-      id: 1,
-      firstname: "Dan",
-      title: "happy music",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minimalabore magni assumenda laboriosam nesciunt animi dolorem inventore mollitia nihil, possimus, vitae odio. Veniam alias,mollitia ab rem tenetur sint ex."
-    },
-    {
-      id: 2,
-      firstname: "Helen",
-      title: "professional pianist",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minimalabore magni assumenda laboriosam nesciunt animi dolorem inventore mollitia nihil, possimus, vitae odio. Veniam alias,mollitia ab rem tenetur sint ex."
-    },
-    {
-      id: 3,
-      firstname: "Dan",
-      title: "happy music",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minimalabore magni assumenda laboriosam nesciunt animi dolorem inventore mollitia nihil, possimus, vitae odio. Veniam alias,mollitia ab rem tenetur sint ex."
-    },
-    {
-      id: 4,
-      firstname: "Dan",
-      title: "happy music",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minimalabore magni assumenda laboriosam nesciunt animi dolorem inventore mollitia nihil, possimus, vitae odio. Veniam alias,mollitia ab rem tenetur sint ex."
-    }
-  ];
-
   return (
     <MySection>
       <Particles>
@@ -89,14 +59,16 @@ function Teachers() {
         </MyParagraph>
         　{" "}
         <MyCardWrapper>
-          {data.map(teacher => (
+          {teachers.map(teacher => (
             <>
-              <TeacherCards key={teacher.id}>
+              <TeacherCards key={teacher._id}>
                 <div className="teachers-image-wrapper">
                   <img src={img} className="teachers-image"></img>
                 </div>
                 <div className="teachers-info">
-                  <h3 className="teachers-firstname">{teacher.firstname}</h3>
+                  <h3 className="teachers-firstname">
+                    {`${teacher.firstname} ${teacher.lastname}`}
+                  </h3>
 
                   <p className="teachers-title">{teacher.title}</p>
 

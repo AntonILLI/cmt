@@ -18,13 +18,15 @@ const { protect } = require("../middleware/auth");
 
 // router.use(protect);
 
-router.route("/").get(advancedResults(User), getUsers);
+router
+  .route("/")
+  .get(advancedResults(User), getUsers)
+  .post(protect, createUser);
 
 router.route("/admin").get(advancedResults(User), getUsers);
 
 router
   .route("/:id")
-  .post(protect, createUser)
   .get(protect, getUser)
   .put(protect, updateUser)
   .delete(protect, deleteUser);

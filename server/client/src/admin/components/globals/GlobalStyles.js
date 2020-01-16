@@ -1,4 +1,4 @@
-//global style applies to child component 
+//global style applies to child component
 import { createGlobalStyle } from "styled-components";
 
 const Globals = createGlobalStyle`
