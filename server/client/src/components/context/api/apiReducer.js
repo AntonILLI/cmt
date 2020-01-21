@@ -5,7 +5,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  USER_LOAD
+  USER_LOAD,
+  RESET_PASSWORD,
+  FORGOT_PASS
 } from "./types";
 
 //state management
@@ -37,6 +39,16 @@ export default (state, action) => {
         ...action.payload,
         isAuthenticated: true,
         loading: false
+      };
+      case FORGOT_PASS:
+        return{
+          ...state,
+          user:action.payload.data
+        }
+    case RESET_PASSWORD:
+      return {
+        ...state,
+        user: action.payload.data
       };
     case LOGOUT:
       localStorage.removeItem("token");

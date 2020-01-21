@@ -18,12 +18,15 @@ import Toggle from "./components/globals/Toggle";
 import { ModalProviders } from "./components/modal/Modal";
 import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 import { useTransition, animated } from "react-spring";
+import EventCallModal from "../admin/components/modal/EventCallModal";
+import CallModal from "../admin/components/modal/CallModal";
 
 function Admin() {
   //router
   // const { location } = useContext(__RouterContext);
   const location = useLocation();
   console.log(location);
+  // const history = useHistory();
 
   //transition,location.name is key,objects for transition
   const transitions = useTransition(location, location => location.pathname, {
@@ -62,6 +65,15 @@ function Admin() {
                     path="/admin/eventTable"
                     component={EventTableList}
                     location={location}
+                  />
+                  <Route
+                    path="/admin/eventModalPage/:id"
+                    component={EventCallModal}
+                  />
+
+                  <Route
+                    path="/admin/modalPage/:params"
+                    component={CallModal}
                   />
                 </Switch>
               </animated.div>

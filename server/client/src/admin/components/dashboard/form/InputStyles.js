@@ -3,50 +3,30 @@ import styled, { css } from "styled-components";
 import Input, { NormalInput, NormalTextArea } from "./Input";
 
 export const PageWrapper = styled.section`
-  &,
-  & * {
-    box-sizing: border-box;
-    display: block;
-  }
-
   hr {
     display: block;
-    border: none;
-    border-top: 1px solid ${({ theme }) => theme.toggleBorder};
+    border: "none";
+
+    border-top: ${props => (props.Border ? "3px" : "1px")} solid
+      ${({ theme }) => theme.toggleBorder };
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  margin-left: 8rem;
+  width: ${props => (props.Width ? "95vw" : "")};
+  margin-left: ${props => (props.Margin ? "0rem" : "8rem")};
+  margin-bottom: ${props => (props.Margin ? "0rem" : "2rem")};
   font-family: "Montserrat", sans-serif;
   font-size: 1.2rem;
   line-height: 2rem;
   max-width: 90em;
   /* margin-left: auto; */
-  margin-right: auto;
-  margin-top: 2rem;
+  margin-right: ${props => (props.Margin ? "0rem" : "8rem")};
+  margin-top: ${props => (props.Margin ? "0rem" : "2rem")};
   padding: 1rem 0.75rem;
-  border: 1px solid ${({ theme }) => theme.toggleBorder};
+  border: ${props => (props.Border ? "7px" : "1px")} solid
+    ${({ theme }) => theme.toggleBorder};
   border-radius: 4px;
 `;
-
-// export const CodeWrapper = styled.pre`
-//   font-family: "Montserrat", sans-serif;
-//   font-size: 1.2rem;
-//   line-height: 1.25rem;
-//   background-color: hsl(210, 4%, 96%);
-//   overflow: auto;
-//   padding: 0.75rem;
-//   margin: 0;
-//   border-radius: 4px;
-
-//   & strong {
-//     margin-top: 2rem;
-
-//     &:first-child {
-//       margin-top: 0;
-//     }
-//   }
-// `;
 
 export const Title = styled.h1`
   font-size: ${props => (props.size ? "3rem" : "1.75rem")};

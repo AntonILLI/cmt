@@ -1,14 +1,17 @@
 //Form with formik and yup validation in eventForm
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Formik, Form } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
 import { useTrail, animated } from "react-spring";
 import styled from "styled-components";
-import ImgDropAndCrop from "./ImgDropAndCrop";
+// import ImgDropAndCrop from "./ImgDropAndCrop";
 import { screenSmallerThan } from "../../globals/Util";
 import { MyParagraph } from "../teachers/Teachers";
+import FileUpload from "./FileUpload";
+import EventContext from "../../../../components/context/eventAPI/eventContext";
+
 import {
   PageWrapper,
   Title,
@@ -18,12 +21,26 @@ import {
   Submit
 } from "./InputStyles";
 
+const FileSize = 15000000;
+const FormatType = ["image/jpg", "image/jpeg", "image/png"];
+
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Please enter your title"),
   description: Yup.string()
     .min(10, "Your description is too short")
     .required("Please enter your description"),
-  file: Yup.array()
+  photo: Yup.mixed()
+    .required("A file is required")
+    .test(
+      "fileSize",
+      "File too large",
+      value => value && value.size <= FileSize
+    )
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      value => value && FormatType.includes(value.type)
+    )
 });
 
 const items = [
@@ -79,8 +96,11 @@ export const MyTitle = styled.div`
 
 //will use userId for save or delete conttent
 function EventForm() {
+  const eventContext = useContext(EventContext);
+  const { createEvent, loading, error } = eventContext;
+
   const ref = useRef(null);
-  const [formValues, setFormValues] = useState();
+  // const [formValues, setFormValues] = useState();
 
   const [toggle, setToggle] = useState(true);
 
@@ -125,27 +145,21 @@ function EventForm() {
           initialValues={{
             title: "",
             description: "",
-            file: []
+            photo: null
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
-            console.log(values);
+            const data = new FormData();
+            data.append("photo", values.photo);
+            data.append("title", values.title);
+            data.append("description", values.description);
+            createEvent(data);
 
-            JSON.stringify(
-              {
-                file: values.file.map(file => ({
-                  fileName: file.name,
-                  type: file.type,
-                  size: `${file.size} bytes`
-                }))
-              },
-              null,
-              2
-            );
-            setFormValues(values);
+            console.log(values);
 
             const timeOut = setTimeout(() => {
               ref.current(" Submitted Successfully!!");
+
               actions.setSubmitting(false);
 
               clearTimeout(timeOut);
@@ -161,7 +175,8 @@ function EventForm() {
             isValidating,
             handleReset,
             dirty,
-            isValid
+            isValid,
+            setFieldValue
           }) => {
             return (
               <>
@@ -205,16 +220,28 @@ function EventForm() {
                       {errors.description}
                     </StyledInlineErrorMessage>
                   )}
-                  <Label htmlFor="title">
+
+                  <Label htmlFor="photo">
                     Image
-                    <ImgDropAndCrop />
+                    <MyInput
+                      className="browser-default"
+                      name="photo"
+                      component={FileUpload}
+                      autoCorrect="off"
+                      autoComplete="photo"
+                      placeholder="your photo"
+                      valid={touched.photo && !errors.photo}
+                      error={touched.photo && errors.photo}
+                    />
                   </Label>
+                  {errors.photo && touched.photo && (
+                    <StyledInlineErrorMessage>
+                      {errors.photo}
+                    </StyledInlineErrorMessage>
+                  )}
+
                   {/* to do onclick after submit validation done probably ternary operator   */}
-                  <Submit
-                    className="browser-default"
-                    type="submit"
-                    disabled={!isValid || isSubmitting}
-                  >
+                  <Submit type="submit" disabled={!isValid || isSubmitting}>
                     {isSubmitting ? `Submiting...` : `Submit`}
                   </Submit>
 
@@ -229,15 +256,11 @@ function EventForm() {
                   </button>
                   <PopupMessage children={add => (ref.current = add)} />
                 </Form>
-
                 <hr />
-
-                {/* <CodeWrapper>
-                <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
+                {/* <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
                 <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
-                {formValues && <strong>Submitted values:</strong>}
-                {JSON.stringify(formValues, null, 2)}
-              </CodeWrapper> */}
+                {/* {formValues && <strong>Submitted values:</strong>}
+                {JSON.stringify(values, null, 2)} */}
               </>
             );
           }}

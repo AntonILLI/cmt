@@ -22,7 +22,7 @@ export function ModalProviders({ children }) {
   );
 }
 
-export function Modal({ onClose, children, ...props }) {
+export function Modal({ onClick, children, ...props }) {
   const modalNode = useContext(Context);
 
   return modalNode
@@ -30,7 +30,7 @@ export function Modal({ onClose, children, ...props }) {
         <Overlay>
           <Dialog {...props}>
             {children}
-            <div onClick={onClose} />
+            <div onClick={onClick} />
           </Dialog>
         </Overlay>,
         modalNode
@@ -51,7 +51,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 200vh;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.3);
 `;
 
@@ -64,7 +64,6 @@ const Dialog = styled.div`
     #007ab4,
     #185a9d
   );
-  padding: 20px;
   position: absolute;
   top: 50%;
   left: 50%;

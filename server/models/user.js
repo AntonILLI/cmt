@@ -59,11 +59,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "no-photo.jpg"
   },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user"
-  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {

@@ -29,7 +29,7 @@ const Card = () => {
                     objectFit: "fill",
                     overflow: "none"
                   }}
-                  src={require(`../../img/${user.photo}`)}
+                  src={require(`../../../public/uploads/${user.photo}`)}
                 />
                 <span className="card-title">
                   <blockquote>

@@ -8,12 +8,12 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  UPDATE_USER,
-  UPDATE_ERROR,
-  DELETE_USER,
-  DELETE_ERROR,
+  RESET_PASSWORD,
+  RESET_FAIL,
   USER_LOAD,
-  USER_ERROR
+  USER_ERROR,
+  FORGOT_PASS,
+  FORGOT_FAIL
 } from "./types";
 
 const ApiState = props => {
@@ -70,6 +70,56 @@ const ApiState = props => {
     }
   };
 
+  const forgotPassword = async Temail => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.post(
+        `/api/v1/auth/forgotPassword`,
+        Temail,
+        config
+      );
+      dispatch({
+        type: FORGOT_PASS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: FORGOT_FAIL,
+        payload: err.response.data.message
+      });
+    }
+  };
+
+  const resetPassword = async (resetToken, password) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.post(
+        `/api/v1/auth/resetPassword/:${resetToken}`,
+        password,
+        config
+      );
+      dispatch({
+        type: RESET_PASSWORD,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: RESET_FAIL,
+        payload: err.response.data.message
+      });
+    }
+  };
+
   const logout = () => {
     const res = axios.get("/api/v1/auth/logout");
     dispatch({ type: LOGOUT });
@@ -86,7 +136,9 @@ const ApiState = props => {
         authUser,
         userLoad,
         login,
-        logout
+        logout,
+        resetPassword,
+        forgotPassword
       }}
     >
       {props.children}
@@ -95,22 +147,3 @@ const ApiState = props => {
 };
 
 export default ApiState;
-
-//  REGISTER_SUCCESS,
-//  REGISTER_FAIL,
-// const register = async userData => {
-//   try {
-//     const res = await axios.post("/api/", userData);
-
-//     dispatch({
-//       type: REGISTER_SUCCESS,
-//       payload: res.data
-//     });
-//     // authUser();
-//   } catch (err) {
-//     dispatch({
-//       type: REGISTER_FAIL,
-//       payload: err.response.data.message
-//     });
-//   }
-// };

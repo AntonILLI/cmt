@@ -34,7 +34,7 @@ const AdminState = props => {
 
   const addUsers = async userData => {
     try {
-      const res = await axios.post("/api/v1/users", userData, {
+      const res = await axios.post("/api/v1/users/create", userData, {
         headers: {
           "Content-type": "multipart/form-data"
         }
@@ -48,7 +48,10 @@ const AdminState = props => {
     }
   };
 
-  const updateUser = async teacher => {
+//pass the params in the router as ObjectId in backend 
+//findByAndUpdate will identify the passed params ==== ObjectId of Users 
+//params form callModal, map find teachrs.id which will be matching data 
+  const updateUser = async (teacher, params) => {
     const config = {
       headers: {
         "Content-Type": "application/json"
@@ -56,7 +59,7 @@ const AdminState = props => {
     };
     try {
       const res = await axios.put(
-        `/api/v1/users/${teacher._id}`,
+        `/api/v1/users/${params}/update`,
         teacher,
         config
       );
@@ -71,7 +74,7 @@ const AdminState = props => {
 
   const deleteUser = async id => {
     try {
-      await axios.delete(`/api/v1/users/${id}`);
+      await axios.delete(`/api/v1/users/${id}/delete`);
 
       dispatch({ type: DELETE_USER, payload: id });
     } catch (err) {

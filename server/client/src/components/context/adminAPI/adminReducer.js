@@ -26,8 +26,8 @@ export default (state, action) => {
     case UPDATE_USER:
       return {
         ...state,
-        contacts: state.teachers.map(teacher =>
-          teacher._id === action.payload._id ? action.payload : teacher
+        teachers: state.teachers.map(t =>
+          t._id === action.payload._id ? action.payload : t
         ),
         loading: false
       };
@@ -35,9 +35,7 @@ export default (state, action) => {
     case DELETE_USER:
       return {
         ...state,
-        teachers: state.teachers.filter(
-          teacher => teacher.id !== action.payload
-        ),
+        teachers: state.teachers.filter(t => t.id !== action.payload),
         loading: false,
         user: action.payload.data
       };

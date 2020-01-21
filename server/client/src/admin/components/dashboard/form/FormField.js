@@ -1,11 +1,11 @@
 //Form in the user profile form
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
 import styled from "styled-components";
-import ImgDropAndCrop from "./ImgDropAndCrop";
+import FileUpload from "./FileUpload";
 // import PopupMessage from "../../globals/PupupMessage";
 import { screenSmallerThan } from "../../globals/Util";
 // import { MyTitle, MySection } from "../teachers/Teachers";
@@ -17,6 +17,10 @@ import {
   StyledInlineErrorMessage,
   Submit
 } from "./InputStyles";
+import AdminContext from "../../../../components/context/adminAPI/adminContext";
+
+const FileSize = 15000000;
+const FormatType = ["image/jpg", "image/jpeg", "image/png"];
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string()
@@ -25,12 +29,30 @@ const validationSchema = Yup.object().shape({
   lastname: Yup.string()
     .min(2, "Your lastname is too short")
     .required("Please enter your last name"),
+  password: Yup.string()
+    .min(6, "Your password is more than 6")
+    .required("Please enter your last name"),
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
+  title: Yup.string()
+    .min(5, "Your title is too short")
+    .required("Please enter your title"),
   description: Yup.string()
     .min(10, "Your description is too short")
-    .required("Please enter your description")
+    .required("Please enter your description"),
+  photo: Yup.mixed()
+    .required("A file is required")
+    .test(
+      "fileSize",
+      "File too large",
+      value => value && value.size <= FileSize
+    )
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      value => value && FormatType.includes(value.type)
+    )
 });
 
 export const MySection = styled.section`
@@ -82,7 +104,11 @@ export const MyTitle = styled.div`
 function FormField({ userId }) {
   // const ref = useRef(null);
   const ref = useRef(null);
-  const [formValues, setFormValues] = useState();
+
+  const adminContext = useContext(AdminContext);
+  const { addUsers, loading, error } = adminContext;
+
+
 
   return (
     <MySection>
@@ -103,12 +129,27 @@ function FormField({ userId }) {
             firstname: "",
             lastname: "",
             email: "",
-            description: ""
+            title: "",
+            description: "",
+            password:"",
+            photo:null
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             console.log(values);
-            setFormValues(values);
+          
+            const data = new FormData();
+       
+            data.append("firstname", values.firstname);
+            data.append("lastname", values.lastname);
+            data.append("email", values.email);
+            data.append("password", values.password);
+            data.append("title", values.title);
+            data.append("description", values.description);
+            data.append("photo", values.photo);
+            addUsers(data);
+
+         
 
             const timeOut = setTimeout(() => {
               ref.current(" Submitted Successfully!!");
@@ -169,11 +210,35 @@ function FormField({ userId }) {
                       {errors.lastname}
                     </StyledInlineErrorMessage>
                   )}
+
+
+
+                  <Label htmlFor="password">
+                  Password
+                    <MyInput
+                      className="browser-default"
+                      type="password"
+                      name="password"
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      autoComplete="password"
+                      placeholder="your password"
+                      valid={touched.password && !errors.password}
+                      error={touched.password && errors.password}
+                    />
+                  </Label>
+                  <ErrorMessage name="password">
+                    {msg => (
+                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    )}
+                  </ErrorMessage>
+
+
                   <Label htmlFor="email">
                     Email
                     <MyInput
                       className="browser-default"
-                      type="email"
+                      type="text"
                       name="email"
                       autoCapitalize="off"
                       autoCorrect="off"
@@ -188,6 +253,27 @@ function FormField({ userId }) {
                       <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
                     )}
                   </ErrorMessage>
+
+                  <Label htmlFor="title">
+                    Title
+                    <MyInput
+                      className="browser-default"
+                      type="text"
+                      name="title"
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      autoComplete="email"
+                      placeholder="your title"
+                      valid={touched.title && !errors.title}
+                      error={touched.title && errors.title}
+                    />
+                  </Label>
+                  <ErrorMessage name="title">
+                    {msg => (
+                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    )}
+                  </ErrorMessage>
+
 
                   <Label htmlFor="description">
                     Description
@@ -210,7 +296,24 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-                  <ImgDropAndCrop />
+                  <Label htmlFor="photo">
+                    Image
+                    <MyInput
+                      className="browser-default"
+                      name="photo"
+                      component={FileUpload}
+                      autoCorrect="off"
+                      autoComplete="photo"
+                      placeholder="your photo"
+                      valid={touched.photo && !errors.photo}
+                      error={touched.photo && errors.photo}
+                    />
+                  </Label>
+                  {errors.photo && touched.photo && (
+                    <StyledInlineErrorMessage>
+                      {errors.photo}
+                    </StyledInlineErrorMessage>
+                  )}
 
                   <Submit
                     className="browser-default"
@@ -232,12 +335,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-                {/* <CodeWrapper>
-                <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
-                <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
-                {formValues && <strong>Submitted values:</strong>}
-                {JSON.stringify(formValues, null, 2)}
-              </CodeWrapper> */}
+              
               </>
             );
           }}
@@ -248,3 +346,10 @@ function FormField({ userId }) {
 }
 
 export default FormField;
+
+  {/* <CodeWrapper>
+                <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
+                <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
+                {formValues && <strong>Submitted values:</strong>}
+                {JSON.stringify(formValues, null, 2)}
+              </CodeWrapper> */}

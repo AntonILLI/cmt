@@ -1,20 +1,20 @@
 //drop drag image component with review image as well as crop image
 import React, { useState, useEffect, useCallback } from "react";
-import ReactCrop from "react-image-crop";
+// import ReactCrop from "react-image-crop";
 import Dropzone from "react-dropzone";
 import "react-image-crop/dist/ReactCrop.css";
 import { withPreviews, clearPreviews } from "./With-previews";
-
+import FileUpload from "./FileUpload";
 import styled from "styled-components";
 
 function ImgDropAndCrop() {
   const [files, setFiles] = useState([]);
-  const [crop, setCrop] = useState({
-    aspect: 16 / 9,
-    unit: "%",
-    width: 60,
-    height: 40
-  });
+  // const [crop, setCrop] = useState({
+  //   aspect: 16 / 9,
+  //   unit: "%",
+  //   width: 60,
+  //   height: 40
+  // });
 
   useEffect(() => () => clearPreviews(files), [files]);
 
@@ -53,13 +53,6 @@ function ImgDropAndCrop() {
     margin-bottom: 0.5rem;
   `;
 
-  const DropContainer = styled.div`
-    display: flex;
-    width: 500px;
-    flex-direction: row;
-    align-items: center;
-  `;
-
   // const SmallButton = styled.button``
   // const ReviewImage = styled.img``
   return (
@@ -79,16 +72,11 @@ function ImgDropAndCrop() {
           <Container
             {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
           >
-            <input {...getInputProps()} />
+            <input maxFiles={1} multiple={false} {...getInputProps()} />
             <i className="fas fa-image fa-3x"></i>
             Drop Image
             {files.map(file => (
-              <ReactCrop
-                style={{ maxWidth: 200, maxHeight: 200, display: "block" }}
-                src={file.preview}
-                crop={crop}
-                onChange={newCrop => setCrop(newCrop)}
-              />
+              <MyImg src={file.preview} />
             ))}
           </Container>
         )}
@@ -106,102 +94,10 @@ function ImgDropAndCrop() {
   );
 }
 
+const MyImg = styled.img`
+  display: inline;
+  height: 150px;
+  width: 150px;
+`;
+
 export default ImgDropAndCrop;
-
-// import React, { useEffect, useState } from "react";
-// import { useDropzone } from "react-dropzone";
-// import ReactCrop from "react-image-crop";
-// import "react-image-crop/dist/ReactCrop.css";
-// const thumbsContainer = {
-//   display: "flex",
-//   flexDirection: "row",
-//   flexWrap: "wrap",
-//   marginTop: 16
-// };
-
-// const thumb = {
-//   display: "inline-flex",
-//   borderRadius: 2,
-//   border: "1px solid #eaeaea",
-//   marginBottom: 8,
-//   marginRight: 8,
-//   width: 100,
-//   height: 100,
-//   padding: 4,
-//   boxSizing: "border-box"
-// };
-
-// const thumbInner = {
-//   display: "flex",
-//   minWidth: 0,
-//   overflow: "hidden"
-// };
-
-// const img = {
-//   display: "block",
-//   width: "auto",
-//   height: "100%"
-// };
-
-// function ImgDropAndCrop(props) {
-//   const [files, setFiles] = useState([]);
-//   const [crop, setCrop] = useState({ aspect: 16 / 9 });
-//   const {
-//     getRootProps,
-//     getInputProps,
-//     isDragActive,
-//     isDragAccept,
-//     isDragReject
-//   } = useDropzone({
-//     accept: "image/*",
-//     onDrop: acceptedFiles => {
-//       setFiles(
-//         acceptedFiles.map(file =>
-//           Object.assign(file, {
-//             preview: URL.createObjectURL(file)
-//           })
-//         )
-//       );
-//     }
-//   });
-
-//   // const clearPreview = files =>
-//   //   files.forEach(file => URL.revokeObjectURL(file.preview));
-
-//   const thumbs = files.map(file => (
-//     <ReactCrop style={thumb} key={file.name}>
-//       <div style={thumbInner}>
-//         <img src={file.preview} style={img} />
-//         onChange={newCrop => setCrop(newCrop)}
-//       </div>
-//     </ReactCrop>
-//   ));
-
-//   useEffect(
-//     () => () => {
-//       // Make sure to revoke the data uris to avoid memory leaks
-//       files.forEach(file => URL.revokeObjectURL(file.preview));
-//     },
-//     [files]
-//   );
-
-//   return (
-//     <section className="container">
-//       <div {...getRootProps({ className: "dropzone" })}>
-//         <input {...getInputProps()} />
-//         <i styled={{ color: "black" }} className="fas fa-image fa-3x"></i>
-//         Drop Image
-//         <button
-//           onClick={() => {
-//             setFiles([]);
-//           }}
-//         >
-//           reset
-//         </button>
-//       </div>
-//       <ReactCrop style={thumbsContainer}>{thumbs}</ReactCrop>
-//     </section>
-//   );
-// }
-
-//export default ImgDropAndCrop;

@@ -15,20 +15,19 @@ const advancedResults = require("../middleware/advancedResults");
 const { authorize, protect } = require("../middleware/auth");
 
 router
-  .route("/")
   .get(
+    "/",
     advancedResults(Event, {
       path: "user",
       select: "name description"
     }),
     getEvents
   )
-  .post(protect, createEvent);
-//getCOurse func populate({path:'bootcamp',select:'name descroption '})populate path them
+  .post("/create", createEvent);
+
 router
-  .route("/:id")
-  .get(getEvent)
-  .put(protect, updateEvent)
-  .delete(protect, deleteEvent);
+  .get("/:id", getEvent)
+  .put("/:id/update", protect, updateEvent)
+  .delete("/:id/delete", deleteEvent);
 //cant not (/:id/id)get(:/id)
 module.exports = router;

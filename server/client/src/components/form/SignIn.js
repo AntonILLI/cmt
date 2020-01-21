@@ -2,9 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import photo_loginpic from "../../img/loginpic.jpg";
 import ApiContext from "../context/api/apiContext";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
+
 import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -30,7 +32,7 @@ const SignIn = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
-  const { login, isAuthenticated } = apiContext;
+  const { login, forgotPassword, isAuthenticated } = apiContext;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -99,7 +101,9 @@ const SignIn = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-
+                        <Link href="#" onClick={() => forgotPassword()}>
+                          Forgot your password?
+                        </Link>
                         <div>
                           <button
                             type="submit"

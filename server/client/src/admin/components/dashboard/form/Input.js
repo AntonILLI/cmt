@@ -3,7 +3,7 @@
 import React from "react";
 import { Field } from "formik";
 
-function Input({ className, valid, error, ...props }) {
+function Input({ className, valid, error, value, ...props }) {
   return <Field className={className} {...props} />;
 }
 

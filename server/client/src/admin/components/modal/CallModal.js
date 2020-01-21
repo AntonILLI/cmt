@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import TeditForm from "../dashboard/form/TeditForm";
+import EditForm from "../dashboard/form/EditForm";
 import { Modal } from "./Modal";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import AdminContext from "../../../components/context/adminAPI/adminContext";
 
-function CallModal({ onClose }) {
+function CallModal() {
+  const adminContext = useContext(AdminContext);
+  const { adminUsers, teachers, loading, error } = adminContext;
+  // const { Tvalue, setTvalue } = useState();
+  useEffect(() => {
+    adminUsers();
+    //eslint-disable-next-line
+  }, []);
+  console.log("user", teachers);
+  const { params } = useParams();
+
+  // console.log("history:", history);
+  console.log("id:", params);
+
+  const Tvalue = teachers.filter(teacher => teacher._id === params);
+
+  console.log("value:", Tvalue);
   return (
     <div>
       <MyModalWrapper
         style={{
           width: "100%",
-          height: "100%",
-          display: "flex",
-          justifyContent: "center"
+          height: "100%"
         }}
       >
         <MyModal>
-          <TeditForm onClose={onClose} />
+          <TeditForm Tvalue={Tvalue} params={params} />
         </MyModal>
       </MyModalWrapper>
     </div>
@@ -28,13 +45,12 @@ const MyModalWrapper = styled(Modal)`
   z-index: 1000;
   position: absolute;
   outline: none;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 97, 0.5);
   overflow: auto;
   border-radius: 4px;
 `;
 export const MyModal = styled.div`
   position: absolute;
-  margin: 10rem 28rem 20rem 10rem;
+  margin: 10rem;
   background-color: #fff;
 `;
 export default CallModal;

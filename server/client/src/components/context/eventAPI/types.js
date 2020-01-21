@@ -1,0 +1,9 @@
+export const GET_EVENTS = "GET_EVENTS";
+export const GET_EVENT = "GET_EVENT";
+export const GET_EVENT_ERROR = "GET_EVENT_ERROR";
+export const GET_EVENTS_ERROR = "GET_EVENTS_ERROR";
+export const CREATE_EVENT = "CREATE_EVENT";
+export const CREATE_EVENT_ERROR = "CREATE_EVENT_ERROR";
+export const DELETE_EVENT = "DELETE_EVENT";
+export const DELETE_EVENT_ERROR = "DELETE_EVENT_ERROR";
+export const UPDATE_EVENT = "UPDATE_EVENT";
