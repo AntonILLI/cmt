@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React  from 'react';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
 
@@ -19,40 +19,20 @@ const keyboardShortcuts = KeyboardShortcuts.create({
   keyboardConfig: KeyboardShortcuts.HOME_ROW,
 });
 
-function ReactPiano() {
-    const firstNote = MidiNumbers.fromNote('c3');
-    const lastNote = MidiNumbers.fromNote('f5');
-    const keyboardShortcuts = KeyboardShortcuts.create({
-      firstNote: firstNote,
-      lastNote: lastNote,
-      keyboardConfig: KeyboardShortcuts.HOME_ROW,
-    });
-
-    
-    // function BasicPiano() {
-    //     return (
-    //       <SoundfontProvider
-    //         instrumentName="acoustic_grand_piano"
-    //         audioContext={audioContext}
-    //         hostname={soundfontHostname}
-    //         render={({ isLoading, playNote, stopNote }) => (
-    //           <Piano
-    //             noteRange={noteRange}
-    //             width={300}
-    //             playNote={playNote}
-    //             stopNote={stopNote}
-    //             disabled={isLoading}
-    //             keyboardShortcuts={keyboardShortcuts}
-    //           />
-    //         )}
-    //       />
-    //     );
-    //   }
+// export function ReactPiano() {
+    // const firstNote = MidiNumbers.fromNote('c3');
+    // const lastNote = MidiNumbers.fromNote('f5');
+    // const keyboardShortcuts = KeyboardShortcuts.create({
+    //   firstNote: firstNote,
+    //   lastNote: lastNote,
+    //   keyboardConfig: KeyboardShortcuts.HOME_ROW,
+    // });
 
       function ResponsivePiano(props) {
+
         return (
           <Dimensions>
-            {({ containerWidth, containerHeight }) => (
+            {({ containerWidth }) => (
               <SoundfontProvider
                 instrumentName="acoustic_grand_piano"
                 audioContext={audioContext}
@@ -63,7 +43,7 @@ function ReactPiano() {
                     width={containerWidth}
                     playNote={playNote}
                     stopNote={stopNote}
-                    disabled={isLoading}
+                    disabled={isLoading || props.modalStatus}
                     keyboardShortcuts={keyboardShortcuts}
                     {...props}
                   />
@@ -75,10 +55,10 @@ function ReactPiano() {
       }
       
 
-return (
-    <ResponsivePiano />
-)
+// return (
+//     <ResponsivePiano />
+// )
 
-  }
+  // }
 
-  export default ReactPiano;
+export default ResponsivePiano;

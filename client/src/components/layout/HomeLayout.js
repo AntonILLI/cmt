@@ -49,7 +49,7 @@ render() {
 }
 
 
-class MaterializeHomePage extends Component {
+export class MaterializeHomePage extends Component {
 
   componentDidMount() {
     //Explicitly initilize slider
@@ -204,8 +204,6 @@ class MaterializeHomePage extends Component {
 <div className="section white">
 <div className="row container">
 
-  <Piano />
-
 </div>
 </div>
 
@@ -214,11 +212,11 @@ class MaterializeHomePage extends Component {
   }
 }
 
-const HomeLayout = () => {
-  return (
-    // <>
-          <MaterializeHomePage />
+// const HomeLayout = () => {
+//   return (
+//     // <>
+//           <MaterializeHomePage />
   
-  );
-};
-export default HomeLayout;
+//   );
+// };
+// export default HomeLayout;

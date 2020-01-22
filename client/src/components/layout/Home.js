@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Component } from "react";
 import Piano from "./Piano";
+import ContactForm from "./ContactForm";
 import ApiContext from "../context/api/apiContext";
 
 import "../../css/materialize.css";
@@ -64,8 +65,12 @@ const Home = () => {
     M.Slider.init(slider, {});
     //Auto init all other materialize scripts
     M.AutoInit();
-
     //eslint-disable-next-line
+    let modal = document.querySelectorAll('.modal');
+    console.log(modal);
+    M.Modal.init(modal, { 
+      dismissible: false,
+      })
   }, []);
 
   return (
@@ -167,40 +172,9 @@ const Home = () => {
           <h2 className="header">Contact Us</h2>
 
           <div className="row">
-            <form className="col s12">
-              <div className="row">
-                <div className="input-field col l6 m6 s12">
-                  <i className="material-icons prefix">account_circle</i>
-                  <input id="first_name" type="text" className="validate" />
-                  <label htmlFor="first_name">First Name</label>
-                </div>
-                <div className="input-field col l6 m6 s12">
-                  <i className="material-icons prefix">phone</i>
-                  <input id="icon_telephone" type="tel" className="validate" />
-                  <label htmlFor="icon_telephone">Telephone</label>
-                </div>
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">email</i>
-                  <input id="email" type="email" className="validate" />
-                  <label htmlFor="email">Email</label>
-                  <span
-                    className="helper-text"
-                    data-error="wrong"
-                    data-success="right"
-                  >
-                    Helper text
-                  </span>
-                </div>
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">mode_edit</i>
-                  <textarea
-                    id="icon_prefix2"
-                    className="materialize-textarea"
-                  ></textarea>
-                  <label htmlFor="icon_prefix2">Message</label>
-                </div>
-              </div>
-            </form>
+
+          <ContactForm />
+
           </div>
         </div>
       </div>
@@ -254,7 +228,6 @@ const Home = () => {
 
       <div className="section white">
         <div className="row container">
-          <Piano />
         </div>
       </div>
     </div>
