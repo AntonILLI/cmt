@@ -5,28 +5,32 @@ import ApiContext from "../context/api/apiContext";
 
 import "../../css/materialize.css";
 import M from "materialize-css";
-let piano = require("../../img/piano-3505109_1920.jpg");
+// let piano = require("../../img/piano-3505109_1920.jpg");
 
 const Card = () => {
   const apiContext = useContext(ApiContext);
   const { userLoad, users, loading, error } = apiContext;
 
   useEffect(() => {
-    userLoad();
 
+  //Explicitly initilize collapsible
+  const collapsible = document.querySelectorAll(".collapsible");
+  M.Collapsible.init(collapsible, {
+    accordion: false
+  });
+  
+  userLoad();
     //eslint-disable-next-line
-  }, []);
+  });
 
   return (
     <>
-      {users &&
-        users.map((user, i) => (
+      {users && users.map((user, i) => (
           <div className="col s12 m6">
             <div className="card hoverable">
               <div className="card-image">
                 <img
                   style={{
-                    height: 300,
                     objectFit: "fill",
                     overflow: "none"
                   }}
@@ -45,11 +49,33 @@ const Card = () => {
                   data-position="top"
                   data-tooltip="Hello!"
                 >
-                  <i className="material-icons">audiotrack</i>
+                  <i className="material-icons">school</i>
                 </button>
               </div>
               <div className="card-content">
-                <p>{user.description}</p>
+
+              <ul className="collapsible expandable">
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">account_circle</i>About Me</div>
+                  <div className="collapsible-body"><span><p>{user.description}</p></span></div>
+                </li>
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">music_note</i>Instruments</div>
+                  <div className="collapsible-body"><span><ul>{user.careers.map((instruments) => 
+                    <li>{instruments}</li>
+                  )}</ul></span></div>
+                </li>
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">monetization_on</i>Pricing</div>
+                  <div className="collapsible-body"><span><ul>{user.pricing.map((price) => 
+                    <li>{price}</li>
+                  )}</ul></span></div>
+                </li>
+              </ul>
+
+              
+
+
               </div>
             </div>
           </div>
@@ -60,18 +86,22 @@ const Card = () => {
 
 const Home = () => {
   useEffect(() => {
-    //Explicitly initilize slider
-    let slider = document.querySelectorAll(".slider");
-    M.Slider.init(slider, {});
+
     //Auto init all other materialize scripts
     M.AutoInit();
-    //eslint-disable-next-line
-    let modal = document.querySelectorAll('.modal');
+
+    //Explicitly initilize slider
+    const slider = document.querySelectorAll(".slider");
+    M.Slider.init(slider, {});
+
+    //Explicitly initilize modal
+    const modal = document.querySelectorAll('.modal');
     console.log(modal);
     M.Modal.init(modal, { 
       dismissible: false,
-      })
-  }, []);
+      });
+    
+    }, []);
 
   return (
     <div>
@@ -169,13 +199,13 @@ const Home = () => {
 
       <div className="section white">
         <div className="row container">
-          <h2 className="header">Contact Us</h2>
-
-          <div className="row">
+          <h2 className="header">Start Today</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+           Learn playing music with this interactive piano. Tap the keys on the keyboard or use a mouse.
+          </p>
 
           <ContactForm />
 
-          </div>
         </div>
       </div>
 
@@ -225,11 +255,6 @@ const Home = () => {
           </div>
         </div>
       </footer>
-
-      <div className="section white">
-        <div className="row container">
-        </div>
-      </div>
     </div>
   );
 };
