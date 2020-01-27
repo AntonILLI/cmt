@@ -12,3 +12,7 @@ export const UPDATE_USER = "UPDATE_USER";
 export const UPDATE_ERROR = "UPDATE_ERROR";
 export const DELETE_USER = "DELETE_USER";
 export const DELETE_ERROR = "DELETE_ERROR";
+export const RESET_PASSWORD = "RESET_PASSWORD";
+export const RESET_FAIL = "RESET_FAIL";
+export const FORGOT_PASS = "FORGOT_PASS";
+export const FORGOT_FAIL = "FORGOT_FAIL";

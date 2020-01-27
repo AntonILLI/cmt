@@ -12,7 +12,7 @@ const Sidebar = () => {
         <ul className="icons-list">
           <li>
             <Link to="/admin" className="icon-link">
-              <i className="fab fa-codepen"></i>
+              <i className="fas fa-users"></i>
             </Link>
           </li>
           <li>
@@ -23,7 +23,7 @@ const Sidebar = () => {
 
           <li>
             <Link to="/admin/event" className="icon-link">
-              <i className="fas fa-calendar-alt"></i>
+              <i className="fab fa-wpforms"></i>
             </Link>
           </li>
 

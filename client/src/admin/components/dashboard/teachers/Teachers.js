@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ReactParticles from "react-particles-js";
 import configJson from "../../globals/configJson.js";
-import img from "../../images/Music.jpg";
+import { Link } from "react-router-dom";
 import { PrimaryBtn } from "../../globals/Button";
 import { animated, useSpring } from "react-spring";
 import { screenSmallerThan } from "../../globals/Util";
@@ -12,9 +12,8 @@ import EditIcon from "../svg-icons/Edit";
 import RemoveIcon from "../svg-icons/Remove";
 
 import CallModal from "../../modal/CallModal";
-// import AdminContext from "../../../../components/context/adminAPI/adminContext";
 
-function Teachers({ teachers }) {
+function Teachers({ teachers, deleteUser, loading, error }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const ReadMore = ({ children, maxCharacter = 100 }) => {
@@ -47,7 +46,7 @@ function Teachers({ teachers }) {
     <MySection>
       <Particles>
         <MyTitle>
-          <h1 className="common-heading">Our Teachers</h1>
+          <h1 className="common-heading">All Teachers</h1>
           <div className="underline">
             <div className="small-underline"></div>
             <div className="big-underline"></div>
@@ -63,7 +62,11 @@ function Teachers({ teachers }) {
             <>
               <TeacherCards key={teacher._id}>
                 <div className="teachers-image-wrapper">
-                  <img src={img} className="teachers-image"></img>
+                  <img
+                    style={{ height: 150, width: 210 }}
+                    src={require(`../../../../../public/uploads/${teacher.photo}`)}
+                    className="teachers-image"
+                  ></img>
                 </div>
                 <div className="teachers-info">
                   <h3 className="teachers-firstname">
@@ -71,12 +74,22 @@ function Teachers({ teachers }) {
                   </h3>
 
                   <p className="teachers-title">{teacher.title}</p>
+                  <p className="teachers-title">{teacher.price}</p>
+                  <p className="teachers-title">{teacher.careers}</p>
 
                   <ButtonWrapper>
-                    <ABtn onClick={() => setIsModalOpen(true)}>
+                    <Link
+                      to={`/admin/modalPage/${teacher._id}`}
+                      onClick={() => setIsModalOpen(true)}
+                    >
                       <EditIcon color={setColor.primaryColor} />
-                    </ABtn>
-                    <ABtn>
+                    </Link>
+
+                    <ABtn
+                      onClick={() =>
+                        deleteUser(teacher._id).then(window.location.reload())
+                      }
+                    >
                       {" "}
                       <RemoveIcon color={setColor.removeColor} />
                     </ABtn>

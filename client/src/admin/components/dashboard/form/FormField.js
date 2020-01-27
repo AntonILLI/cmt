@@ -1,14 +1,15 @@
 //Form in the user profile form
-
-import React, { useState, useRef } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import React, { useState, useRef, useContext } from "react";
+import { Formik, Form, FieldArray, ErrorMessage, Field } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
+
 import styled from "styled-components";
-import ImgDropAndCrop from "./ImgDropAndCrop";
-// import PopupMessage from "../../globals/PupupMessage";
+import FileUpload from "./FileUpload";
+import { MultiSelect } from "./MultiSelect";
+
 import { screenSmallerThan } from "../../globals/Util";
-// import { MyTitle, MySection } from "../teachers/Teachers";
+
 import {
   PageWrapper,
   Title,
@@ -17,6 +18,10 @@ import {
   StyledInlineErrorMessage,
   Submit
 } from "./InputStyles";
+import AdminContext from "../../../../components/context/adminAPI/adminContext";
+
+const FileSize = 15000000;
+const FormatType = ["image/jpg", "image/jpeg", "image/png"];
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string()
@@ -25,12 +30,30 @@ const validationSchema = Yup.object().shape({
   lastname: Yup.string()
     .min(2, "Your lastname is too short")
     .required("Please enter your last name"),
+  password: Yup.string()
+    .min(6, "Your password is more than 6")
+    .required("Please enter your last name"),
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
+  title: Yup.string()
+    .min(5, "Your title is too short")
+    .required("Please enter your title"),
   description: Yup.string()
     .min(10, "Your description is too short")
-    .required("Please enter your description")
+    .required("Please enter your description"),
+  photo: Yup.mixed()
+    .required("A file is required")
+    .test(
+      "fileSize",
+      "File too large",
+      value => value && value.size <= FileSize
+    )
+    .test(
+      "fileFormat",
+      "Unsupported Format",
+      value => value && FormatType.includes(value.type)
+    )
 });
 
 export const MySection = styled.section`
@@ -82,12 +105,39 @@ export const MyTitle = styled.div`
 function FormField({ userId }) {
   // const ref = useRef(null);
   const ref = useRef(null);
-  const [formValues, setFormValues] = useState();
+
+  const adminContext = useContext(AdminContext);
+  const { addUsers, loading, error } = adminContext;
+
+  const getValues = values => values.fields;
+
+  const Poptions = [
+    {
+      label: "piano",
+      value: "piano"
+    },
+    {
+      label: "guitar",
+      value: "guitar"
+    },
+    {
+      label: "jazz",
+      value: "jazz"
+    },
+    {
+      label: "vocal training",
+      value: "vocal training"
+    },
+    {
+      label: "others",
+      value: "others"
+    }
+  ];
 
   return (
     <MySection>
       <MyTitle>
-        <h1 className="common-heading">Teacher's Profile</h1>
+        <h1 className="common-heading">Add Teacher</h1>
         <div className="underline">
           <div className="small-underline"></div>
           <div className="big-underline"></div>
@@ -103,18 +153,36 @@ function FormField({ userId }) {
             firstname: "",
             lastname: "",
             email: "",
-            description: ""
+            title: "",
+            description: "",
+            password: "",
+            photo: null,
+            careers: [],
+            price: []
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             console.log(values);
-            setFormValues(values);
+
+            //formdata file data transmission
+            const data = new FormData();
+            data.append("firstname", values.firstname);
+            data.append("lastname", values.lastname);
+            data.append("email", values.email);
+            data.append("password", values.password);
+            data.append("title", values.title);
+            data.append("description", values.description);
+            data.append("photo", values.photo);
+            data.append("careers", values.careers);
+            data.append("price", values.price);
+            console.log(JSON.stringify(values, null, 2));
+
+            addUsers(data);
 
             const timeOut = setTimeout(() => {
-              ref.current(" Submitted Successfully!!");
+              ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
-
-              clearTimeout(timeOut);
+              clearTimeout(timeOut)
             }, 1000);
           }}
         >
@@ -122,6 +190,7 @@ function FormField({ userId }) {
             values,
             errors,
             touched,
+            setFieldValue,
             handleSubmit,
             isSubmitting,
             handleReset,
@@ -169,11 +238,32 @@ function FormField({ userId }) {
                       {errors.lastname}
                     </StyledInlineErrorMessage>
                   )}
+
+                  <Label htmlFor="password">
+                    Password
+                    <MyInput
+                      className="browser-default"
+                      type="password"
+                      name="password"
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      autoComplete="password"
+                      placeholder="your password"
+                      valid={touched.password && !errors.password}
+                      error={touched.password && errors.password}
+                    />
+                  </Label>
+                  <ErrorMessage name="password">
+                    {msg => (
+                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    )}
+                  </ErrorMessage>
+
                   <Label htmlFor="email">
                     Email
                     <MyInput
                       className="browser-default"
-                      type="email"
+                      type="text"
                       name="email"
                       autoCapitalize="off"
                       autoCorrect="off"
@@ -184,6 +274,26 @@ function FormField({ userId }) {
                     />
                   </Label>
                   <ErrorMessage name="email">
+                    {msg => (
+                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    )}
+                  </ErrorMessage>
+
+                  <Label htmlFor="title">
+                    Title
+                    <MyInput
+                      className="browser-default"
+                      type="text"
+                      name="title"
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      autoComplete="email"
+                      placeholder="your title"
+                      valid={touched.title && !errors.title}
+                      error={touched.title && errors.title}
+                    />
+                  </Label>
+                  <ErrorMessage name="title">
                     {msg => (
                       <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
                     )}
@@ -210,8 +320,79 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-                  <ImgDropAndCrop />
+                  <Label htmlFor="photo">
+                    Image
+                    <MyInput
+                      className="browser-default"
+                      name="photo"
+                      value={values.price}
+                      component={FileUpload}
+                      autoCorrect="off"
+                      autoComplete="photo"
+                      placeholder="your photo"
+                      valid={touched.photo && !errors.photo}
+                      error={touched.photo && errors.photo}
+                    />
+                  </Label>
+                  {errors.photo && touched.photo && (
+                    <StyledInlineErrorMessage>
+                      {errors.photo}
+                    </StyledInlineErrorMessage>
+                  )}
+                  <Label htmlFor="careers">
+                    Music skills
+                    <MultiSelect
+                      name="careers"
+                      options={Poptions}
+                      placeholder="multi choise is available, select your music skills to teach"
+                    />
+                  </Label>
 
+                  <Label htmlFor="photo">
+                    Fees
+                    <FieldArray
+                      className="browser-default"
+                      placeholder="Add Price"
+                      name="price"
+                      render={arrayHelpers => (
+                        <div>
+                          {values.price && values.price.length > 0 ? (
+                            values.price.map((price, index) => (
+                              <div key={index}>
+                                <Field
+                                  name={`${price}.${index}`}
+                                  onChange={e => {
+                                    setFieldValue("price.0", e.target.value);
+                                    getValues(values);
+                                  }}
+                                />
+
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  -
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelpers.insert(index, "")}
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ))
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => arrayHelpers.push("")}
+                            >
+                              Add Price
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    />
+                  </Label>
                   <Submit
                     className="browser-default"
                     type="submit"
@@ -232,12 +413,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-                {/* <CodeWrapper>
-                <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
-                <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
-                {formValues && <strong>Submitted values:</strong>}
-                {JSON.stringify(formValues, null, 2)}
-              </CodeWrapper> */}
+                {JSON.stringify(values, null, 2)}
               </>
             );
           }}

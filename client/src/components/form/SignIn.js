@@ -1,10 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import photo_loginpic from "../../img/loginpic.jpg";
 import ApiContext from "../context/api/apiContext";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
+
 import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -30,11 +32,11 @@ const SignIn = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
-  const { login, isAuthenticated } = apiContext;
+  const { login, isAuthenticated, error } = apiContext;
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/admin");
+      history.push("/admin/dashboard");
     }
   }, [isAuthenticated, history]);
 
@@ -46,6 +48,9 @@ const SignIn = () => {
     <div className="container">
       <div className="row">
         <div className="col s8 offset-s2 m6 offset-m3">
+          {error && error.length > 0 && (
+            <h4 style={{ color: "red" }}>{error}</h4>
+          )}
           <div className="card center-align">
             <div className="card-image">
               <img className="activator" src={photo_loginpic}></img>
@@ -70,6 +75,7 @@ const SignIn = () => {
                     validationSchema={SignupSchema}
                     onSubmit={values => {
                       // same shape as initial values
+
                       login(values);
                     }}
                   >
@@ -99,7 +105,7 @@ const SignIn = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-
+                        <Link to="/forgotPassword">Forgot your password?</Link>
                         <div>
                           <button
                             type="submit"
@@ -125,89 +131,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-// import React, { useState, useContext, useEffect } from "react";
-// import ApiContext from "../context/api/apiContext";
-// import SignInForm from "./SignInForm.js";
-// import { validateLoginForm } from "./validate";
-
-// // import "./style.css";
-
-// const initialValue = {
-//   email: "",
-//   password: ""
-// };
-
-// const SignIn = props => {
-//   const apiContext = useContext(ApiContext);
-//   const { login, isAuthenticated } = apiContext;
-
-//   useEffect(() => {
-//     if (isAuthenticated) {
-//       props.history.push("/admin/dashboard");
-//     }
-//   }, [isAuthenticated, props.history]);
-
-//   const [user, setUser] = useState(initialValue);
-//   const [errors, setErrors] = useState(initialValue);
-
-//   const handleInputChange = event => {
-//     setUser({
-//       ...user,
-//       [event.target.name]: event.target.value
-//     });
-//   };
-
-//   const validateForm = event => {
-//     event.preventDefault();
-//     const data = validateLoginForm(user);
-//     console.log(data);
-//     if (data.success) {
-//       setErrors({});
-
-//       const { password, email } = user;
-
-//       login({ password, email });
-//       // window.location.reload(true);
-//       // console.log(user);
-//     } else {
-//       const errors = data.errors;
-
-//       setErrors({
-//         ...errors
-//       });
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <SignInForm
-//         onSubmit={event => validateForm(event)}
-//         onChange={event => handleInputChange(event)}
-//         errors={errors}
-//         user={user}
-//       />
-//     </div>
-//   );
-// };
-
-// export default SignIn;
-
-{
-  /* <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: ""
-        }}
-        validationSchema={SignupSchema}
-        onSubmit={values => {
-          // same shape as initial values
-          console.log(values);
-        }}
-      >
-        {({ errors, touched, handleSubmit }) => (
-
-          
-          <div className="container" name="SignIn" onSubmit={handleSubmit}> */
-}

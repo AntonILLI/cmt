@@ -8,16 +8,18 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  UPDATE_USER,
-  UPDATE_ERROR,
-  DELETE_USER,
-  DELETE_ERROR,
+  RESET_PASSWORD,
+  RESET_FAIL,
   USER_LOAD,
-  USER_ERROR
+  USER_ERROR,
+  FORGOT_PASS,
+  FORGOT_FAIL
 } from "./types";
+import setAuthToken from "../../utils/SetAuthToken";
 
 const ApiState = props => {
   const initialState = {
+    token: localStorage.getItem("token"),
     users: null,
     user: null,
     isAuthenticated: null,
@@ -32,6 +34,9 @@ const ApiState = props => {
   const [state, dispatch] = useReducer(apiReducer, initialState);
 
   const userLoad = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     try {
       const res = await axios.get("/api/v1/users");
       dispatch({ type: USER_LOAD, payload: res.data });
@@ -62,9 +67,62 @@ const ApiState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
+      setAuthToken(localStorage.token);
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  const forgotPassword = async Temail => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.post(
+        `/api/v1/auth/forgotPassword`,
+        Temail,
+        config
+      );
+
+      dispatch({
+        type: FORGOT_PASS,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: FORGOT_FAIL,
+        payload: err.response.data.error
+      });
+    }
+  };
+
+  const resetPassword = async (data, resetPasswordToken) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.put(
+        `/api/v1/auth/resetPassword/${resetPasswordToken}`,
+        data,
+        config
+      );
+
+      dispatch({
+        type: RESET_PASSWORD,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: RESET_FAIL,
         payload: err.response.data.message
       });
     }
@@ -86,7 +144,9 @@ const ApiState = props => {
         authUser,
         userLoad,
         login,
-        logout
+        logout,
+        resetPassword,
+        forgotPassword
       }}
     >
       {props.children}
@@ -95,22 +155,3 @@ const ApiState = props => {
 };
 
 export default ApiState;
-
-//  REGISTER_SUCCESS,
-//  REGISTER_FAIL,
-// const register = async userData => {
-//   try {
-//     const res = await axios.post("/api/", userData);
-
-//     dispatch({
-//       type: REGISTER_SUCCESS,
-//       payload: res.data
-//     });
-//     // authUser();
-//   } catch (err) {
-//     dispatch({
-//       type: REGISTER_FAIL,
-//       payload: err.response.data.message
-//     });
-//   }
-// };

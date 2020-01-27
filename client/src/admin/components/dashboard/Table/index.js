@@ -1,12 +1,18 @@
 //event table , table component
 
 import React from "react";
+
 import { setColor } from "../../globals/colors";
 import styled, { css } from "styled-components"; //css
 import { screenSmallerThan } from "../../globals/Util";
 import TablePagination from "../TablePagination";
 import { rgba } from "polished";
-
+import EventImg from "../EventImg";
+import RemoveIcon from "../svg-icons/Remove";
+import { Link } from "react-router-dom";
+import EditIcon from "../svg-icons/Edit";
+import Moment from "react-moment";
+import "moment-timezone";
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,15 +71,102 @@ const Td = styled.td`
 
 `;
 
+const TitleCol = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Title = styled.span`
+  margin-left: 8px;
+`;
+
+const ABtn = styled.div`
+  cursor: pointer;
+  background-color: transparent;
+  outline: none !important;
+  border: none !important;
+`;
+
 const Table = ({
-  columns,
   data,
+  deleteEvent,
   rowConfig: { uniqueKey = "id", css, onClick },
   currentPage,
   totalPages,
   basePageLink
 }) => {
-  //columns
+  //column
+
+  const columns = {
+    title: {
+      key: "title",
+      label: "Title",
+      content: items => (
+        <TitleCol>
+          <EventImg
+            img={require(`../../../../../public/uploads/${items.photo}`)}
+            title={items.title}
+          />
+          <Title>{items.title}</Title>
+        </TitleCol>
+      )
+    },
+    description: {
+      key: "description",
+      label: "Description",
+      width: 700,
+      hideOnPhone: true
+    },
+    createdAt: {
+      key: "createBy",
+      label: "Post Date",
+      hideOnTablet: true,
+      content: items => <Moment format="D MMM YYYY">{items.createdAt}</Moment>
+    },
+    editLink: {
+      key: "EditLink",
+      label: "Edit",
+      content: item => (
+        /* <div>
+          <ABtn onClick={toggleModal}>
+            <EditIcon color={setColor.primaryColor} />
+          </ABtn>
+
+          <div>
+            <MyModalWrapper
+              isOpen={isOpen}
+              toggle={setIsOpen}
+              onBackgroundClick={toggleModal}
+              onEscapeKeydown={toggleModal}
+              afterOpen={afterOpen}
+              beforeOpen={beforeClose}
+              opacity={opacity}
+              backgroundProps={{ opacity }}
+            >
+              <MyModal>
+                <EditForm onClick={closeModal} />
+              </MyModal>
+            </MyModalWrapper>
+          </div>
+        </div> */
+        <Link to={`/admin/eventModalPage/${item._id}`}>
+          <EditIcon color={setColor.primaryColor} />
+        </Link>
+      )
+    },
+    removeLink: {
+      key: "RemoveLink",
+      label: "Delete",
+      content: item => (
+        <>
+          <ABtn onClick={() => deleteEvent(item._id)}>
+            <RemoveIcon color={setColor.removeColor} />
+          </ABtn>
+        </>
+      )
+    }
+  };
+
   const headerColumns = () =>
     Object.keys(columns).map(key => (
       <Th
@@ -109,6 +202,7 @@ const Table = ({
       {Object.keys(columns).map(key => cell(item, key))}
     </Tr>
   );
+
   return (
     <Main>
       <T>

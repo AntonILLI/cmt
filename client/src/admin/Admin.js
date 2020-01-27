@@ -18,12 +18,16 @@ import Toggle from "./components/globals/Toggle";
 import { ModalProviders } from "./components/modal/Modal";
 import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 import { useTransition, animated } from "react-spring";
-
+import EventCallModal from "../admin/components/modal/EventCallModal";
+import CallModal from "../admin/components/modal/CallModal";
+import AuthRoute from "../AuthRoute";
+import setAuthToken from "../components/utils/SetAuthToken";
 function Admin() {
   //router
   // const { location } = useContext(__RouterContext);
   const location = useLocation();
   console.log(location);
+  // const history = useHistory();
 
   //transition,location.name is key,objects for transition
   const transitions = useTransition(location, location => location.pathname, {
@@ -38,6 +42,9 @@ function Admin() {
     return <div />;
   }
 
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
   return (
     <>
       <ThemeProvider theme={themeMode}>
@@ -49,19 +56,28 @@ function Admin() {
             {transitions.map(({ item, props, key }) => (
               <animated.div key={key} style={props}>
                 <Switch location={item}>
-                  <Route
+                  <AuthRoute
                     exact
                     path="/admin"
                     component={Dashboard}
                     location={location}
                   />
-                  <Route exaxt path="/admin/profile" component={Profile} />
-                  <Route exaxt path="/admin/event" component={Event} />
-                  <Route
+                  <AuthRoute exaxt path="/admin/profile" component={Profile} />
+                  <AuthRoute exaxt path="/admin/event" component={Event} />
+                  <AuthRoute
                     exaxt
                     path="/admin/eventTable"
                     component={EventTableList}
                     location={location}
+                  />
+                  <AuthRoute
+                    path="/admin/eventModalPage/:id"
+                    component={EventCallModal}
+                  />
+
+                  <AuthRoute
+                    path="/admin/modalPage/:params"
+                    component={CallModal}
                   />
                 </Switch>
               </animated.div>

@@ -47,45 +47,45 @@ const Navigation = () => {
     }
   `;
 
-  const MySearch = styled(Form)`
-    position: relative !important;
-    margin-top: 20px !important;
+  // const MySearch = styled(Form)`
+  //   position: relative !important;
+  //   margin-top: 20px !important;
 
-    .navigation-search-input {
-      width: 30rem !important;
-      padding: 1rem 2rem !important;
-      background-color: rgba(0, 0, 0, 0.3) !important;
-      font-family: "Josefin Sans", sans-serif !important;
-      font-size: 1.6rem !important;
-      color: ${font}!important;
-      letter-spacing: 0.1rem !important;
-      outline: none !important;
-      margin-left: 3rem !important;
-      border: 0.1rem solid #555 !important;
-      border-radius: 10rem !important;
-      transition: background-color 0.3s !important;
-    }
+  //   .navigation-search-input {
+  //     width: 30rem !important;
+  //     padding: 1rem 2rem !important;
+  //     background-color: rgba(0, 0, 0, 0.3) !important;
+  //     font-family: "Josefin Sans", sans-serif !important;
+  //     font-size: 1.6rem !important;
+  //     color: ${font}!important;
+  //     letter-spacing: 0.1rem !important;
+  //     outline: none !important;
+  //     margin-left: 3rem !important;
+  //     border: 0.1rem solid #555 !important;
+  //     border-radius: 10rem !important;
+  //     transition: background-color 0.3s !important;
+  //   }
 
-    .navigation-search-input:focus {
-      background-color: rgba(0, 0, 0, 0.1) !important;
-      border: solid 1px ${font} !important;
-    }
+  //   .navigation-search-input:focus {
+  //     background-color: rgba(0, 0, 0, 0.1) !important;
+  //     border: solid 1px ${font} !important;
+  //   }
 
-    .navigation-search-btn {
-      border: none;
-      background-color: transparent;
-      color: ${font};
-      font-size: 1.7rem;
-      position: absolute;
-      top: 1rem;
-      right: 5.8rem;
-      cursor: pointer;
-    }
+  //   .navigation-search-btn {
+  //     border: none;
+  //     background-color: transparent;
+  //     color: ${font};
+  //     font-size: 1.7rem;
+  //     position: absolute;
+  //     top: 1rem;
+  //     right: 5.8rem;
+  //     cursor: pointer;
+  //   }
 
-    .navigation-search-btn:focus {
-      outline: none !important;
-    }
-  `;
+  //   .navigation-search-btn:focus {
+  //     outline: none !important;
+  //   }
+  // `;
 
   const MyNavigationList = styled.ul`
     list-style: none;
@@ -175,18 +175,12 @@ const Navigation = () => {
     margin-bottom: 1.5rem;
   `;
 
-  function Form({ className, ...props }) {
-    return <form className={className} {...props}></form>;
-  }
-  function Ul({ className, ...props }) {
-    return <ul className={className} {...props}></ul>;
-  }
   return (
     <MyNavigation className="navigation">
       <div className="navigation-header">
         <h1 className="navigation-heading">Canterbury Music School</h1>
 
-        <MySearch className="broswe-default">
+        {/* <MySearch className="broswe-default">
           <input
             type="text"
             className="navigation-search-input browser-default"
@@ -195,24 +189,24 @@ const Navigation = () => {
           <div className="navigation-search-btn browser-default">
             <i className="fas fa-search"></i>
           </div>
-        </MySearch>
+        </MySearch> */}
       </div>
 
       <MyNavigationList className="browser-default">
         <li className="navigation-item">
           <Link to="/admin" className="navigation-link">
-            Admin-Dashboard
+            All Teachers
           </Link>
         </li>
         <li className="navigation-item">
           <Link to="/admin/profile" className="navigation-link">
-            profile
+            Add Teacher
           </Link>
         </li>
 
         <li className="navigation-item">
           <Link to="/admin/event" className="navigation-link">
-            event
+            Add Event
           </Link>
         </li>
         <li className="navigation-item">
@@ -262,7 +256,7 @@ const Navigation = () => {
       </ButtonWrapper>
 
       <MyCopyright className="copyright">
-        <p>&copy; 2019. Cunterbury Music School. All Rights Reserved</p>
+        <p>&copy; 2019. Canterbury Music School. All Rights Reserved</p>
       </MyCopyright>
     </MyNavigation>
   );

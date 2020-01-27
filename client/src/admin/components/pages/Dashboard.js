@@ -1,20 +1,29 @@
 import React, { useContext, useEffect } from "react";
 import Teachers from "../dashboard/teachers/Teachers";
 import AbsoluteWrapper from "../globals/AbsoluteWrapper";
-import { useParams } from "react-router";
+
 import AdminContext from "../../../components/context/adminAPI/adminContext";
+
 const Dashboard = ({ location }) => {
   const adminContext = useContext(AdminContext);
-  const { adminUsers, teachers, loading, error } = adminContext;
+
+  const { adminUsers, teachers, deleteUser, loading, error } = adminContext;
+
   useEffect(() => {
     adminUsers();
     //eslint-disable-next-line
   }, []);
-  const { id } = useParams();
+
   return (
     <>
       <AbsoluteWrapper>
-        <Teachers userId={id} location={location} teachers={teachers} />
+        <Teachers
+          deleteUser={deleteUser}
+          location={location}
+          teachers={teachers}
+          loading={loading}
+          error={error}
+        />
       </AbsoluteWrapper>
     </>
   );

@@ -1,26 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import Piano from "./Piano";
 import ApiContext from "../context/api/apiContext";
-
+import EventContext from "../context/eventAPI/eventContext";
+import LoadingComponent from "../loading/LoadingComponent";
 import "../../css/materialize.css";
+import "../../css/sliders.css";
+import "../../css/slider-animations.css";
 import M from "materialize-css";
+
+import Slider from "react-animated-slider";
+import "react-animated-slider/build/horizontal.css";
+
 let piano = require("../../img/piano-3505109_1920.jpg");
 
-const Card = () => {
-  const apiContext = useContext(ApiContext);
-  const { userLoad, users, loading, error } = apiContext;
-
-  useEffect(() => {
-    userLoad();
-
-    //eslint-disable-next-line
-  }, []);
-
+const Card = ({ users }) => {
   return (
     <>
       {users &&
         users.map((user, i) => (
-          <div className="col s12 m6">
+          <div key={i} className="col s12 m6">
             <div className="card hoverable">
               <div className="card-image">
                 <img
@@ -29,7 +27,8 @@ const Card = () => {
                     objectFit: "fill",
                     overflow: "none"
                   }}
-                  src={require(`../../img/${user.photo}`)}
+                  src={require(`../../../public/uploads/${user.photo}`)}
+                  alt=""
                 />
                 <span className="card-title">
                   <blockquote>
@@ -58,7 +57,16 @@ const Card = () => {
 };
 
 const Home = () => {
+  const apiContext = useContext(ApiContext);
+  const eventContext = useContext(EventContext);
+  const { userLoad, users, loading } = apiContext;
+  const { getEvents, events } = eventContext;
+  console.log("events:", events);
   useEffect(() => {
+    userLoad();
+
+    getEvents();
+
     //Explicitly initilize slider
     let slider = document.querySelectorAll(".slider");
     M.Slider.init(slider, {});
@@ -68,6 +76,16 @@ const Home = () => {
     //eslint-disable-next-line
   }, []);
 
+  var settings = {
+    autoplay: 2000,
+    infinite: true,
+    touchDisabled: true
+  };
+
+  // if (users == null && loading) {
+  //   return <LoadingComponent />;
+  // }
+
   return (
     <div>
       <div className="parallax-container valign-wrapper">
@@ -75,7 +93,10 @@ const Home = () => {
           <h1 id="header">Canterbury Music Teachers</h1>
         </div>
         <div id="firstImage" className="parallax">
-          <img src="https://cdn.pixabay.com/photo/2018/11/03/06/37/abstract-3791494_960_720.jpg" />
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2018/11/03/06/37/abstract-3791494_960_720.jpg"
+          />
         </div>
       </div>
 
@@ -89,14 +110,17 @@ const Home = () => {
           </p>
 
           <div className="row">
-            <Card />
+            <Card users={users} />
           </div>
         </div>
       </div>
 
       <div className="parallax-container">
         <div className="parallax">
-          <img src="https://cdn.pixabay.com/photo/2016/02/29/23/15/sheet-music-1229481_960_720.jpg" />
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2016/02/29/23/15/sheet-music-1229481_960_720.jpg"
+          />
         </div>
       </div>
 
@@ -109,56 +133,36 @@ const Home = () => {
             while scrolling.
           </p>
 
-          <div className="slider">
-            <ul className="slides">
-              <li>
-                <img src="https://cdn.pixabay.com/photo/2017/03/05/19/54/concert-2119610_960_720.jpg" />
-                <div className="caption center-align">
-                  <h3>This is our big Tagline!</h3>
-                  <h5 className="light grey-text text-lighten-3">
-                    Here's our small slogan.
-                  </h5>
-                  <a href="#">Link</a>
+          <Slider {...settings} className="slider-wrapper">
+            {events.map((e, index) => (
+              <div key={index} className="slider-content">
+                <img
+                  alt=""
+                  src={require(`../../../public/uploads/${e.photo}`)}
+                  style={{
+                    width: "100%",
+                    height: "100vh",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat"
+                  }}
+                />
+                <div className="inner">
+                  <h1>{e.title}</h1>
+                  <p>{e.description}</p>
                 </div>
-              </li>
-              <li>
-                <img src="https://cdn.pixabay.com/photo/2017/07/28/15/40/trombone-2548982_960_720.jpg" />
-                <div className="caption left-align">
-                  <h3>Left Aligned Caption</h3>
-                  <h5 className="light grey-text text-lighten-3">
-                    Here's our small slogan.
-                  </h5>
-                  <a href="#">Link</a>
-                </div>
-              </li>
-              <li>
-                <img src="https://cdn.pixabay.com/photo/2014/12/07/15/03/orchestra-559759_960_720.jpg" />
-                <div className="caption right-align">
-                  <h3>Right Aligned Caption</h3>
-                  <h5 className="light grey-text text-lighten-3">
-                    Here's our small slogan.
-                  </h5>
-                  <a href="#">Link</a>
-                </div>
-              </li>
-              <li>
-                <img src="https://cdn.pixabay.com/photo/2015/05/23/21/05/cello-780980_960_720.jpg" />
-                <div className="caption center-align">
-                  <h3>This is our big Tagline!</h3>
-                  <h5 className="light grey-text text-lighten-3">
-                    Here's our small slogan.
-                  </h5>
-                  <a href="#">Link</a>
-                </div>
-              </li>
-            </ul>
-          </div>
+              </div>
+            ))}
+          </Slider>
         </div>
       </div>
 
       <div className="parallax-container">
         <div className="parallax">
-          <img src="https://cdn.pixabay.com/photo/2018/08/21/17/01/violin-3621667_960_720.jpg" />
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2018/08/21/17/01/violin-3621667_960_720.jpg"
+          />
         </div>
       </div>
 
