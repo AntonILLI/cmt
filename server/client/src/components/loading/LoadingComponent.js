@@ -19,16 +19,15 @@ const style = {
   color: "white"
 };
 
-const LaodingComponent = () => {
+const LoadingComponent = () => {
   return (
     <div style={style}>
       <FadeIn>
         <div className="d-flex justify-content-center align-items-center">
-          <h1>Loading.....</h1>
           <Lottie options={defaultOptions} height={800} width={"100%"} />
         </div>
       </FadeIn>
     </div>
   );
 };
-export default LaodingComponent;
+export default LoadingComponent;

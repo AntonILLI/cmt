@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Component } from "react";
 import Piano from "./Piano";
+import ContactForm from "./ContactForm";
 import ApiContext from "../context/api/apiContext";
 import EventContext from "../context/eventAPI/eventContext";
 import LoadingComponent from "../loading/LoadingComponent";
@@ -11,9 +12,22 @@ import M from "materialize-css";
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 
-let piano = require("../../img/piano-3505109_1920.jpg");
+// let piano = require("../../img/piano-3505109_1920.jpg");
+
+// const Card = () => {
+//   const apiContext = useContext(ApiContext);
+// const { userLoad, users, loading, error } = apiContext;
 
 const Card = ({ users }) => {
+  useEffect(() => {
+    //Explicitly initilize collapsible
+    const collapsible = document.querySelectorAll(".collapsible");
+    M.Collapsible.init(collapsible, {
+      accordion: false
+    });
+    //eslint-disable-next-line
+  });
+
   return (
     <>
       {users &&
@@ -23,7 +37,6 @@ const Card = ({ users }) => {
               <div className="card-image">
                 <img
                   style={{
-                    height: 300,
                     objectFit: "fill",
                     overflow: "none"
                   }}
@@ -43,11 +56,50 @@ const Card = ({ users }) => {
                   data-position="top"
                   data-tooltip="Hello!"
                 >
-                  <i className="material-icons">audiotrack</i>
+                  <i className="material-icons">school</i>
                 </button>
               </div>
               <div className="card-content">
-                <p>{user.description}</p>
+                <ul className="collapsible expandable">
+                  <li>
+                    <div className="collapsible-header">
+                      <i className="material-icons">account_circle</i>About Me
+                    </div>
+                    <div className="collapsible-body">
+                      <span>
+                        <p>{user.description}</p>
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="collapsible-header">
+                      <i className="material-icons">music_note</i>Instruments
+                    </div>
+                    <div className="collapsible-body">
+                      <span>
+                        <ul>
+                          {/* {user.careers.map(instruments => (
+                            <li>{instruments}</li>
+                          ))} */}
+                        </ul>
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="collapsible-header">
+                      <i className="material-icons">monetization_on</i>Pricing
+                    </div>
+                    <div className="collapsible-body">
+                      <span>
+                        <ul>
+                          {/* {user.pricing.map(price => (
+                            <li>{price}</li>
+                          ))} */}
+                        </ul>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -67,13 +119,19 @@ const Home = () => {
 
     getEvents();
 
-    //Explicitly initilize slider
-    let slider = document.querySelectorAll(".slider");
-    M.Slider.init(slider, {});
     //Auto init all other materialize scripts
     M.AutoInit();
 
-    //eslint-disable-next-line
+    //Explicitly initilize slider
+    const slider = document.querySelectorAll(".slider");
+    M.Slider.init(slider, {});
+
+    //Explicitly initilize modal
+    const modal = document.querySelectorAll(".modal");
+    console.log(modal);
+    M.Modal.init(modal, {
+      dismissible: false
+    });
   }, []);
 
   var settings = {
@@ -168,44 +226,13 @@ const Home = () => {
 
       <div className="section white">
         <div className="row container">
-          <h2 className="header">Contact Us</h2>
+          <h2 className="header">Start Today</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+            Learn playing music with this interactive piano. Tap the keys on the
+            keyboard or use a mouse.
+          </p>
 
-          <div className="row">
-            <form className="col s12">
-              <div className="row">
-                <div className="input-field col l6 m6 s12">
-                  <i className="material-icons prefix">account_circle</i>
-                  <input id="first_name" type="text" className="validate" />
-                  <label htmlFor="first_name">First Name</label>
-                </div>
-                <div className="input-field col l6 m6 s12">
-                  <i className="material-icons prefix">phone</i>
-                  <input id="icon_telephone" type="tel" className="validate" />
-                  <label htmlFor="icon_telephone">Telephone</label>
-                </div>
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">email</i>
-                  <input id="email" type="email" className="validate" />
-                  <label htmlFor="email">Email</label>
-                  <span
-                    className="helper-text"
-                    data-error="wrong"
-                    data-success="right"
-                  >
-                    Helper text
-                  </span>
-                </div>
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">mode_edit</i>
-                  <textarea
-                    id="icon_prefix2"
-                    className="materialize-textarea"
-                  ></textarea>
-                  <label htmlFor="icon_prefix2">Message</label>
-                </div>
-              </div>
-            </form>
-          </div>
+          <ContactForm />
         </div>
       </div>
 
@@ -255,12 +282,6 @@ const Home = () => {
           </div>
         </div>
       </footer>
-
-      <div className="section white">
-        <div className="row container">
-          <Piano />
-        </div>
-      </div>
     </div>
   );
 };
