@@ -5,7 +5,6 @@ import ApiContext from "../context/api/apiContext";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
-// import { Link } from "react-router-dom";
 
 import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
