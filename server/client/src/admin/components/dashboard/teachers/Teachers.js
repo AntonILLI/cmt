@@ -46,7 +46,7 @@ function Teachers({ teachers, deleteUser, loading, error }) {
     <MySection>
       <Particles>
         <MyTitle>
-          <h1 className="common-heading">Our Teachers</h1>
+          <h1 className="common-heading">All Teachers</h1>
           <div className="underline">
             <div className="small-underline"></div>
             <div className="big-underline"></div>
@@ -74,18 +74,22 @@ function Teachers({ teachers, deleteUser, loading, error }) {
                   </h3>
 
                   <p className="teachers-title">{teacher.title}</p>
+                  <p className="teachers-title">{teacher.price}</p>
+                  <p className="teachers-title">{teacher.careers}</p>
 
                   <ButtonWrapper>
                     <Link
                       to={`/admin/modalPage/${teacher._id}`}
-                    
                       onClick={() => setIsModalOpen(true)}
                     >
-                    <EditIcon color={setColor.primaryColor} />
-                     
+                      <EditIcon color={setColor.primaryColor} />
                     </Link>
 
-                    <ABtn onClick={() => deleteUser(teacher._id)}>
+                    <ABtn
+                      onClick={() =>
+                        deleteUser(teacher._id).then(window.location.reload())
+                      }
+                    >
                       {" "}
                       <RemoveIcon color={setColor.removeColor} />
                     </ABtn>

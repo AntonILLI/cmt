@@ -12,9 +12,10 @@ import {
   UPDATE_USER,
   UPDATE_ERROR
 } from "./types";
-
+import setAuthToken from "../../utils/SetAuthToken";
 const AdminState = props => {
   const initialState = {
+    // auth: localStorage.getItem("token"),
     teachers: [],
     error: null,
     loading: null
@@ -23,6 +24,9 @@ const AdminState = props => {
   const [state, dispatch] = useReducer(AdminReducer, initialState);
 
   const adminUsers = async () => {
+    // if (localStorage.token) {
+    //   setAuthToken(localStorage.token);
+    // }
     try {
       const res = await axios.get("/api/v1/users/admin", {});
       console.log(res);
@@ -48,9 +52,9 @@ const AdminState = props => {
     }
   };
 
-//pass the params in the router as ObjectId in backend 
-//findByAndUpdate will identify the passed params ==== ObjectId of Users 
-//params form callModal, map find teachrs.id which will be matching data 
+  //pass the params in the router as ObjectId in backend
+  //findByAndUpdate will identify the passed params ==== ObjectId of Users
+  //params form callModal, map find teachrs.id which will be matching data
   const updateUser = async (teacher, params) => {
     const config = {
       headers: {

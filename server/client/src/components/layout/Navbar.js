@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ApiContext from "../context/api/apiContext";
 
@@ -33,7 +33,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="#">Components</Link>
+                <Link to="/admin">Admin-DashBoard</Link>
               </li>
               <li>
                 <Link to="/" onClick={handleLogout}>
@@ -46,15 +46,17 @@ const Navbar = () => {
 
         <ul className="sidenav" id="mobile-demo">
           <li>
-            <Link className="nav-link">
+            <Link to={"/"} className="nav-link">
               Home <span className="sr-only">(current)</span>
             </Link>
           </li>
           <li>
-            <Link to="#">Components</Link>
+            <Link to="/admin">Admin-DashBoard</Link>
           </li>
           <li>
-            <Link to="logout">Sign-Out</Link>
+            <Link to="/" onClick={handleLogout}>
+              Sign-Out
+            </Link>
           </li>
         </ul>
       </header>
@@ -74,7 +76,7 @@ const Navbar = () => {
             </a>
             <ul className="right hide-on-med-and-down">
               <li>
-                <Link className="nav-link">
+                <Link to="/" className="nav-link">
                   Home <span className="sr-only">(current)</span>
                 </Link>
               </li>
@@ -85,7 +87,7 @@ const Navbar = () => {
                 <Link href="#">Javascript</Link>
               </li>
               <li>
-                <Link to="signIn">
+                <Link to="/signIn">
                   {/* <AudiotrackSharpIcon /> */}
                   <span>Sign-IN</span>
                 </Link>

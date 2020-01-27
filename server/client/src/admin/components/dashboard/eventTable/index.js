@@ -1,16 +1,10 @@
 //Event Table Page
 
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Table from "../Table";
-import EventImg from "../EventImg";
-import img from "../../images/Sample.jpg";
-import RemoveIcon from "../svg-icons/Remove";
-import EditIcon from "../svg-icons/Edit";
 import Modal from "styled-react-modal";
-import EditForm from "../form/EditForm";
-
-import { secoundryColor, setColor } from "../../globals/colors";
+import { secoundryColor } from "../../globals/colors";
 
 const Main = styled.div`
   height: 100%;
@@ -91,8 +85,6 @@ export const MyModal = styled.div`
   outline: none;
 `;
 
-
-
 const rowConfig = {
   uniqueKey: "id",
   css: `
@@ -103,7 +95,7 @@ const rowConfig = {
   onClick: (e, item) => console.log("the row of item has been clicked", item)
 };
 
-const EventTable = ({ location,events,deleteEvent }) => {
+const EventTable = ({ location, events, deleteEvent }) => {
   // console.log('id:',id)
   // console.log(location.search);
   const params = new URLSearchParams(location.search);
@@ -157,7 +149,6 @@ const EventTable = ({ location,events,deleteEvent }) => {
         deleteEvent={deleteEvent}
         rowConfig={rowConfig}
       />
-
     </Main>
   );
 };

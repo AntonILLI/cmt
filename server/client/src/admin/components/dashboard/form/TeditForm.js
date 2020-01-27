@@ -4,7 +4,7 @@ import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
-import { Link } from "react-router-dom";
+
 import { screenSmallerThan } from "../../globals/Util";
 
 import {
@@ -161,7 +161,7 @@ function TeditForm({ params, Tvalue }) {
           }) => {
             return (
               <>
-                <Form name="contact" method="post" onSubmit={handleSubmit}>
+                <Form name="TeditForm" method="post" onSubmit={handleSubmit}>
                   <PopupMessage children={add => (ref.current = add)} />
                   <Label htmlFor="firstname">
                     First Name

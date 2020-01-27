@@ -27,7 +27,7 @@ router
 
 router
   .get("/:id", getEvent)
-  .put("/:id/update", protect, updateEvent)
+  .put("/:id/update", updateEvent) //P
   .delete("/:id/delete", deleteEvent);
 //cant not (/:id/id)get(:/id)
 module.exports = router;

@@ -18,17 +18,14 @@ export default (state, action) => {
       return {
         ...state,
         users: action.payload.data,
-        isAuthenticated: true,
         loading: false
       };
 
     case AUTH_USER:
       return {
         ...state,
-
-        //user: state.user.filter(u => u !== action.payload),
         user: [action.payload.data],
-        isAuthenticated: true,
+        isAuthenticated: false,
         loading: false
       };
 
@@ -38,17 +35,17 @@ export default (state, action) => {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: false
+        loading: true
       };
-      case FORGOT_PASS:
-        return{
-          ...state,
-          user:action.payload.data
-        }
+    case FORGOT_PASS:
+      return {
+        ...state,
+        users: action.payload.data
+      };
     case RESET_PASSWORD:
       return {
         ...state,
-        user: action.payload.data
+        users: action.payload.data
       };
     case LOGOUT:
       localStorage.removeItem("token");

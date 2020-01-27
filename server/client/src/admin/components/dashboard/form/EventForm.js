@@ -115,7 +115,7 @@ function EventForm() {
   return (
     <MySection>
       <MyTitle>
-        <h1 className="common-heading">Event Form</h1>
+        <h1 className="common-heading">Add Event</h1>
         <div className="underline">
           <div className="small-underline"></div>
           <div className="big-underline"></div>

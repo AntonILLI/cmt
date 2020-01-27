@@ -1,6 +1,7 @@
 //event table , table component
 
 import React from "react";
+
 import { setColor } from "../../globals/colors";
 import styled, { css } from "styled-components"; //css
 import { screenSmallerThan } from "../../globals/Util";
@@ -10,6 +11,8 @@ import EventImg from "../EventImg";
 import RemoveIcon from "../svg-icons/Remove";
 import { Link } from "react-router-dom";
 import EditIcon from "../svg-icons/Edit";
+import Moment from "react-moment";
+import "moment-timezone";
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,7 +103,10 @@ const Table = ({
       label: "Title",
       content: items => (
         <TitleCol>
-          <EventImg img={items.img} title={items.title} />
+          <EventImg
+            img={require(`../../../../../public/uploads/${items.photo}`)}
+            title={items.title}
+          />
           <Title>{items.title}</Title>
         </TitleCol>
       )
@@ -111,10 +117,11 @@ const Table = ({
       width: 700,
       hideOnPhone: true
     },
-    createBy: {
+    createdAt: {
       key: "createBy",
       label: "Post Date",
-      hideOnTablet: true
+      hideOnTablet: true,
+      content: items => <Moment format="D MMM YYYY">{items.createdAt}</Moment>
     },
     editLink: {
       key: "EditLink",

@@ -13,14 +13,14 @@ export default (state, action) => {
       return {
         ...state,
         teachers: action.payload.data,
-        loading: false
+        loading: true,
+        error: null
       };
 
     case ADD_USERS:
       return {
         ...state,
         teachers: action.payload.data,
-
         loading: false
       };
     case UPDATE_USER:

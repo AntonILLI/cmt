@@ -1,14 +1,15 @@
 //Form in the user profile form
-
 import React, { useState, useRef, useContext } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form, FieldArray, ErrorMessage, Field } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
+
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
-// import PopupMessage from "../../globals/PupupMessage";
+import { MultiSelect } from "./MultiSelect";
+
 import { screenSmallerThan } from "../../globals/Util";
-// import { MyTitle, MySection } from "../teachers/Teachers";
+
 import {
   PageWrapper,
   Title,
@@ -108,12 +109,35 @@ function FormField({ userId }) {
   const adminContext = useContext(AdminContext);
   const { addUsers, loading, error } = adminContext;
 
+  const getValues = values => values.fields;
 
+  const Poptions = [
+    {
+      label: "piano",
+      value: "piano"
+    },
+    {
+      label: "guitar",
+      value: "guitar"
+    },
+    {
+      label: "jazz",
+      value: "jazz"
+    },
+    {
+      label: "vocal training",
+      value: "vocal training"
+    },
+    {
+      label: "others",
+      value: "others"
+    }
+  ];
 
   return (
     <MySection>
       <MyTitle>
-        <h1 className="common-heading">Teacher's Profile</h1>
+        <h1 className="common-heading">Add Teacher</h1>
         <div className="underline">
           <div className="small-underline"></div>
           <div className="big-underline"></div>
@@ -131,15 +155,17 @@ function FormField({ userId }) {
             email: "",
             title: "",
             description: "",
-            password:"",
-            photo:null
+            password: "",
+            photo: null,
+            careers: [],
+            price: []
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             console.log(values);
-          
+
+            //formdata file data transmission
             const data = new FormData();
-       
             data.append("firstname", values.firstname);
             data.append("lastname", values.lastname);
             data.append("email", values.email);
@@ -147,15 +173,16 @@ function FormField({ userId }) {
             data.append("title", values.title);
             data.append("description", values.description);
             data.append("photo", values.photo);
+            data.append("careers", values.careers);
+            data.append("price", values.price);
+            console.log(JSON.stringify(values, null, 2));
+
             addUsers(data);
 
-         
-
             const timeOut = setTimeout(() => {
-              ref.current(" Submitted Successfully!!");
+              ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
-
-              clearTimeout(timeOut);
+              clearTimeout(timeOut)
             }, 1000);
           }}
         >
@@ -163,6 +190,7 @@ function FormField({ userId }) {
             values,
             errors,
             touched,
+            setFieldValue,
             handleSubmit,
             isSubmitting,
             handleReset,
@@ -211,10 +239,8 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-
-
                   <Label htmlFor="password">
-                  Password
+                    Password
                     <MyInput
                       className="browser-default"
                       type="password"
@@ -232,7 +258,6 @@ function FormField({ userId }) {
                       <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
                     )}
                   </ErrorMessage>
-
 
                   <Label htmlFor="email">
                     Email
@@ -274,7 +299,6 @@ function FormField({ userId }) {
                     )}
                   </ErrorMessage>
 
-
                   <Label htmlFor="description">
                     Description
                     <MyInput
@@ -301,6 +325,7 @@ function FormField({ userId }) {
                     <MyInput
                       className="browser-default"
                       name="photo"
+                      value={values.price}
                       component={FileUpload}
                       autoCorrect="off"
                       autoComplete="photo"
@@ -314,7 +339,60 @@ function FormField({ userId }) {
                       {errors.photo}
                     </StyledInlineErrorMessage>
                   )}
+                  <Label htmlFor="careers">
+                    Music skills
+                    <MultiSelect
+                      name="careers"
+                      options={Poptions}
+                      placeholder="multi choise is available, select your music skills to teach"
+                    />
+                  </Label>
 
+                  <Label htmlFor="photo">
+                    Fees
+                    <FieldArray
+                      className="browser-default"
+                      placeholder="Add Price"
+                      name="price"
+                      render={arrayHelpers => (
+                        <div>
+                          {values.price && values.price.length > 0 ? (
+                            values.price.map((price, index) => (
+                              <div key={index}>
+                                <Field
+                                  name={`${price}.${index}`}
+                                  onChange={e => {
+                                    setFieldValue("price.0", e.target.value);
+                                    getValues(values);
+                                  }}
+                                />
+
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  -
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelpers.insert(index, "")}
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ))
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => arrayHelpers.push("")}
+                            >
+                              Add Price
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    />
+                  </Label>
                   <Submit
                     className="browser-default"
                     type="submit"
@@ -335,7 +413,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-              
+                {JSON.stringify(values, null, 2)}
               </>
             );
           }}
@@ -346,10 +424,3 @@ function FormField({ userId }) {
 }
 
 export default FormField;
-
-  {/* <CodeWrapper>
-                <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
-                <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
-                {formValues && <strong>Submitted values:</strong>}
-                {JSON.stringify(formValues, null, 2)}
-              </CodeWrapper> */}

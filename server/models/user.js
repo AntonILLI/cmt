@@ -33,16 +33,7 @@ const UserSchema = new mongoose.Schema({
     minlength: 8
   },
   careers: {
-    type: [String],
-    enum: [
-      "Piano",
-      "viollin",
-      "guitar",
-      "flute",
-      "Jazz",
-      "vacal training",
-      "Other"
-    ]
+    type: [String]
   },
   title: {
     type: String,
@@ -52,8 +43,8 @@ const UserSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  pricing: {
-    type: [Number]
+  price: {
+    type: [String]
   },
   photo: {
     type: String,
@@ -83,24 +74,23 @@ UserSchema.methods.getSignedJwtToken = function() {
   });
 };
 
-//compare user entered password & hashed password
 UserSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-//reset password and generate hashed token
 UserSchema.methods.getResetPasswordToken = function() {
-  //Generate token //randomBytes generate random data //buffer formatted to string
+  // Generate token
   const resetToken = crypto.randomBytes(20).toString("hex");
-  //Hash token and ,'sha256'//digest as hex string
-  //about cript hashing--> https://nodejs.org/en/knowledge/cryptography/how-to-use-crypto-module/
+
+  // Hash token and set to resetPasswordToken field
+
   this.resetPasswordToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
 
-  // Set expire date
-  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  // Set expire
+  this.resetPasswordExpire = Date.now() + 3600000;
 
   return resetToken;
 };

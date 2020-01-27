@@ -1,42 +1,46 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
-import photo_loginpic from "../../img/loginpic.jpg";
+import photo_reset from "../../img/ForgotPassword.jpg";
 import ApiContext from "../context/api/apiContext";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
 
 import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email")
-    .required("Required"),
   password: Yup.string()
-    .min(6, "Too Short!")
-    .required("Required")
+    .min(8, "Too Short!")
+    .required("Required"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Passwords must match"
+  ),
+  resetPasswordToken: Yup.string().required("Required Token")
 });
 
-// function Copyright() {
-//   return (
-//     <p variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <Link color="inherit">Canterbury Music Teacher</Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </p>
-//   );
-// }
+function Copyright() {
+  return (
+    <p variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <div color="inherit">Canterbury Music Teacher</div>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </p>
+  );
+}
 
-const SignIn = () => {
+const ResetPassword = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
-  const { login, isAuthenticated, error } = apiContext;
+  const { resetPassword, isAuthenticated } = apiContext;
+  const { resetPasswordToken } = useParams();
 
+  console.log("tokenR:", resetPasswordToken);
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/admin/dashboard");
+      history.push("/admin");
     }
   }, [isAuthenticated, history]);
 
@@ -48,18 +52,15 @@ const SignIn = () => {
     <div className="container">
       <div className="row">
         <div className="col s8 offset-s2 m6 offset-m3">
-          {error && error.length > 0 && (
-            <h4 style={{ color: "red" }}>{error}</h4>
-          )}
           <div className="card center-align">
             <div className="card-image">
-              <img className="activator" src={photo_loginpic}></img>
+              <img className="activator" alt="" src={photo_reset}></img>
             </div>
 
             <div className="card-tabs">
               <ul className="tabs tabs-fixed-width">
                 <li className="tab">
-                  <a href="#test4">Sign-In</a>
+                  <a href="#test4">Please type your email address</a>
                 </li>
               </ul>
             </div>
@@ -69,35 +70,39 @@ const SignIn = () => {
                 <div className="row">
                   <Formik
                     initialValues={{
-                      email: "",
-                      password: ""
+                      password: "",
+                      resetPasswordToken: "",
+                      confirmPassword: ""
                     }}
                     validationSchema={SignupSchema}
                     onSubmit={values => {
-                      // same shape as initial values
+                      const data = new FormData();
+                      data.append("password", values.password);
 
-                      login(values);
+                      resetPassword(data, resetPasswordToken);
                     }}
                   >
                     {({ errors, touched, handleSubmit }) => (
                       <Form
-                        name="signIn"
+                        name="resetPasword"
                         action=""
                         method="post"
                         onSubmit={handleSubmit}
                       >
                         <div className="input-field col s12">
-                          <i className="material-icons prefix">email</i>
+                          <i className="material-icons prefix">vpn_key</i>
 
-                          <Field name="email" />
-                          {errors.email && touched.email ? (
+                          <Field name="resetPasswordToken" />
+                          {errors.resetPasswordToken &&
+                          touched.resetPasswordToken ? (
                             <StyledInlineErrorMessage>
-                              {errors.email}
+                              {errors.resetPasswordToken}
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
                         <div className="input-field col s12">
-                          <i className="material-icons prefix">vpn_key</i>
+                          <i className="material-icons prefix">Password</i>
+
                           <Field name="password" />
                           {errors.password && touched.password ? (
                             <StyledInlineErrorMessage>
@@ -105,7 +110,20 @@ const SignIn = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-                        <Link to="/forgotPassword">Forgot your password?</Link>
+
+                        <div className="input-field col s12">
+                          <i className="material-icons prefix">
+                            Confirm password
+                          </i>
+
+                          <Field name="confirmPassword" />
+                          {errors.confirmPassword && touched.confirmPassword ? (
+                            <StyledInlineErrorMessage>
+                              {errors.confirmPassword}
+                            </StyledInlineErrorMessage>
+                          ) : null}
+                        </div>
+
                         <div>
                           <button
                             type="submit"
@@ -114,9 +132,10 @@ const SignIn = () => {
                             <i className="material-icons right">
                               arrow_forward
                             </i>
-                            Login
+                            Send
                           </button>
                         </div>
+                        {Copyright()}
                       </Form>
                     )}
                   </Formik>
@@ -130,4 +149,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;

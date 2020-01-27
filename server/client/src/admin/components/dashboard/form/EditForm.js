@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { screenSmallerThan } from "../../globals/Util";
-import AdminContext from "../../../../components/context/adminAPI/adminContext";
+import EventContext from "../../../../components/context/eventAPI/eventContext";
 
 import {
   PageWrapper,
@@ -16,42 +16,30 @@ import {
   Submit
 } from "./InputStyles";
 
-const BtnWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-left: 5rem;
-  align-items: center;
-  padding: 1rem;
-`;
-const MyForm = styled.form`
-  margin-bottom: 100px;
-`;
-const ImgWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 3rem;
-  height: 50%;
-  width: 50%;
-`;
+// const BtnWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+//   margin-left: 5rem;
+//   align-items: center;
+//   padding: 1rem;
+// `;
+// const MyForm = styled.form`
+//   margin-bottom: 100px;
+// `;
+// const ImgWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   padding-top: 3rem;
+//   height: 50%;
+//   width: 50%;
+// `;
 
 //will use userId for save or delete conttent
 const FileSize = 15000000;
 const FormatType = ["image/jpg", "image/jpeg", "image/png"];
 
 const validationSchema = Yup.object().shape({
-  firstname: Yup.string()
-    .min(2, "Your firstname is too short")
-    .required("Please enter your first name"),
-  lastname: Yup.string()
-    .min(2, "Your lastname is too short")
-    .required("Please enter your last name"),
-  password: Yup.string()
-    .min(6, "Your password is more than 6")
-    .required("Please enter your last name"),
-  email: Yup.string()
-    .email("The email is incorrect")
-    .required("Please enter your email"),
   title: Yup.string()
     .min(5, "Your title is too short")
     .required("Please enter your title"),
@@ -90,7 +78,7 @@ export const Title = styled.h1`
   color: #222a6e;
 `;
 
-const Close = styled.button`
+const Close = styled.a`
   position: absolute;
   right: -2rem;
   top: -2rem;
@@ -118,8 +106,8 @@ function EditForm({ id }) {
   // const ref = useRef(null);
   const ref = useRef(null);
   // console.log("id:", id);
-  const adminContext = useContext(AdminContext);
-  const { updateEvent, loading, error } = adminContext;
+  const eventContext = useContext(EventContext);
+  const { updateEvent, loading, error } = eventContext;
 
   return (
     <MySection>
@@ -135,14 +123,12 @@ function EditForm({ id }) {
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
-            console.log(values);
-
             const data = new FormData();
             data.append("title", values.title);
             data.append("description", values.description);
             data.append("photo", values.photo);
 
-            updateEvent(data);
+            updateEvent(data, id);
 
             const timeOut = setTimeout(() => {
               ref.current("Submitted Successfully!!");
@@ -164,7 +150,7 @@ function EditForm({ id }) {
           }) => {
             return (
               <>
-                <Form name="contact" method="post" onSubmit={handleSubmit}>
+                <Form name="editForm" method="post" onSubmit={handleSubmit}>
                   <PopupMessage children={add => (ref.current = add)} />
 
                   <Label htmlFor="title">
@@ -227,11 +213,7 @@ function EditForm({ id }) {
                     </StyledInlineErrorMessage>
                   )}
 
-                  <Submit
-                    className="browser-default"
-                    type="submit"
-                    disabled={!isValid || isSubmitting}
-                  >
+                  <Submit type="submit" disabled={!isValid || isSubmitting}>
                     {isSubmitting ? `Submiting...` : `Submit`}
                   </Submit>
 
@@ -244,9 +226,9 @@ function EditForm({ id }) {
                   >
                     Reset
                   </button>
-                  
+                  <Close href="/admin/eventTable">X</Close>
                 </Form>
-                <Close href="/admin/eventTable">X</Close>
+
                 <hr />
               </>
             );
@@ -258,50 +240,3 @@ function EditForm({ id }) {
 }
 
 export default EditForm;
-
-// <MySection>
-//       <Title color="#707173" size>
-//         Edit Form
-//       </Title>
-
-//       <MyForm name="contact">
-//         <Label color="#8e929c" size htmlFor="title">
-//           Title
-//           <MyNormalInput className="browser-default" type="text" name="title" />
-//         </Label>
-
-//         <Label color="#8e929c" size htmlFor="description">
-//           Description
-//           <MyNormalTextArea className="browser-default" name="description" />
-//         </Label>
-//         <ImgWrapper>
-//           <Label color="#8e929c" size htmlFor="image">
-//             Image
-//             <FileUpload />
-//           </Label>
-//         </ImgWrapper>
-//       </MyForm>
-
-//       <BtnWrapper>
-//         <PrimaryBtn
-//           radius="5"
-//           color="#363837"
-//           background
-//           fontSize="2"
-//           width="100px"
-//         >
-//           Edit
-//         </PrimaryBtn>
-
-//         <PrimaryBtn
-//           id="modal"
-//           radius="5"
-//           color="#363837"
-//           fontSize="2"
-//           width="100px"
-//           onClick={onClick}
-//         >
-//           Close
-//         </PrimaryBtn>
-//       </BtnWrapper>
-//     </MySection>

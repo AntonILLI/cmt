@@ -59,18 +59,14 @@ const EventState = props => {
     }
   };
 
-  const updateEvent = async event => {
+  const updateEvent = async (event, id) => {
     const config = {
       headers: {
         "Content-Type": "application/json"
       }
     };
     try {
-      const res = await axios.put(
-        `/api/v1/event/${event._id}/update`,
-        event,
-        config
-      );
+      const res = await axios.put(`/api/v1/event/${id}/update`, event, config);
       dispatch({ type: UPDATE_EVENT, payload: res.data }); //response data to server
     } catch (err) {
       dispatch({

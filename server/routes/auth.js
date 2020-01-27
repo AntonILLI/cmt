@@ -13,6 +13,6 @@ router.post("/login", login);
 router.get("/logout", logout);
 router.get("/userlogin", protect, getMe);
 router.post("/forgotPassword", forgotPassword);
-router.put("/resetPassword/:resettoken", resetPassword);
+router.put("/resetPassword/:rtoken", resetPassword);
 
 module.exports = router;
