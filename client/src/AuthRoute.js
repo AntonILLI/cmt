@@ -22,18 +22,18 @@ const AuthRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-// export const AdminRoute = ({ component: Component, ...rest }) => {
-//   const AdminContext = useContext(Auth2Context);
-//   const { isAuthenticated } = AdminContext;
+export const AdminRoute = ({ component: Component, ...rest }) => {
+  const AdminContext = useContext(Auth2Context);
+  const { isAuthenticated } = AdminContext;
 
-//   return (
-//     <Route
-//       {...rest}
-//       render={Rprops =>
-//         !isAuthenticated ? <Redirect to="/admin" /> : <Component {...Rprops} />
-//       }
-//     />
-//   );
-// };
+  return (
+    <Route
+      {...rest}
+      render={Rprops =>
+        !isAuthenticated ? <Redirect to="/admin" /> : <Component {...Rprops} />
+      }
+    />
+  );
+};
 
 export default AuthRoute;
