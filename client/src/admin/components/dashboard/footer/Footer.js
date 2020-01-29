@@ -3,13 +3,22 @@
 import React from "react";
 import styled from "styled-components";
 
+// function Copyright() {
+//   return (
+//     <p variant="body2" color="textSecondary" align="center">
+//       {new Date().getFullYear()}
+//       {"."}
+//     </p>
+//   );
+// }
+
 const Footer = () => {
   return (
     <MyFooter>
       <div className="footer-part">
         <div className="copyright-text">
           <p>
-            Copyright &copy; 2019. Canterbury Music Teachers. All Rights
+            Copyright &copy; 2020. Canterbury Music Teachers. All Rights
             Reserved
           </p>
         </div>

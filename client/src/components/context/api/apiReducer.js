@@ -1,5 +1,6 @@
 import {
   AUTH_USER,
+  ADMIN_USERS,
   AUTH_ERROR,
   USER_ERROR,
   LOGIN_SUCCESS,
@@ -18,6 +19,7 @@ export default (state, action) => {
       return {
         ...state,
         users: action.payload.data,
+        isAuthenticated: false,
         loading: false
       };
 
@@ -29,13 +31,21 @@ export default (state, action) => {
         loading: false
       };
 
+    case ADMIN_USERS:
+      return {
+        ...state,
+        teachers: action.payload.data,
+        loading: false,
+        error: null
+      };
+
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         ...action.payload,
         isAuthenticated: true,
-        loading: true
+        loading: false
       };
     case FORGOT_PASS:
       return {
@@ -47,6 +57,9 @@ export default (state, action) => {
         ...state,
         users: action.payload.data
       };
+    case USER_ERROR:
+    case AUTH_ERROR:
+    case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem("token");
       return {
@@ -55,17 +68,6 @@ export default (state, action) => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload
-      };
-    case USER_ERROR:
-    case AUTH_ERROR:
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        isAuthenticated: false,
-        loading: false,
-        user: null,
-        users: null,
         error: action.payload
       };
 

@@ -14,17 +14,6 @@ const SignupSchema = Yup.object().shape({
     .required("Required")
 });
 
-function Copyright() {
-  return (
-    <p variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <div color="inherit">Canterbury Music Teacher</div>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </p>
-  );
-}
-
 const ForgotPassword = () => {
   const history = useHistory();
 
@@ -101,7 +90,6 @@ const ForgotPassword = () => {
                             Reset-Passowrd
                           </button>
                         </div>
-                        {Copyright()}
                       </Form>
                     )}
                   </Formik>

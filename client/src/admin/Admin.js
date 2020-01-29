@@ -42,9 +42,9 @@ function Admin() {
     return <div />;
   }
 
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+  // if (localStorage.token) {
+  //   setAuthToken(localStorage.token);
+  // }
   return (
     <>
       <ThemeProvider theme={themeMode}>

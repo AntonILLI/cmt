@@ -182,7 +182,7 @@ function FormField({ userId }) {
             const timeOut = setTimeout(() => {
               ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
-              clearTimeout(timeOut)
+              clearTimeout(timeOut);
             }, 1000);
           }}
         >
@@ -190,8 +190,8 @@ function FormField({ userId }) {
             values,
             errors,
             touched,
-            setFieldValue,
             handleSubmit,
+            setFieldValue,
             isSubmitting,
             handleReset,
             dirty,
@@ -280,7 +280,7 @@ function FormField({ userId }) {
                   </ErrorMessage>
 
                   <Label htmlFor="title">
-                    Title
+                    Profile Title
                     <MyInput
                       className="browser-default"
                       type="text"
@@ -320,8 +320,8 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-                  <Label htmlFor="photo">
-                    Image
+                  <Label style={{ marginTop: "20px" }} htmlFor="photo">
+                    Image(upload photo sould be 200 height * 300 in size width)
                     <MyInput
                       className="browser-default"
                       name="photo"
@@ -339,6 +339,9 @@ function FormField({ userId }) {
                       {errors.photo}
                     </StyledInlineErrorMessage>
                   )}
+
+
+                  
                   <Label htmlFor="careers">
                     Music skills
                     <MultiSelect
@@ -354,12 +357,14 @@ function FormField({ userId }) {
                       className="browser-default"
                       placeholder="Add Price"
                       name="price"
+                      Width
                       render={arrayHelpers => (
                         <div>
                           {values.price && values.price.length > 0 ? (
                             values.price.map((price, index) => (
-                              <div key={index}>
-                                <Field
+                              <div key={index} style={{ paddingRight: "27px" }}>
+                                <MyInput
+                                  className="browser-default"
                                   name={`${price}.${index}`}
                                   onChange={e => {
                                     setFieldValue("price.0", e.target.value);
@@ -386,7 +391,7 @@ function FormField({ userId }) {
                               type="button"
                               onClick={() => arrayHelpers.push("")}
                             >
-                              Add Price
+                              Add Fees
                             </button>
                           )}
                         </div>
@@ -413,7 +418,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-                {JSON.stringify(values, null, 2)}
+                {/* {JSON.stringify(values, null, 2)} */}
               </>
             );
           }}

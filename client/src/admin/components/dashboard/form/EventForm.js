@@ -145,6 +145,7 @@ function EventForm() {
           initialValues={{
             title: "",
             description: "",
+            url: "",
             photo: null
           }}
           validationSchema={validationSchema}
@@ -152,6 +153,7 @@ function EventForm() {
             const data = new FormData();
             data.append("photo", values.photo);
             data.append("title", values.title);
+            data.append("url", values.url);
             data.append("description", values.description);
             createEvent(data);
 
@@ -218,6 +220,25 @@ function EventForm() {
                   {errors.description && touched.description && (
                     <StyledInlineErrorMessage>
                       {errors.description}
+                    </StyledInlineErrorMessage>
+                  )}
+
+                  <Label htmlFor="url">
+                    Event Link (Optional)
+                    <MyInput
+                      className="browser-default"
+                      type="text"
+                      name="url"
+                      autoCorrect="off"
+                      autoComplete="url"
+                      placeholder="your event link ..ex) www.example.com "
+                      valid={touched.url && !errors.url}
+                      error={touched.url && errors.url}
+                    />
+                  </Label>
+                  {errors.url && touched.url && (
+                    <StyledInlineErrorMessage>
+                      {errors.url}
                     </StyledInlineErrorMessage>
                   )}
 

@@ -1,10 +1,11 @@
 import React, { useState, useRef, useContext } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage, FieldArray } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
-
+import { useHistory } from "react-router-dom";
+import { MultiSelect } from "./MultiSelect";
 import { screenSmallerThan } from "../../globals/Util";
 
 import {
@@ -73,7 +74,7 @@ export const Title = styled.h1`
   color: #222a6e;
 `;
 
-const Close = styled.a`
+const Close = styled.button`
   position: absolute;
   right: -2rem;
   top: -2rem;
@@ -82,7 +83,7 @@ const Close = styled.a`
   font-size: 2.1rem;
   font-weight: 400;
   border-radius: 100%;
-  padding-top: 1rem;
+
   background-color: #f5ebeb;
   z-index: 4;
   border: 2.2px solid #0d134f;
@@ -98,6 +99,8 @@ const Close = styled.a`
 
 //will use userId for save or delete content
 function TeditForm({ params, Tvalue }) {
+  const history = useHistory();
+  // console.log("history:", history);
   // const ref = useRef(null);
   const ref = useRef(null);
   console.log(Tvalue);
@@ -106,7 +109,30 @@ function TeditForm({ params, Tvalue }) {
   const adminContext = useContext(AdminContext);
   const { updateUser, loading, error } = adminContext;
 
+  const getValues = values => values.fields;
   // console.log('history:',history)
+  const Poptions = [
+    {
+      label: "piano",
+      value: "piano"
+    },
+    {
+      label: "guitar",
+      value: "guitar"
+    },
+    {
+      label: "jazz",
+      value: "jazz"
+    },
+    {
+      label: "vocal training",
+      value: "vocal training"
+    },
+    {
+      label: "others",
+      value: "others"
+    }
+  ];
 
   return (
     <MySection>
@@ -122,14 +148,15 @@ function TeditForm({ params, Tvalue }) {
             title: "",
             description: "",
             password: "",
-            photo: null
+            photo: null,
+            careers: [],
+            price: []
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
             console.log(values);
 
             const data = new FormData();
-
             data.append("firstname", values.firstname);
             data.append("lastname", values.lastname);
             data.append("email", values.email);
@@ -137,7 +164,8 @@ function TeditForm({ params, Tvalue }) {
             data.append("title", values.title);
             data.append("description", values.description);
             data.append("photo", values.photo);
-
+            data.append("careers", values.careers);
+            data.append("price", values.price);
             console.log("id:", params);
             updateUser(data, params);
 
@@ -154,6 +182,7 @@ function TeditForm({ params, Tvalue }) {
             errors,
             touched,
             handleSubmit,
+            setFieldValue,
             isSubmitting,
             handleReset,
             dirty,
@@ -308,6 +337,63 @@ function TeditForm({ params, Tvalue }) {
                     </StyledInlineErrorMessage>
                   )}
 
+                  <Label htmlFor="careers">
+                    Music skills
+                    <MultiSelect
+                      name="careers"
+                      options={Poptions}
+                      placeholder="multi choise is available, select your music skills to teach"
+                    />
+                  </Label>
+
+                  <Label htmlFor="photo">
+                    Fees
+                    <FieldArray
+                      className="browser-default"
+                      placeholder="Add Price"
+                      name="price"
+                      Width
+                      render={arrayHelpers => (
+                        <div>
+                          {values.price && values.price.length > 0 ? (
+                            values.price.map((price, index) => (
+                              <div key={index} style={{ paddingRight: "27px" }}>
+                                <MyInput
+                                  className="browser-default"
+                                  name={`${price}.${index}`}
+                                  onChange={e => {
+                                    setFieldValue("price.0", e.target.value);
+                                    getValues(values);
+                                  }}
+                                />
+
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  -
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => arrayHelpers.insert(index, "")}
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ))
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => arrayHelpers.push("")}
+                            >
+                              Add Fees
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    />
+                  </Label>
+
                   <Submit
                     className="browser-default"
                     type="submit"
@@ -325,7 +411,7 @@ function TeditForm({ params, Tvalue }) {
                   >
                     Reset
                   </button>
-                  <Close href="/admin/">X</Close>
+                  <Close onClick={() => history.push("/admin")}>X</Close>
                 </Form>
 
                 <hr />

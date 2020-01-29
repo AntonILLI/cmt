@@ -4,6 +4,8 @@ import ApiContext from "./apiContext";
 import apiReducer from "./apiReducer";
 import {
   AUTH_USER,
+  ADMIN_USERS,
+  ADMIN_ERROR,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -22,6 +24,7 @@ const ApiState = props => {
     token: localStorage.getItem("token"),
     users: null,
     user: null,
+    teachers: [],
     isAuthenticated: null,
     loading: true,
     error: null
@@ -55,6 +58,16 @@ const ApiState = props => {
     }
   };
 
+  const adminUsers = async () => {
+    try {
+      const res = await axios.get("/api/v1/users/admin", {});
+      console.log(res);
+      dispatch({ type: ADMIN_USERS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: ADMIN_ERROR });
+    }
+  };
+
   const login = async userData => {
     const config = {
       headers: {
@@ -67,7 +80,7 @@ const ApiState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      setAuthToken(localStorage.token);
+      userLoad();
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
@@ -141,8 +154,10 @@ const ApiState = props => {
         users: state.users,
         user: state.user,
         error: state.error,
+        teachers: state.teachers,
         authUser,
         userLoad,
+        adminUsers,
         login,
         logout,
         resetPassword,

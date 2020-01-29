@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ReactParticles from "react-particles-js";
 import configJson from "../../globals/configJson.js";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { PrimaryBtn } from "../../globals/Button";
 import { animated, useSpring } from "react-spring";
 import { screenSmallerThan } from "../../globals/Util";
@@ -15,7 +15,8 @@ import CallModal from "../../modal/CallModal";
 
 function Teachers({ teachers, deleteUser, loading, error }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const history = useHistory();
+  console.log("history:", history);
   const ReadMore = ({ children, maxCharacter = 100 }) => {
     const text = children;
     const [isShrinked, setIsShrinked] = useState(true);
@@ -41,6 +42,10 @@ function Teachers({ teachers, deleteUser, loading, error }) {
       </StyledParagraph>
     );
   };
+  // const deleteTeacher = id => {
+  //   deleteUser(id);
+  //   history.push("/admin");
+  // };
 
   return (
     <MySection>
@@ -63,6 +68,7 @@ function Teachers({ teachers, deleteUser, loading, error }) {
               <TeacherCards key={teacher._id}>
                 <div className="teachers-image-wrapper">
                   <img
+                    alt=""
                     style={{ height: 150, width: 210 }}
                     src={require(`../../../../../public/uploads/${teacher.photo}`)}
                     className="teachers-image"
@@ -85,11 +91,7 @@ function Teachers({ teachers, deleteUser, loading, error }) {
                       <EditIcon color={setColor.primaryColor} />
                     </Link>
 
-                    <ABtn
-                      onClick={() =>
-                        deleteUser(teacher._id).then(window.location.reload())
-                      }
-                    >
+                    <ABtn onClick={() => deleteUser(teacher._id).then(window.location.reload())}>
                       {" "}
                       <RemoveIcon color={setColor.removeColor} />
                     </ABtn>
