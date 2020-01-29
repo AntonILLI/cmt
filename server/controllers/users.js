@@ -98,7 +98,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
       photo: req.files.photo.name,
       password: req.body.password,
       title: req.body.title,
-      price: req.body.price
+      price: req.body.price,
+      url: req.body.url
     },
     {
       new: true,

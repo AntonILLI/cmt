@@ -14,6 +14,9 @@ const EventSchema = new mongoose.Schema({
     type: String,
     default: "no-photo.jpg"
   },
+  url: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now

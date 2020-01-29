@@ -46,6 +46,7 @@ const UserSchema = new mongoose.Schema({
   price: {
     type: [String]
   },
+
   photo: {
     type: String,
     default: "no-photo.jpg"

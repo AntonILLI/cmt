@@ -79,10 +79,11 @@ exports.createEvent = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`Problem with file upload`, 500));
       }
 
-      const { description, title } = req.body;
+      const { description, title, url } = req.body;
       const TEvent = await Event.create({
         description,
         title,
+        url,
         photo: photo.name,
         filePath: `/uploads/${photo.name}`
       });
