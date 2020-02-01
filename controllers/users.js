@@ -1,5 +1,5 @@
 const asyncHandler = require("../middleware/async");
-const User = require("../models/User");
+const User = require("../models/user");
 const ErrorResponse = require("../utils/errorResponse");
 const path = require("path");
 //@route Get/api/v1/auth/users//@accsss Private/Admin
