@@ -196,7 +196,7 @@ const Home = () => {
               <div key={index} className="slider-content">
                 <img
                   alt=""
-                  src={require(`../../../public/uploads/${e.photo}`)}
+                  src={`../../../public/uploads/${e.photo}`}
                   style={{
                     width: "100%",
                     height: "100vh",

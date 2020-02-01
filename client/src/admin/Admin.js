@@ -18,8 +18,8 @@ import Toggle from "./components/globals/Toggle";
 import { ModalProviders } from "./components/modal/Modal";
 import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 import { useTransition, animated } from "react-spring";
-import EventCallModal from "../admin/components/modal/EventCallModal";
-import CallModal from "../admin/components/modal/CallModal";
+import EventCallModal from "./components/modal/EventCallModal";
+import CallModal from "./components/modal/CallModal";
 import AuthRoute from "../AuthRoute";
 import setAuthToken from "../components/utils/SetAuthToken";
 function Admin() {

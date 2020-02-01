@@ -3,7 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import MenuToggle from "../nav/MenuToggle";
+import MenuToggle from "./MenuToggle";
 const Sidebar = () => {
   return (
     <>
