@@ -189,25 +189,28 @@ const Home = () => {
             while scrolling.
           </p>
 
-          <Slider {...settings} className="slider-wrapper">
-            {events.map((e, index) => (
-              <div key={index} className="slider-content">
-                <img
-                  alt=""
-                  src={`../../../public/uploads/${e.photo}`}
-                  style={{
-                    width: "100%",
-                    height: "100vh",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat"
-                  }}
-                />
-                <div className="inner">
-                  <h1>{e.title}</h1>
-                  <p>{e.description}</p>
+            <Slider {...settings} className="slider-wrapper">
+              {events.map((e, index) => (
+                <div key={index} className="slider-content">
+                  <img
+                    alt=""
+                    src={`../../../public/uploads/${e.photo}`}
+                    style={{
+                      width: "100%",
+                      height: "100vh",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat"
+                    }}
+                  />
+                  <div className="inner">
+                    <h1>{e.title}</h1>
+                    <p>{e.description}</p>
+                    <li>
+                      <a href={e.url}>{e.url}</a>
+                    </li>
+                  </div>
                 </div>
-              </div>
             ))}
           </Slider>
         </div>

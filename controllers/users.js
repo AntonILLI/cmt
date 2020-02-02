@@ -2,6 +2,7 @@ const asyncHandler = require("../middleware/async");
 const User = require("../models/user");
 const ErrorResponse = require("../utils/errorResponse");
 const path = require("path");
+const decrypt = require("../utils/decrypt");
 //@route Get/api/v1/auth/users//@accsss Private/Admin
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
@@ -13,6 +14,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
+  user.password = await decrypt(user.password);
+
   res.status(200).json({
     success: true,
     data: user
@@ -22,7 +25,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 //@route POST/api/v1/auth/users/users//@accsss Private
 
 exports.createUser = asyncHandler(async (req, res, next) => {
-  console.log(req.files); //file objects... size,encoding,mimetype
+  console.log(req.files);
   //startswith mimetype -->'image'/jpeg//the file will be accessible from req.files.
 
   if (!req.files) {
@@ -61,7 +64,6 @@ exports.createUser = asyncHandler(async (req, res, next) => {
         email,
         password,
         description,
-        title,
         price,
         careers
       } = req.body;
@@ -71,7 +73,6 @@ exports.createUser = asyncHandler(async (req, res, next) => {
         email,
         password,
         description,
-        title,
         price,
         careers,
         photo: photo.name
@@ -97,7 +98,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
       lastname: req.body.lastname,
       photo: req.files.photo.name,
       password: req.body.password,
-      title: req.body.title,
+      careers: req.body.careers,
       price: req.body.price,
       url: req.body.url
     },

@@ -4,7 +4,7 @@ import React from "react";
 import { Field, FieldArray } from "formik";
 
 function Input({ className, valid, error, value, ...props }) {
-  return <Field className={className} {...props} />;
+  return <Field className={className} value={value} {...props} />;
 }
 
 export const ArrayInput = ({ className, valid, error, value, ...props }) => {

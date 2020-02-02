@@ -1,10 +1,11 @@
-import React, { useState, useRef, useContext } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { Formik, Form, ErrorMessage, FieldArray } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
-
+import { MultiSelect } from "../../dashboard/form/MultiSelect";
 import { screenSmallerThan } from "../../globals/Util";
 
 import {
@@ -28,13 +29,10 @@ const validationSchema = Yup.object().shape({
     .required("Please enter your last name"),
   password: Yup.string()
     .min(6, "Your password is more than 6")
-    .required("Please enter your last name"),
+    .required("Please enter you password"),
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
-  title: Yup.string()
-    .min(5, "Your title is too short")
-    .required("Please enter your title"),
   description: Yup.string()
     .min(10, "Your description is too short")
     .required("Please enter your description"),
@@ -55,8 +53,8 @@ const validationSchema = Yup.object().shape({
 export const MySection = styled.section`
   margin: 0;
   border-radius: 10px;
-  border: 10px solid #ffffff;
-  overflow: auto;
+  /* border: 10px solid #ffffff; */
+  overflow: none;
 
   ${screenSmallerThan.tablet`
 
@@ -97,242 +95,353 @@ const Close = styled.a`
 `;
 
 //will use userId for save or delete content
-function TeditForm({ params, Tvalue }) {
+function TeditForm({ params }) {
+  const history = useHistory();
+  // console.log("history:", history);
   // const ref = useRef(null);
   const ref = useRef(null);
-  console.log(Tvalue);
-  const { firstname, lastname, email, title, password, description } = Tvalue;
 
   const adminContext = useContext(AdminContext);
-  const { updateUser, loading, error } = adminContext;
-
+  const { updateUser, teacher, adminUser } = adminContext;
+  const [formValue, setFormValue] = useState({ firstname: "" });
+  console.log("teacher:", teacher);
+  console.log("P:", params);
+  useEffect(() => {
+    adminUser(params);
+    //eslint-disable-next-line
+  }, []);
+  const getValues = values => values.fields;
   // console.log('history:',history)
+  const Poptions = [
+    {
+      label: "piano",
+      value: "piano"
+    },
+    {
+      label: "guitar",
+      value: "guitar"
+    },
+    {
+      label: "aural",
+      value: "aural"
+    },
+    {
+      label: "vocal training",
+      value: "vocal training"
+    },
+    {
+      label: "flute",
+      value: "flute"
+    },
+    {
+      label: "recorder",
+      value: "recorder"
+    },
 
+    {
+      label: "piccolo",
+      value: "piccolo"
+    },
+    {
+      label: "music theory",
+      value: "music theory"
+    },
+    {
+      label: "viola repaire",
+      value: "viola repaire"
+    },
+    {
+      label: "others",
+      value: "others"
+    }
+  ];
+
+  // const handleChange = e => {
+  //   setFormValue({
+  //     ...formValue,
+  //     [e.target.name]: e.target.value
+  //   });
+  // };
   return (
     <MySection>
       <PageWrapper Border Margin Width>
         <Title>Profile Edit Form</Title>
 
         <hr />
-        <Formik
-          initialValues={{
-            firstname: "",
-            lastname: "",
-            email: "",
-            title: "",
-            description: "",
-            password: "",
-            photo: null
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            console.log(values);
 
-            const data = new FormData();
+        {teacher.map((teacher, key) => (
+          <Formik
+            id={key}
+            enableReinitialize={true}
+            initialValues={{
+              firstname: teacher.firstname,
+              lastname: teacher.lastname,
+              email: teacher.email,
+              password: teacher.password,
+              description: teacher.description,
+              photo: null,
+              careers: [],
+              price: []
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values, actions) => {
+              console.log(values);
 
-            data.append("firstname", values.firstname);
-            data.append("lastname", values.lastname);
-            data.append("email", values.email);
-            data.append("password", values.password);
-            data.append("title", values.title);
-            data.append("description", values.description);
-            data.append("photo", values.photo);
+              const data = new FormData();
+              data.append("firstname", values.firstname);
+              data.append("lastname", values.lastname);
+              data.append("email", values.email);
+              data.append("password", values.password);
+              data.append("description", values.description);
+              data.append("photo", values.photo);
+              data.append("careers", values.careers);
+              data.append("price", values.price);
+              console.log("id:", params);
+              updateUser(data, params);
 
-            console.log("id:", params);
-            updateUser(data, params);
+              const timeOut = setTimeout(() => {
+                ref.current("Submitted Successfully!!");
+                actions.setSubmitting(false);
 
-            const timeOut = setTimeout(() => {
-              ref.current("Submitted Successfully!!");
-              actions.setSubmitting(false);
+                clearTimeout(timeOut);
+              }, 1000);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleSubmit,
+              setFieldValue,
+              handleChange,
+              isSubmitting,
+              handleReset,
+              dirty,
+              isValid
+            }) => {
+              return (
+                <>
+                  <Form name="TeditForm" method="post" onSubmit={handleSubmit}>
+                    <PopupMessage children={add => (ref.current = add)} />
 
-              clearTimeout(timeOut);
-            }, 1000);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleSubmit,
-            isSubmitting,
-            handleReset,
-            dirty,
-            isValid
-          }) => {
-            return (
-              <>
-                <Form name="TeditForm" method="post" onSubmit={handleSubmit}>
-                  <PopupMessage children={add => (ref.current = add)} />
-                  <Label htmlFor="firstname">
-                    First Name
+                    <Label htmlFor="firstname">First Name</Label>
+
                     <MyInput
                       className="browser-default"
                       type="text"
+                      value={values.firstname}
                       name="firstname"
-                      autoCorrect="off"
-                      value={firstname}
-                      autoComplete="firstname"
                       placeholder="your first name"
                       valid={touched.firstname && !errors.firstname}
                       error={touched.firstname && errors.firstname}
                     />
-                  </Label>
 
-                  {errors.firstname && touched.firstname && (
-                    <StyledInlineErrorMessage>
-                      {errors.firstname}
-                    </StyledInlineErrorMessage>
-                  )}
-
-                  <Label htmlFor="lastname">
-                    Last Name
-                    <MyInput
-                      className="browser-default"
-                      type="text"
-                      value={lastname}
-                      name="lastname"
-                      autoCorrect="off"
-                      autoComplete="lastname"
-                      placeholder="your last name"
-                      valid={touched.lastname && !errors.lastname}
-                      error={touched.lastname && errors.lastname}
-                    />
-                  </Label>
-                  {errors.lastname && touched.lastname && (
-                    <StyledInlineErrorMessage>
-                      {errors.lastname}
-                    </StyledInlineErrorMessage>
-                  )}
-
-                  <Label htmlFor="password">
-                    Password
-                    <MyInput
-                      className="browser-default"
-                      type="password"
-                      name="password"
-                      value={password}
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      autoComplete="password"
-                      placeholder="your password"
-                      valid={touched.password && !errors.password}
-                      error={touched.password && errors.password}
-                    />
-                  </Label>
-                  <ErrorMessage name="password">
-                    {msg => (
-                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    {errors.firstname && touched.firstname && (
+                      <StyledInlineErrorMessage>
+                        {errors.firstname}
+                      </StyledInlineErrorMessage>
                     )}
-                  </ErrorMessage>
 
-                  <Label htmlFor="email">
-                    Email
-                    <MyInput
-                      className="browser-default"
-                      type="text"
-                      name="email"
-                      value={email}
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      autoComplete="email"
-                      placeholder="your email"
-                      valid={touched.email && !errors.email}
-                      error={touched.email && errors.email}
-                    />
-                  </Label>
-                  <ErrorMessage name="email">
-                    {msg => (
-                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    <Label htmlFor="lastname">
+                      Last Name
+                      <MyInput
+                        className="browser-default"
+                        value={values.lastname}
+                        type="text"
+                        name="lastname"
+                        autoCorrect="off"
+                        autoComplete="lastname"
+                        placeholder="your last name"
+                        valid={touched.lastname && !errors.lastname}
+                        error={touched.lastname && errors.lastname}
+                      />
+                    </Label>
+                    {errors.lastname && touched.lastname && (
+                      <StyledInlineErrorMessage>
+                        {errors.lastname}
+                      </StyledInlineErrorMessage>
                     )}
-                  </ErrorMessage>
 
-                  <Label htmlFor="title">
-                    Title
-                    <MyInput
-                      className="browser-default"
-                      type="text"
-                      name="title"
-                      value={title}
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      autoComplete="email"
-                      placeholder="your title"
-                      valid={touched.title && !errors.title}
-                      error={touched.title && errors.title}
-                    />
-                  </Label>
-                  <ErrorMessage name="title">
-                    {msg => (
-                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    <Label htmlFor="password">
+                      Password
+                      <MyInput
+                        className="browser-default"
+                        value={values.password}
+                        type="text"
+                        name="password"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        autoComplete="password"
+                        placeholder="your password"
+                        valid={touched.password && !errors.password}
+                        error={touched.password && errors.password}
+                      />
+                    </Label>
+                    <ErrorMessage name="password">
+                      {msg => (
+                        <StyledInlineErrorMessage>
+                          {msg}
+                        </StyledInlineErrorMessage>
+                      )}
+                    </ErrorMessage>
+
+                    <Label htmlFor="email">
+                      Email
+                      <MyInput
+                        className="browser-default"
+                        value={values.email}
+                        type="text"
+                        name="email"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        autoComplete="email"
+                        placeholder="your email"
+                        valid={touched.email && !errors.email}
+                        error={touched.email && errors.email}
+                      />
+                    </Label>
+                    <ErrorMessage name="email">
+                      {msg => (
+                        <StyledInlineErrorMessage>
+                          {msg}
+                        </StyledInlineErrorMessage>
+                      )}
+                    </ErrorMessage>
+
+                    <Label htmlFor="description">
+                      Description
+                      <MyInput
+                        style={{ height: 100 }}
+                        className="browser-default"
+                        component="textarea"
+                        type="textarea"
+                        name="description"
+                        value={values.description}
+                        autoComplete="description"
+                        placeholder="your description"
+                        valid={touched.description && !errors.description}
+                        error={touched.description && errors.description}
+                      />
+                    </Label>
+                    {errors.description && touched.description && (
+                      <StyledInlineErrorMessage>
+                        {errors.description}
+                      </StyledInlineErrorMessage>
                     )}
-                  </ErrorMessage>
 
-                  <Label htmlFor="description">
-                    Description
-                    <MyInput
-                      style={{ height: 100 }}
-                      value={description}
+                    <Label htmlFor="photo">
+                      Image
+                      <MyInput
+                        className="browser-default"
+                        name="photo"
+                        component={FileUpload}
+                        autoCorrect="off"
+                        autoComplete="photo"
+                        placeholder="your photo"
+                        valid={touched.photo && !errors.photo}
+                        error={touched.photo && errors.photo}
+                      />
+                    </Label>
+                    {errors.photo && touched.photo && (
+                      <StyledInlineErrorMessage>
+                        {errors.photo}
+                      </StyledInlineErrorMessage>
+                    )}
+
+                    <Label htmlFor="careers">
+                      Music skills
+                      <MultiSelect
+                        value={values.careers}
+                        name="careers"
+                        options={Poptions}
+                        placeholder="multi choise is available, select your music skills to teach"
+                      />
+                    </Label>
+
+                    <Label htmlFor="photo">
+                      Fees
+                      <FieldArray
+                        className="browser-default"
+                        placeholder="Add Price"
+                        name="price"
+                        Width
+                        render={arrayHelpers => (
+                          <div>
+                            {values.price && values.price.length > 0 ? (
+                              values.price.map((price, index) => (
+                                <div
+                                  key={index}
+                                  style={{ paddingRight: "27px" }}
+                                >
+                                  <MyInput
+                                    className="browser-default"
+                                    name={`${price}.${index}`}
+                                    onChange={e => {
+                                      setFieldValue("price.0", e.target.value);
+                                      getValues(values);
+                                    }}
+                                  />
+
+                                  <button
+                                    type="button"
+                                    onClick={() => arrayHelpers.remove(index)}
+                                  >
+                                    -
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      arrayHelpers.insert(index, "")
+                                    }
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              ))
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => arrayHelpers.push("")}
+                              >
+                                Add Fees
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      />
+                    </Label>
+
+                    <Submit
                       className="browser-default"
-                      component="textarea"
-                      type="textarea"
-                      name="description"
-                      autoCorrect="off"
-                      autoComplete="description"
-                      placeholder="your description"
-                      valid={touched.description && !errors.description}
-                      error={touched.description && errors.description}
-                    />
-                  </Label>
-                  {errors.description && touched.description && (
-                    <StyledInlineErrorMessage>
-                      {errors.description}
-                    </StyledInlineErrorMessage>
-                  )}
+                      type="submit"
+                      disabled={!isValid || isSubmitting}
+                    >
+                      {isSubmitting ? `Submiting...` : `Submit`}
+                    </Submit>
 
-                  <Label htmlFor="photo">
-                    Image
-                    <MyInput
-                      className="browser-default"
-                      name="photo"
-                      component={FileUpload}
-                      autoCorrect="off"
-                      autoComplete="photo"
-                      placeholder="your photo"
-                      valid={touched.photo && !errors.photo}
-                      error={touched.photo && errors.photo}
-                    />
-                  </Label>
-                  {errors.photo && touched.photo && (
-                    <StyledInlineErrorMessage>
-                      {errors.photo}
-                    </StyledInlineErrorMessage>
-                  )}
+                    <button
+                      style={{ marginTop: 10 }}
+                      type="button"
+                      className="outline"
+                      onClick={handleReset}
+                      disabled={!dirty || isSubmitting}
+                    >
+                      Reset
+                    </button>
+                    <Close onClick={() => history.push("/admin")}>X</Close>
+                  </Form>
 
-                  <Submit
-                    className="browser-default"
-                    type="submit"
-                    disabled={!isValid || isSubmitting}
-                  >
-                    {isSubmitting ? `Submiting...` : `Submit`}
-                  </Submit>
-
-                  <button
-                    style={{ marginTop: 10 }}
-                    type="button"
-                    className="outline"
-                    onClick={handleReset}
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Reset
-                  </button>
-                  <Close href="/admin/">X</Close>
-                </Form>
-
-                <hr />
-              </>
-            );
-          }}
-        </Formik>
+                  <hr />
+                  <div style={{ color: "black" }}>
+                    {" "}
+                    {JSON.stringify(teacher, null, 2)}
+                    {JSON.stringify(values, null, 2)}
+                  </div>
+                </>
+              );
+            }}
+          </Formik>
+        ))}
       </PageWrapper>
     </MySection>
   );

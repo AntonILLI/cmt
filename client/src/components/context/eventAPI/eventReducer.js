@@ -14,7 +14,7 @@ export default (state, action) => {
     case GET_EVENT:
       return {
         ...state,
-        events: action.payload.data,
+        event: [action.payload.data],
         loading: false
       };
 
@@ -28,7 +28,7 @@ export default (state, action) => {
     case CREATE_EVENT:
       return {
         ...state,
-        events: action.payload,
+        event: [action.payload.data],
         loading: false
       };
     case UPDATE_EVENT:

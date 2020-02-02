@@ -58,17 +58,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
   });
 });
 
-//@desc  Get current logged-in user//@route POST/api/v1/auth/me//@accsss Private
-
-exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user
-  });
-});
-
 //@route POST/api/v1/auth/forgotpassword//@accsss Private
 
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
@@ -96,10 +85,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
       subject: "Password reset",
       message
     });
-    // res.status(200).json({
-    //   success: true,
-    //   data: "Email sent"
-    // });
   } catch (err) {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;

@@ -1,6 +1,7 @@
 import {
   ADMIN_USERS,
   ADMIN_ERROR,
+  ADMIN_USER,
   ADD_ERROR,
   ADD_USERS,
   DELETE_USER,
@@ -22,6 +23,13 @@ export default (state, action) => {
         ...state,
         teachers: action.payload.data,
         loading: false
+      };
+    case ADMIN_USER:
+      return {
+        ...state,
+        teacher: [action.payload.data],
+        loading: false,
+        error: null
       };
     case UPDATE_USER:
       return {

@@ -1,17 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Formik, Form, Field } from "formik";
 import photo_reset from "../../img/ForgotPassword.jpg";
 import ApiContext from "../context/api/apiContext";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
+import PopupMessage from "../../admin/components/globals/PopupMessage";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
 
 import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
-    .min(8, "Too Short!")
-    .required("Required"),
+    .min(6, "Your password is more than 6!")
+    .required("Require password"),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref("password"), null],
     "Passwords must match"
@@ -19,34 +20,25 @@ const SignupSchema = Yup.object().shape({
   resetPasswordToken: Yup.string().required("Required Token")
 });
 
-function Copyright() {
-  return (
-    <p variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <div color="inherit">Canterbury Music Teacher</div>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </p>
-  );
-}
+// function Copyright() {
+//   return (
+//     <p variant="body2" color="textSecondary" align="center">
+//       {"Copyright © "}
+//       <div color="inherit">Canterbury Music Teacher</div>{" "}
+//       {new Date().getFullYear()}
+//       {"."}
+//     </p>
+//   );
+// }
 
 const ResetPassword = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
-  const { resetPassword, isAuthenticated } = apiContext;
+  const { resetPassword } = apiContext;
   const { resetPasswordToken } = useParams();
-
+  const ref = useRef(null);
   console.log("tokenR:", resetPasswordToken);
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push("/admin");
-    }
-  }, [isAuthenticated, history]);
-
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <div className="container">
@@ -75,11 +67,19 @@ const ResetPassword = () => {
                       confirmPassword: ""
                     }}
                     validationSchema={SignupSchema}
-                    onSubmit={values => {
+                    onSubmit={(values, actions) => {
                       const data = new FormData();
                       data.append("password", values.password);
 
                       resetPassword(data, resetPasswordToken);
+
+                      const timeOut = setTimeout(() => {
+                        ref.current(
+                          "Successfully sent it, you will recieved a confirmation email in your email box!!"
+                        );
+                        actions.setSubmitting(false);
+                        clearTimeout(timeOut);
+                      }, 1500);
                     }}
                   >
                     {({ errors, touched, handleSubmit }) => (
@@ -89,6 +89,7 @@ const ResetPassword = () => {
                         method="post"
                         onSubmit={handleSubmit}
                       >
+                        <PopupMessage children={add => (ref.current = add)} />
                         <div className="input-field col s12">
                           <i className="material-icons prefix">vpn_key</i>
 
@@ -135,7 +136,6 @@ const ResetPassword = () => {
                             Send
                           </button>
                         </div>
-                        {Copyright()}
                       </Form>
                     )}
                   </Formik>

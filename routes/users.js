@@ -23,8 +23,7 @@ router.get("/", advancedResults(User), getUsers).post("/create", createUser);
 router.route("/admin").get(advancedResults(User), getUsers);
 
 router
-
-  .get("/:id", protect, getUser)
+  .get("/:id", getUser) //P
   .put("/:id/update", updateUser) //p
   .delete("/:id/delete", deleteUser); //p
 

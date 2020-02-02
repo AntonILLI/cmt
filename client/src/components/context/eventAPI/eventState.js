@@ -18,7 +18,8 @@ const EventState = props => {
   const initialState = {
     events: [],
     error: null,
-    loading: null
+    loading: null,
+    event: []
   };
 
   const [state, dispatch] = useReducer(EventReducer, initialState);
@@ -32,10 +33,9 @@ const EventState = props => {
       dispatch({ type: GET_EVENTS_ERROR });
     }
   };
-
-  const getEvent = async () => {
+  const getEvent = async id => {
     try {
-      const res = await axios.get("/api/v1/events/:id", {});
+      const res = await axios.get(`/api/v1/events/${id}`, {});
       console.log(res);
       dispatch({ type: GET_EVENT, payload: res.data });
     } catch (err) {
@@ -62,11 +62,11 @@ const EventState = props => {
   const updateEvent = async (event, id) => {
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-type": "multipart/form-data"
       }
     };
     try {
-      const res = await axios.put(`/api/v1/event/${id}/update`, event, config);
+      const res = await axios.put(`/api/v1/events/${id}/update`, event, config);
       dispatch({ type: UPDATE_EVENT, payload: res.data }); //response data to server
     } catch (err) {
       dispatch({
@@ -92,6 +92,7 @@ const EventState = props => {
         events: state.events,
         error: state.error,
         loading: state.loading,
+        event: state.event,
         getEvents,
         getEvent,
         createEvent,

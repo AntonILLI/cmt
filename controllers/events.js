@@ -1,7 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Event = require("../models/Event");
-const User = require("../models/user");
+const User = require("../models/User");
 const path = require("path");
 
 exports.getEvents = asyncHandler(async (req, res, next) => {
@@ -108,14 +108,14 @@ exports.updateEvent = asyncHandler(async (req, res, next) => {
   }
 
   // Make sure user is course owner
-  if (event.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to update event`,
-        401
-      )
-    );
-  }
+  // if (event.user.toString() !== req.user.id) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.user.id} is not authorized to update event`,
+  //       401
+  //     )
+  //   );
+  // }
 
   event = await Event.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

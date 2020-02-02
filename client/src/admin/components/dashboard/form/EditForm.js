@@ -1,8 +1,9 @@
 //Edit Form  in event table modal
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { screenSmallerThan } from "../../globals/Util";
@@ -107,133 +108,169 @@ function EditForm({ id }) {
   const ref = useRef(null);
   // console.log("id:", id);
   const eventContext = useContext(EventContext);
-  const { updateEvent, loading, error } = eventContext;
+  const { updateEvent, getEvent, event } = eventContext;
+  const history = useHistory();
 
+  useEffect(() => {
+    getEvent(id);
+  }, []);
+
+  console.log("events:", event);
   return (
     <MySection>
       <PageWrapper Border Margin Width>
         <Title>Profile Edit Form</Title>
 
         <hr />
-        <Formik
-          initialValues={{
-            title: "",
-            description: "",
-            photo: null
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            const data = new FormData();
-            data.append("title", values.title);
-            data.append("description", values.description);
-            data.append("photo", values.photo);
+        {event.map((e, key) => (
+          <Formik
+            initialValues={{
+              title: e.title,
+              description: e.description,
+              photo: null,
+              url: e.url
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values, actions) => {
+              const data = new FormData();
+              data.append("title", values.title);
+              data.append("description", values.description);
+              data.append("photo", values.photo);
+              data.append("url", values.url);
+              updateEvent(data, id);
 
-            updateEvent(data, id);
+              const timeOut = setTimeout(() => {
+                ref.current("Submitted Successfully!!");
+                actions.setSubmitting(false);
 
-            const timeOut = setTimeout(() => {
-              ref.current("Submitted Successfully!!");
-              actions.setSubmitting(false);
+                clearTimeout(timeOut);
+              }, 1000);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleSubmit,
+              isSubmitting,
+              handleReset,
+              dirty,
+              isValid
+            }) => {
+              return (
+                <>
+                  <Form name="editForm" method="post" onSubmit={handleSubmit}>
+                    <PopupMessage children={add => (ref.current = add)} />
 
-              clearTimeout(timeOut);
-            }, 1000);
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleSubmit,
-            isSubmitting,
-            handleReset,
-            dirty,
-            isValid
-          }) => {
-            return (
-              <>
-                <Form name="editForm" method="post" onSubmit={handleSubmit}>
-                  <PopupMessage children={add => (ref.current = add)} />
+                    <Label htmlFor="title">
+                      Title
+                      <MyInput
+                        className="browser-default"
+                        type="text"
+                        value={values.title}
+                        name="title"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        autoComplete="email"
+                        placeholder="your title"
+                        valid={touched.title && !errors.title}
+                        error={touched.title && errors.title}
+                      />
+                    </Label>
+                    <ErrorMessage name="title">
+                      {msg => (
+                        <StyledInlineErrorMessage>
+                          {msg}
+                        </StyledInlineErrorMessage>
+                      )}
+                    </ErrorMessage>
 
-                  <Label htmlFor="title">
-                    Title
-                    <MyInput
-                      className="browser-default"
-                      type="text"
-                      name="title"
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      autoComplete="email"
-                      placeholder="your title"
-                      valid={touched.title && !errors.title}
-                      error={touched.title && errors.title}
-                    />
-                  </Label>
-                  <ErrorMessage name="title">
-                    {msg => (
-                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
+                    <Label htmlFor="description">
+                      Description
+                      <MyInput
+                        style={{ height: 100 }}
+                        value={values.description}
+                        className="browser-default"
+                        component="textarea"
+                        type="textarea"
+                        name="description"
+                        autoCorrect="off"
+                        autoComplete="description"
+                        placeholder="your description"
+                        valid={touched.description && !errors.description}
+                        error={touched.description && errors.description}
+                      />
+                    </Label>
+                    {errors.description && touched.description && (
+                      <StyledInlineErrorMessage>
+                        {errors.description}
+                      </StyledInlineErrorMessage>
                     )}
-                  </ErrorMessage>
 
-                  <Label htmlFor="description">
-                    Description
-                    <MyInput
-                      style={{ height: 100 }}
-                      className="browser-default"
-                      component="textarea"
-                      type="textarea"
-                      name="description"
-                      autoCorrect="off"
-                      autoComplete="description"
-                      placeholder="your description"
-                      valid={touched.description && !errors.description}
-                      error={touched.description && errors.description}
-                    />
-                  </Label>
-                  {errors.description && touched.description && (
-                    <StyledInlineErrorMessage>
-                      {errors.description}
-                    </StyledInlineErrorMessage>
-                  )}
+                    <Label htmlFor="url">
+                      Event Link (Optional)
+                      <MyInput
+                        className="browser-default"
+                        value={values.url}
+                        type="text"
+                        name="url"
+                        autoCorrect="off"
+                        autoComplete="url"
+                        placeholder="your event link ..ex) www.example.com "
+                        valid={touched.url && !errors.url}
+                        error={touched.url && errors.url}
+                      />
+                    </Label>
+                    {errors.url && touched.url && (
+                      <StyledInlineErrorMessage>
+                        {errors.url}
+                      </StyledInlineErrorMessage>
+                    )}
 
-                  <Label htmlFor="photo">
-                    Image
-                    <MyInput
-                      className="browser-default"
-                      name="photo"
-                      component={FileUpload}
-                      autoCorrect="off"
-                      autoComplete="photo"
-                      placeholder="your photo"
-                      valid={touched.photo && !errors.photo}
-                      error={touched.photo && errors.photo}
-                    />
-                  </Label>
-                  {errors.photo && touched.photo && (
-                    <StyledInlineErrorMessage>
-                      {errors.photo}
-                    </StyledInlineErrorMessage>
-                  )}
+                    <Label htmlFor="photo">
+                      Image
+                      <MyInput
+                        className="browser-default"
+                        name="photo"
+                        component={FileUpload}
+                        autoCorrect="off"
+                        autoComplete="photo"
+                        placeholder="your photo"
+                        valid={touched.photo && !errors.photo}
+                        error={touched.photo && errors.photo}
+                      />
+                    </Label>
 
-                  <Submit type="submit" disabled={!isValid || isSubmitting}>
-                    {isSubmitting ? `Submiting...` : `Submit`}
-                  </Submit>
+                    {errors.photo && touched.photo && (
+                      <StyledInlineErrorMessage>
+                        {errors.photo}
+                      </StyledInlineErrorMessage>
+                    )}
 
-                  <button
-                    style={{ marginTop: 10 }}
-                    type="button"
-                    className="outline"
-                    onClick={handleReset}
-                    disabled={!dirty || isSubmitting}
-                  >
-                    Reset
-                  </button>
-                  <Close href="/admin/eventTable">X</Close>
-                </Form>
+                    <Submit type="submit" disabled={!isValid || isSubmitting}>
+                      {isSubmitting ? `Submiting...` : `Submit`}
+                    </Submit>
 
-                <hr />
-              </>
-            );
-          }}
-        </Formik>
+                    <button
+                      style={{ marginTop: 10 }}
+                      type="button"
+                      className="outline"
+                      onClick={handleReset}
+                      disabled={!dirty || isSubmitting}
+                    >
+                      Reset
+                    </button>
+                    <Close onClick={() => history.push("/admin")}>X</Close>
+                  </Form>
+
+                  <hr />
+                  {JSON.stringify(event, null, 2)}
+                  {JSON.stringify(values, null, 2)}
+                </>
+              );
+            }}
+          </Formik>
+        ))}
       </PageWrapper>
     </MySection>
   );
