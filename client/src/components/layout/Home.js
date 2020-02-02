@@ -12,8 +12,6 @@ import M from "materialize-css";
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 
-// let piano = require("../../img/piano-3505109_1920.jpg");
-
 // const Card = () => {
 //   const apiContext = useContext(ApiContext);
 // const { userLoad, users, loading, error } = apiContext;
