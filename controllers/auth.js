@@ -1,6 +1,10 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
+<<<<<<< HEAD
 const User = require("../models/User");
+=======
+const User = require("../models/user");
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 
@@ -45,6 +49,22 @@ exports.logout = asyncHandler(async (req, res, next) => {
   });
 });
 
+<<<<<<< HEAD
+=======
+// @route  GET /api/v1/auth/logout// @access Private //clear token/cookie
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.cookie("token", "none", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  }); //expire 10000sec
+
+  res.status(200).json({
+    success: true,
+    data: {}
+  });
+});
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 //@route POST/api/v1/auth/forgotpassword//@accsss Private
 
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
@@ -60,6 +80,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // Create reset url
+<<<<<<< HEAD
   //https://canterbury-music-teacher.herokuapp.com/
   // const resetUrl = `${req.protocol}://${req.get(
   //   "host"
@@ -69,6 +90,13 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   const message = `You are receiving this email because you has requested the reset of a password.
    Please go to this link here : \n ${resetUrl}  then  make a put this Code --> ${resetToken}`;
+=======
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/auth/resetpassword/${resetToken}`;
+
+  const message = `You are receiving this email because you has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   try {
     await sendEmail({

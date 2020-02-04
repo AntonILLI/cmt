@@ -1,7 +1,11 @@
 //react router
 
 import React from "react";
+<<<<<<< HEAD
 
+=======
+import styled from "styled-components";
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import { useLocation } from "react-router";
 import Dashboard from "./components/pages/Dashboard";
 import Profile from "./components/pages/Profile";
@@ -16,11 +20,20 @@ import Navbar from "./components/dashboard/nav/Navbar";
 import Footer from "./components/dashboard/footer/Footer";
 import Toggle from "./components/globals/Toggle";
 import { ModalProviders } from "./components/modal/Modal";
+<<<<<<< HEAD
 import { useTransition, animated } from "react-spring";
 import EventCallModal from "../admin/components/modal/EventCallModal";
 import CallModal from "../admin/components/modal/CallModal";
 import AuthRoute from "../AuthRoute";
 import NotFound from "../components/utils/NotFound";
+=======
+import { ModalProvider, BaseModalBackground } from "styled-react-modal";
+import { useTransition, animated } from "react-spring";
+import EventCallModal from "./components/modal/EventCallModal";
+import CallModal from "./components/modal/CallModal";
+import AuthRoute from "../AuthRoute";
+import setAuthToken from "../components/utils/SetAuthToken";
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 function Admin() {
   //router
   // const { location } = useContext(__RouterContext);
@@ -41,6 +54,7 @@ function Admin() {
     return <div />;
   }
 
+<<<<<<< HEAD
   const CustomAuthRouter = ({
     exact,
     path,
@@ -107,8 +121,70 @@ function Admin() {
           ))}
         </ModalProviders>
       </ThemeProvider>
+=======
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  return (
+    <>
+      <ThemeProvider theme={themeMode}>
+        <ModalProvider backgroundComponent={ModalBackground}>
+          <ModalProviders>
+            <GlobalStyles />
+            <Navbar />
+            <Toggle theme={theme} toggleTheme={toggleTheme} />
+            {transitions.map(({ item, props, key }) => (
+              <animated.div key={key} style={props}>
+                <Switch location={item}>
+                  <AuthRoute
+                    exact
+                    path="/admin"
+                    component={Dashboard}
+                    location={location}
+                  />
+                  <AuthRoute exaxt path="/admin/profile" component={Profile} />
+                  <AuthRoute exaxt path="/admin/event" component={Event} />
+                  <AuthRoute
+                    exaxt
+                    path="/admin/eventTable"
+                    component={EventTableList}
+                    location={location}
+                  />
+                  <AuthRoute
+                    path="/admin/eventModalPage/:id"
+                    component={EventCallModal}
+                  />
+
+                  <AuthRoute
+                    path="/admin/modalPage/:params"
+                    component={CallModal}
+                  />
+                </Switch>
+              </animated.div>
+            ))}
+          </ModalProviders>
+        </ModalProvider>
+      </ThemeProvider>
+
+      <Footer />
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     </>
   );
 }
 
+<<<<<<< HEAD
+=======
+const ModalBackground = styled(BaseModalBackground)`
+  background-image: linear-gradient(
+    to left bottom,
+    #43cea2,
+    #00b5b3,
+    #0099bb,
+    #007ab4,
+    #185a9d
+  );
+  opacity: ${props => props.opacity};
+`;
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 export default Admin;

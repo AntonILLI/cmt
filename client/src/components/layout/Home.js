@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 import React, { useContext, useEffect } from "react";
 import Piano from "./Piano";
 import ContactForm from "./ContactForm";
 import { Link } from "react-router-dom";
+=======
+import React, { useContext, useEffect, Component } from "react";
+import Piano from "./Piano";
+import ContactForm from "./ContactForm";
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import ApiContext from "../context/api/apiContext";
 import EventContext from "../context/eventAPI/eventContext";
 import LoadingComponent from "../loading/LoadingComponent";
@@ -13,6 +19,13 @@ import M from "materialize-css";
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 
+<<<<<<< HEAD
+=======
+// const Card = () => {
+//   const apiContext = useContext(ApiContext);
+// const { userLoad, users, loading, error } = apiContext;
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 const Card = ({ users }) => {
   useEffect(() => {
     //Explicitly initilize collapsible
@@ -33,9 +46,13 @@ const Card = ({ users }) => {
                 <img
                   style={{
                     objectFit: "fill",
+<<<<<<< HEAD
                     overflow: "none",
                     width: "100%",
                     height: 300
+=======
+                    overflow: "none"
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                   }}
                   src={require(`../../../public/uploads/${user.photo}`)}
                   alt=""
@@ -74,7 +91,15 @@ const Card = ({ users }) => {
                     </div>
                     <div className="collapsible-body">
                       <span>
+<<<<<<< HEAD
                         <ul>{user.careers}</ul>
+=======
+                        <ul>
+                          {/* {user.careers.map(instruments => (
+                            <li>{instruments}</li>
+                          ))} */}
+                        </ul>
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                       </span>
                     </div>
                   </li>
@@ -85,7 +110,13 @@ const Card = ({ users }) => {
                     <div className="collapsible-body">
                       <span>
                         <ul>
+<<<<<<< HEAD
                           <li>{user.price}</li>
+=======
+                          {/* {user.pricing.map(price => (
+                            <li>{price}</li>
+                          ))} */}
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                         </ul>
                       </span>
                     </div>
@@ -102,9 +133,14 @@ const Card = ({ users }) => {
 const Home = () => {
   const apiContext = useContext(ApiContext);
   const eventContext = useContext(EventContext);
+<<<<<<< HEAD
   const { userLoad, users, loading, isAuthenticated } = apiContext;
   const { getEvents, events } = eventContext;
 
+=======
+  const { userLoad, users, loading } = apiContext;
+  const { getEvents, events } = eventContext;
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   console.log("events:", events);
   useEffect(() => {
     userLoad();
@@ -129,6 +165,7 @@ const Home = () => {
   var settings = {
     autoplay: 2000,
     infinite: true,
+<<<<<<< HEAD
     touchDisabled: false
   };
 
@@ -180,13 +217,72 @@ const Home = () => {
               this case, is moved at a different speed than the foreground
               content while scrolling.
             </p>
+=======
+    touchDisabled: true
+  };
+
+  // if (users == null && loading) {
+  //   return <LoadingComponent />;
+  // }
+
+  return (
+    <div>
+      <div className="parallax-container valign-wrapper">
+        <div className="row container center-align">
+          <h1 id="header">Canterbury Music Teachers</h1>
+        </div>
+        <div id="firstImage" className="parallax">
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2018/11/03/06/37/abstract-3791494_960_720.jpg"
+          />
+        </div>
+      </div>
+
+      <div className="section white">
+        <div className="row container">
+          <h2 className="header">Our Teachers</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+            Parallax is an effect where the background content or image in this
+            case, is moved at a different speed than the foreground content
+            while scrolling.
+          </p>
+
+          <div className="row">
+            <Card users={users} />
+          </div>
+        </div>
+      </div>
+
+      <div className="parallax-container">
+        <div className="parallax">
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2016/02/29/23/15/sheet-music-1229481_960_720.jpg"
+          />
+        </div>
+      </div>
+
+      <div className="section white">
+        <div className="row container">
+          <h2 className="header">News and Events</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+            Parallax is an effect where the background content or image in this
+            case, is moved at a different speed than the foreground content
+            while scrolling.
+          </p>
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
             <Slider {...settings} className="slider-wrapper">
               {events.map((e, index) => (
                 <div key={index} className="slider-content">
                   <img
                     alt=""
+<<<<<<< HEAD
                     src={require(`../../../public/uploads/${e.photo}`)}
+=======
+                    src={`../../../public/uploads/${e.photo}`}
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                     style={{
                       width: "100%",
                       height: "100vh",
@@ -198,6 +294,7 @@ const Home = () => {
                   <div className="inner">
                     <h1>{e.title}</h1>
                     <p>{e.description}</p>
+<<<<<<< HEAD
 
                     <a href={e.url}>{e.url}</a>
                   </div>
@@ -279,6 +376,86 @@ const Home = () => {
         <LoadingComponent />
       )} */}
     </>
+=======
+                    <li>
+                      <a href={e.url}>{e.url}</a>
+                    </li>
+                  </div>
+                </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
+
+      <div className="parallax-container">
+        <div className="parallax">
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2018/08/21/17/01/violin-3621667_960_720.jpg"
+          />
+        </div>
+      </div>
+
+      <div className="section white">
+        <div className="row container">
+          <h2 className="header">Start Today</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+            Learn playing music with this interactive piano. Tap the keys on the
+            keyboard or use a mouse.
+          </p>
+
+          <ContactForm />
+        </div>
+      </div>
+
+      <footer className="page-footer brown darken-4">
+        <div className="container">
+          <div className="row">
+            <div className="col l6 s12">
+              <h5 className="white-text">Footer Content</h5>
+              <p className="grey-text text-lighten-4">
+                You can use rows and columns here to organize your footer
+                content.
+              </p>
+            </div>
+            <div className="col l4 offset-l2 s12">
+              <h5 className="white-text">Links</h5>
+              <ul>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 1
+                  </a>
+                </li>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 2
+                  </a>
+                </li>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 3
+                  </a>
+                </li>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 4
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="footer-copyright">
+          <div className="container">
+            © 2019 Copyright Text
+            <a className="grey-text text-lighten-4 right" href="#!">
+              More Links
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   );
 };
 

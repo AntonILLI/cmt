@@ -3,11 +3,19 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
+<<<<<<< HEAD
+=======
+import { useHistory } from "react-router-dom";
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { screenSmallerThan } from "../../globals/Util";
 import EventContext from "../../../../components/context/eventAPI/eventContext";
+<<<<<<< HEAD
 import { useHistory } from "react-router-dom";
+=======
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import {
   PageWrapper,
   Label,
@@ -16,6 +24,29 @@ import {
   Submit
 } from "./InputStyles";
 
+<<<<<<< HEAD
+=======
+// const BtnWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+//   margin-left: 5rem;
+//   align-items: center;
+//   padding: 1rem;
+// `;
+// const MyForm = styled.form`
+//   margin-bottom: 100px;
+// `;
+// const ImgWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   padding-top: 3rem;
+//   height: 50%;
+//   width: 50%;
+// `;
+
+//will use userId for save or delete conttent
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 const FileSize = 15000000;
 const FormatType = ["image/jpg", "image/jpeg", "image/png"];
 
@@ -123,7 +154,11 @@ function EditForm({ id }) {
                 actions.setSubmitting(false);
 
                 clearTimeout(timeOut);
+<<<<<<< HEAD
               }, 3000);
+=======
+              }, 1000);
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             }}
           >
             {({

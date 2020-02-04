@@ -7,8 +7,12 @@ const sendEmail = async options => {
   const transporter = nodemailer.createTransport({
     // host: process.env.SMTP_HOST,
     // port: process.env.SMTP_PORT,
+<<<<<<< HEAD
     // service: "Mailjet",
     service: "gmail",
+=======
+    service: "Mailjet",
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     auth: {
       user: process.env.SMTP_EMAIL,
       pass: process.env.SMTP_PASSWORD

@@ -22,7 +22,11 @@ function FileUpload(props) {
         onChange={o => handleChange(o)}
         className={"form-control"}
       />
+<<<<<<< HEAD
       <img src={""} alt="" id={"myimage"} style={{ height: 200, width: 300 }} />
+=======
+      <img src={""} alt="" id={"myimage"} style={{ height: 200, width: 200 }} />
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     </div>
   );
 }

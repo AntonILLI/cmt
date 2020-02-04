@@ -1,12 +1,20 @@
 //navigation bar main component slide animation and list linkin menu bar
 
+<<<<<<< HEAD
 import React, { useState, useContext } from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import img from "../../images/Music.jpg";
 import img2 from "../../images/Music2.jpg";
 import img3 from "../../images/Music3.jpg";
+<<<<<<< HEAD
 import ApiContext from "../../../../components/context/api/apiContext";
+=======
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 const Navigation = () => {
   const [background, setBackground] = useState(`${img}`);
 
@@ -16,6 +24,7 @@ const Navigation = () => {
     setBackground(background);
     setFont(font);
   };
+<<<<<<< HEAD
   const apiContext = useContext(ApiContext);
 
   const { logout, loading, isAuthenticated } = apiContext;
@@ -26,6 +35,11 @@ const Navigation = () => {
 
   const MyNavigation = styled.div`
     position: fixed !important;
+=======
+
+  const MyNavigation = styled.div`
+    position: fixed;
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     left: -32rem;
     width: 38rem;
     height: 100%;
@@ -48,14 +62,60 @@ const Navigation = () => {
       font-family: "Josefin Sans", sans-serif;
       font-size: 3.5rem;
       font-weight: 300;
+<<<<<<< HEAD
       margin-top: 80px;
       padding-bottom: 40px;
+=======
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
       letter-spacing: 0.2rem;
       color: ${font};
       text-align: center;
     }
   `;
 
+<<<<<<< HEAD
+=======
+  // const MySearch = styled(Form)`
+  //   position: relative !important;
+  //   margin-top: 20px !important;
+
+  //   .navigation-search-input {
+  //     width: 30rem !important;
+  //     padding: 1rem 2rem !important;
+  //     background-color: rgba(0, 0, 0, 0.3) !important;
+  //     font-family: "Josefin Sans", sans-serif !important;
+  //     font-size: 1.6rem !important;
+  //     color: ${font}!important;
+  //     letter-spacing: 0.1rem !important;
+  //     outline: none !important;
+  //     margin-left: 3rem !important;
+  //     border: 0.1rem solid #555 !important;
+  //     border-radius: 10rem !important;
+  //     transition: background-color 0.3s !important;
+  //   }
+
+  //   .navigation-search-input:focus {
+  //     background-color: rgba(0, 0, 0, 0.1) !important;
+  //     border: solid 1px ${font} !important;
+  //   }
+
+  //   .navigation-search-btn {
+  //     border: none;
+  //     background-color: transparent;
+  //     color: ${font};
+  //     font-size: 1.7rem;
+  //     position: absolute;
+  //     top: 1rem;
+  //     right: 5.8rem;
+  //     cursor: pointer;
+  //   }
+
+  //   .navigation-search-btn:focus {
+  //     outline: none !important;
+  //   }
+  // `;
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   const MyNavigationList = styled.ul`
     list-style: none;
     padding: 0;
@@ -191,11 +251,15 @@ const Navigation = () => {
         </li>
 
         <li className="navigation-item ">
+<<<<<<< HEAD
           <Link
             to="/"
             onClick={e => handleLogout(e)}
             className="navigation-link"
           >
+=======
+          <Link to="/" className="navigation-link">
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             log-out
           </Link>
         </li>
@@ -229,7 +293,11 @@ const Navigation = () => {
       </ButtonWrapper>
 
       <MyCopyright className="copyright">
+<<<<<<< HEAD
         <p>&copy; 2020. Canterbury Music Teachers. All Rights Reserved</p>
+=======
+        <p>&copy; 2019. Canterbury Music School. All Rights Reserved</p>
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
       </MyCopyright>
     </MyNavigation>
   );

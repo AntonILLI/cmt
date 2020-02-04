@@ -1,11 +1,19 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik, Form, ErrorMessage, FieldArray } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
+<<<<<<< HEAD
 import * as Yup from "yup";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { useHistory } from "react-router-dom";
 import { MultiSelect } from "./MultiSelect";
+=======
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import styled from "styled-components";
+import FileUpload from "./FileUpload";
+import { MultiSelect } from "../../dashboard/form/MultiSelect";
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import { screenSmallerThan } from "../../globals/Util";
 
 import {
@@ -27,6 +35,12 @@ const validationSchema = Yup.object().shape({
   lastname: Yup.string()
     .min(2, "Your lastname is too short")
     .required("Please enter your last name"),
+<<<<<<< HEAD
+=======
+  password: Yup.string()
+    .min(6, "Your password is more than 6")
+    .required("Please enter you password"),
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
@@ -153,6 +167,15 @@ function TeditForm({ params }) {
     }
   ];
 
+<<<<<<< HEAD
+=======
+  // const handleChange = e => {
+  //   setFormValue({
+  //     ...formValue,
+  //     [e.target.name]: e.target.value
+  //   });
+  // };
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   return (
     <MySection>
       <PageWrapper Border Margin Width>
@@ -168,6 +191,10 @@ function TeditForm({ params }) {
               firstname: teacher.firstname,
               lastname: teacher.lastname,
               email: teacher.email,
+<<<<<<< HEAD
+=======
+              password: teacher.password,
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
               description: teacher.description,
               photo: null,
               careers: [],
@@ -181,6 +208,10 @@ function TeditForm({ params }) {
               data.append("firstname", values.firstname);
               data.append("lastname", values.lastname);
               data.append("email", values.email);
+<<<<<<< HEAD
+=======
+              data.append("password", values.password);
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
               data.append("description", values.description);
               data.append("photo", values.photo);
               data.append("careers", values.careers);
@@ -251,6 +282,32 @@ function TeditForm({ params }) {
                       </StyledInlineErrorMessage>
                     )}
 
+<<<<<<< HEAD
+=======
+                    <Label htmlFor="password">
+                      Password
+                      <MyInput
+                        className="browser-default"
+                        value={values.password}
+                        type="text"
+                        name="password"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        autoComplete="password"
+                        placeholder="your password"
+                        valid={touched.password && !errors.password}
+                        error={touched.password && errors.password}
+                      />
+                    </Label>
+                    <ErrorMessage name="password">
+                      {msg => (
+                        <StyledInlineErrorMessage>
+                          {msg}
+                        </StyledInlineErrorMessage>
+                      )}
+                    </ErrorMessage>
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                     <Label htmlFor="email">
                       Email
                       <MyInput

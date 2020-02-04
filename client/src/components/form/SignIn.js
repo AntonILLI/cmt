@@ -10,16 +10,37 @@ import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
+<<<<<<< HEAD
     .required("Required email"),
   password: Yup.string()
     .min(6, "Too short!")
     .required("Required password")
 });
 
+=======
+    .required("Required"),
+  password: Yup.string()
+    .min(6, "Too Short!")
+    .required("Required")
+});
+
+// function Copyright() {
+//   return (
+//     <p variant="body2" color="textSecondary" align="center">
+//       {"Copyright © "}
+//       <Link color="inherit">Canterbury Music Teacher</Link>{" "}
+//       {new Date().getFullYear()}
+//       {"."}
+//     </p>
+//   );
+// }
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 const SignIn = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
+<<<<<<< HEAD
   const { login, isAuthenticated, errorMessage } = apiContext;
 
   useEffect(() => {
@@ -33,12 +54,31 @@ const SignIn = () => {
   //   return <Redirect to="/" />;
   // }
 console.log('error',errorMessage)
+=======
+  const { login, isAuthenticated, error } = apiContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/admin/dashboard");
+    }
+  }, [isAuthenticated, history]);
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
+
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   return (
     <div className="container">
       <div className="row">
         <div className="col s8 offset-s2 m6 offset-m3">
+<<<<<<< HEAD
           {errorMessage && errorMessage.length > 0 && (
             <h5 style={{ color: "red" }}>{errorMessage}</h5>
+=======
+          {error && error.length > 0 && (
+            <h4 style={{ color: "red" }}>{error}</h4>
+>>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
           )}
           <div className="card center-align">
             <div className="card-image">
