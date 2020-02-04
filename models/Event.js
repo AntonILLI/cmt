@@ -4,7 +4,7 @@ const EventSchema = new mongoose.Schema({
   title: {
     type: String,
     trim: true,
-    required: [true, "Please add a course title"]
+    required: [true, "Please add a title"]
   },
   description: {
     type: String,
@@ -14,14 +14,16 @@ const EventSchema = new mongoose.Schema({
     type: String,
     default: "no-photo.jpg"
   },
+  url: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now
   },
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true
+    ref: "User"
   }
 });
 

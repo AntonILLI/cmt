@@ -23,8 +23,9 @@ const Navigation = () => {
     e.preventDefault();
     logout();
   };
+
   const MyNavigation = styled.div`
-    position: fixed;
+    position: fixed !important;
     left: -32rem;
     width: 38rem;
     height: 100%;
@@ -47,11 +48,14 @@ const Navigation = () => {
       font-family: "Josefin Sans", sans-serif;
       font-size: 3.5rem;
       font-weight: 300;
+      margin-top: 80px;
+      padding-bottom: 40px;
       letter-spacing: 0.2rem;
       color: ${font};
       text-align: center;
     }
   `;
+
   const MyNavigationList = styled.ul`
     list-style: none;
     padding: 0;
@@ -225,7 +229,7 @@ const Navigation = () => {
       </ButtonWrapper>
 
       <MyCopyright className="copyright">
-        <p>&copy; 2019. Canterbury Music School. All Rights Reserved</p>
+        <p>&copy; 2020. Canterbury Music Teachers. All Rights Reserved</p>
       </MyCopyright>
     </MyNavigation>
   );

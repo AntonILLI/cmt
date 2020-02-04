@@ -1,7 +1,7 @@
 //react router
 
 import React from "react";
-import styled from "styled-components";
+
 import { useLocation } from "react-router";
 import Dashboard from "./components/pages/Dashboard";
 import Profile from "./components/pages/Profile";
@@ -16,12 +16,11 @@ import Navbar from "./components/dashboard/nav/Navbar";
 import Footer from "./components/dashboard/footer/Footer";
 import Toggle from "./components/globals/Toggle";
 import { ModalProviders } from "./components/modal/Modal";
-import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 import { useTransition, animated } from "react-spring";
 import EventCallModal from "../admin/components/modal/EventCallModal";
 import CallModal from "../admin/components/modal/CallModal";
 import AuthRoute from "../AuthRoute";
-import setAuthToken from "../components/utils/SetAuthToken";
+import NotFound from "../components/utils/NotFound";
 function Admin() {
   //router
   // const { location } = useContext(__RouterContext);
@@ -42,65 +41,74 @@ function Admin() {
     return <div />;
   }
 
-  // if (localStorage.token) {
-  //   setAuthToken(localStorage.token);
-  // }
+  const CustomAuthRouter = ({
+    exact,
+    path,
+    component: Component,
+    ...props
+  }) => (
+    <Route
+      exact={exact}
+      path={path}
+      render={props => {
+        return (
+          <div>
+            <Toggle theme={theme} toggleTheme={toggleTheme} />
+
+            <Component {...props} />
+            <Footer />
+          </div>
+        );
+      }}
+    />
+  );
+
   return (
     <>
       <ThemeProvider theme={themeMode}>
-        <ModalProvider backgroundComponent={ModalBackground}>
-          <ModalProviders>
-            <GlobalStyles />
-            <Navbar />
-            <Toggle theme={theme} toggleTheme={toggleTheme} />
-            {transitions.map(({ item, props, key }) => (
-              <animated.div key={key} style={props}>
-                <Switch location={item}>
-                  <AuthRoute
-                    exact
-                    path="/admin"
-                    component={Dashboard}
-                    location={location}
-                  />
-                  <AuthRoute exaxt path="/admin/profile" component={Profile} />
-                  <AuthRoute exaxt path="/admin/event" component={Event} />
-                  <AuthRoute
-                    exaxt
-                    path="/admin/eventTable"
-                    component={EventTableList}
-                    location={location}
-                  />
-                  <AuthRoute
-                    path="/admin/eventModalPage/:id"
-                    component={EventCallModal}
-                  />
+        <ModalProviders>
+          <GlobalStyles />
 
-                  <AuthRoute
-                    path="/admin/modalPage/:params"
-                    component={CallModal}
-                  />
-                </Switch>
-              </animated.div>
-            ))}
-          </ModalProviders>
-        </ModalProvider>
+          <Navbar />
+
+          {transitions.map(({ item, props, key }) => (
+            <animated.div key={key} style={props}>
+              <Switch location={item}>
+                <CustomAuthRouter
+                  exact
+                  path="/admin"
+                  component={Dashboard}
+                  location={location}
+                />
+                <CustomAuthRouter
+                  exaxt
+                  path="/admin/profile"
+                  component={Profile}
+                />
+                <CustomAuthRouter exaxt path="/admin/event" component={Event} />
+                <CustomAuthRouter
+                  exaxt
+                  path="/admin/eventTable"
+                  component={EventTableList}
+                  location={location}
+                />
+                <AuthRoute
+                  path="/admin/eventModalPage/:id"
+                  component={EventCallModal}
+                />
+
+                <AuthRoute
+                  path="/admin/modalPage/:params"
+                  component={CallModal}
+                />
+                <Route path="*" component={NotFound} />
+              </Switch>
+            </animated.div>
+          ))}
+        </ModalProviders>
       </ThemeProvider>
-
-      <Footer />
     </>
   );
 }
-
-const ModalBackground = styled(BaseModalBackground)`
-  background-image: linear-gradient(
-    to left bottom,
-    #43cea2,
-    #00b5b3,
-    #0099bb,
-    #007ab4,
-    #185a9d
-  );
-  opacity: ${props => props.opacity};
-`;
 
 export default Admin;

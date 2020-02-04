@@ -5,6 +5,7 @@ import AdminReducer from "./adminReducer";
 import {
   ADMIN_USERS,
   ADMIN_ERROR,
+  ADMIN_USER,
   ADD_USERS,
   ADD_ERROR,
   DELETE_USER,
@@ -12,13 +13,14 @@ import {
   UPDATE_USER,
   UPDATE_ERROR
 } from "./types";
-import setAuthToken from "../../utils/SetAuthToken";
+
 const AdminState = props => {
   const initialState = {
     // auth: localStorage.getItem("token"),
     teachers: [],
     error: null,
-    loading: null
+    loading: null,
+    teacher: []
   };
 
   const [state, dispatch] = useReducer(AdminReducer, initialState);
@@ -34,6 +36,12 @@ const AdminState = props => {
     } catch (err) {
       dispatch({ type: ADMIN_ERROR });
     }
+  };
+
+  const adminUser = async id => {
+    const res = await axios.get(`/api/v1/users/${id}`, {});
+    console.log(res);
+    dispatch({ type: ADMIN_USER, payload: res.data });
   };
 
   const addUsers = async userData => {
@@ -92,7 +100,9 @@ const AdminState = props => {
         teachers: state.teachers,
         error: state.error,
         loading: state.loading,
+        teacher: state.teacher,
         adminUsers,
+        adminUser,
         addUsers,
         updateUser,
         deleteUser

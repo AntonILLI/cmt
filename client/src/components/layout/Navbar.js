@@ -85,9 +85,6 @@ const Navbar = () => {
                   Home <span className="sr-only">(current)</span>
                 </Link>
               </li>
-              <li>
-                <Link to="#">Components</Link>
-              </li>
 
               <li>
                 <Link to="/signIn">
@@ -104,9 +101,6 @@ const Navbar = () => {
             <Link className="nav-link">
               Home <span className="sr-only">(current)</span>
             </Link>
-          </li>
-          <li>
-            <Link to="#">Components</Link>
           </li>
 
           <li>

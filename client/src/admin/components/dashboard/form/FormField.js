@@ -3,7 +3,7 @@ import React, { useState, useRef, useContext } from "react";
 import { Formik, Form, FieldArray, ErrorMessage, Field } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
-
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { MultiSelect } from "./MultiSelect";
@@ -36,9 +36,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
-  title: Yup.string()
-    .min(5, "Your title is too short")
-    .required("Please enter your title"),
+
   description: Yup.string()
     .min(10, "Your description is too short")
     .required("Please enter your description"),
@@ -59,14 +57,23 @@ const validationSchema = Yup.object().shape({
 export const MySection = styled.section`
   margin: 0 5rem 8rem 8rem;
   padding-bottom: 7rem;
-  ${screenSmallerThan.tablet`
-  
-    margin-left:3rem;
+  /* ${screenSmallerThan.tablet`
+    margin-left:0;
+    msrgin-right:0;
     flex-direction: column;
     justify-content:center;
     align-items:center;
     
-  `} /* background-color: #15141b; */
+  `} */
+
+  ${screenSmallerThan.phone`
+    margin:0;
+    padding:0;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+
+  `}
 `;
 
 export const MyTitle = styled.div`
@@ -78,6 +85,13 @@ export const MyTitle = styled.div`
     font-size: 4rem;
     font-weight: 300;
     letter-spacing: 0.2rem;
+
+    ${screenSmallerThan.phone`
+   font-size:1rem;
+   left:-1rem;
+   font-weight: 150;
+   letter-spacing: 0.1rem;
+ `}
   }
 
   .small-underline {
@@ -86,6 +100,10 @@ export const MyTitle = styled.div`
     background-color: #b85d1c;
     margin: 0 auto 1rem auto;
   }
+  ${screenSmallerThan.phone`
+  width:4rem
+
+ `}
 
   .big-underline {
     width: 9rem;
@@ -108,6 +126,8 @@ function FormField({ userId }) {
 
   const adminContext = useContext(AdminContext);
   const { addUsers, loading, error } = adminContext;
+  const { redirect, setRedirect } = useState(false);
+  const history = useHistory();
 
   const getValues = values => values.fields;
 
@@ -153,7 +173,6 @@ function FormField({ userId }) {
             firstname: "",
             lastname: "",
             email: "",
-            title: "",
             description: "",
             password: "",
             photo: null,
@@ -170,7 +189,6 @@ function FormField({ userId }) {
             data.append("lastname", values.lastname);
             data.append("email", values.email);
             data.append("password", values.password);
-            data.append("title", values.title);
             data.append("description", values.description);
             data.append("photo", values.photo);
             data.append("careers", values.careers);
@@ -178,11 +196,17 @@ function FormField({ userId }) {
             console.log(JSON.stringify(values, null, 2));
 
             addUsers(data);
-
+            {
+              /* setRedirect(true); */
+            }
             const timeOut = setTimeout(() => {
               ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
               clearTimeout(timeOut);
+
+              {
+                /* history.push("/admin"); */
+              }
             }, 1000);
           }}
         >
@@ -279,26 +303,6 @@ function FormField({ userId }) {
                     )}
                   </ErrorMessage>
 
-                  <Label htmlFor="title">
-                    Profile Title
-                    <MyInput
-                      className="browser-default"
-                      type="text"
-                      name="title"
-                      autoCapitalize="off"
-                      autoCorrect="off"
-                      autoComplete="email"
-                      placeholder="your title"
-                      valid={touched.title && !errors.title}
-                      error={touched.title && errors.title}
-                    />
-                  </Label>
-                  <ErrorMessage name="title">
-                    {msg => (
-                      <StyledInlineErrorMessage>{msg}</StyledInlineErrorMessage>
-                    )}
-                  </ErrorMessage>
-
                   <Label htmlFor="description">
                     Description
                     <MyInput
@@ -340,8 +344,6 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-
-                  
                   <Label htmlFor="careers">
                     Music skills
                     <MultiSelect
@@ -418,7 +420,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-                {/* {JSON.stringify(values, null, 2)} */}
+                {JSON.stringify(values, null, 2)}
               </>
             );
           }}

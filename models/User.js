@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+// const encrypt = require("../utils/encrypt");
+
 const UserSchema = new mongoose.Schema({
   firstname: {
     type: String,
@@ -33,36 +35,19 @@ const UserSchema = new mongoose.Schema({
     minlength: 8
   },
   careers: {
-    type: [String],
-    enum: [
-      "Piano",
-      "viollin",
-      "guitar",
-      "flute",
-      "Jazz",
-      "vacal training",
-      "Other"
-    ]
+    type: [String]
   },
-  title: {
-    type: String,
-    trim: true,
-    maxlength: 100
-  },
+
   description: {
     type: String
   },
-  pricing: {
-    type: [Number]
+  price: {
+    type: [String]
   },
+
   photo: {
     type: String,
     default: "no-photo.jpg"
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user"
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
@@ -72,11 +57,11 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-//Encript password using bcrypt hash//unless not modified the password, skip the hashing
 UserSchema.pre("save", async function(next) {
   if (!this.isModified("password")) {
     next();
   }
+  // this.password = await encrypt(this.password);
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
@@ -88,24 +73,26 @@ UserSchema.methods.getSignedJwtToken = function() {
   });
 };
 
-//compare user entered password & hashed password
 UserSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+  // this.password = await decrypt(this.password);
+  // console.log("pass:", this.password);
+  // if (this.password === enteredPassword) {
+  //   return this.password;
+  // }
 };
 
-//reset password and generate hashed token
 UserSchema.methods.getResetPasswordToken = function() {
-  //Generate token //randomBytes generate random data //buffer formatted to string
+  // Generate token
   const resetToken = crypto.randomBytes(20).toString("hex");
-  //Hash token and ,'sha256'//digest as hex string
-  //about cript hashing--> https://nodejs.org/en/knowledge/cryptography/how-to-use-crypto-module/
+
   this.resetPasswordToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
 
-  // Set expire date
-  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  // Set expire
+  this.resetPasswordExpire = Date.now() + 3600000;
 
   return resetToken;
 };

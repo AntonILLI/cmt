@@ -1,10 +1,10 @@
 export default {
   particles: {
     number: {
-      value: 160,
+      value: 300,
       density: {
         enable: true,
-        value_area: 800
+        value_area: 1000
       }
     },
     color: {
@@ -17,7 +17,7 @@ export default {
         color: "#000000"
       },
       polygon: {
-        nb_sides: 4
+        nb_sides: 5
       },
       image: {
         src: "img/github.svg",
@@ -32,7 +32,7 @@ export default {
         enable: true,
         speed: 1,
         opacity_min: 0,
-        sync: false
+        sync: true
       }
     },
     size: {
@@ -41,7 +41,7 @@ export default {
       anim: {
         enable: false,
         speed: 4,
-        size_min: 0.3,
+        size_min: 0.5,
         sync: false
       }
     },

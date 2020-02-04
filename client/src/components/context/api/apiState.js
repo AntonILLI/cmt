@@ -27,9 +27,8 @@ const ApiState = props => {
     teachers: [],
     isAuthenticated: null,
     loading: true,
-    error: null
+    errorMessage: null
   };
-
   //authUser() is run in external file,
   //type:AUTH_LOADED...which will be set as a siwtch fuc in reducer will run
   //then inside state will be chnaged(upadated)...payload:res.data---> user:action.payload
@@ -98,11 +97,10 @@ const ApiState = props => {
 
     try {
       const res = await axios.post(
-        `/api/v1/auth/forgotPassword`,
+        "/api/v1/auth/forgotPassword",
         Temail,
         config
       );
-
       dispatch({
         type: FORGOT_PASS,
         payload: res.data
@@ -110,7 +108,7 @@ const ApiState = props => {
     } catch (err) {
       dispatch({
         type: FORGOT_FAIL,
-        payload: err.response.data.error
+        payload: err.response.data.success
       });
     }
   };
@@ -134,9 +132,10 @@ const ApiState = props => {
         payload: res.data
       });
     } catch (err) {
+      console.log("err:", err.response);
       dispatch({
         type: RESET_FAIL,
-        payload: err.response.data.message
+        payload: err.response.data.error
       });
     }
   };
@@ -153,7 +152,7 @@ const ApiState = props => {
         loading: state.loading,
         users: state.users,
         user: state.user,
-        error: state.error,
+        errorMessage: state.errorMessage,
         teachers: state.teachers,
         authUser,
         userLoad,

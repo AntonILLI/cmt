@@ -17,7 +17,8 @@ function Teachers({ teachers, deleteUser, loading, error }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const history = useHistory();
   console.log("history:", history);
-  const ReadMore = ({ children, maxCharacter = 100 }) => {
+
+  const ReadMore = ({ children, maxCharacter = 190 }) => {
     const text = children;
     const [isShrinked, setIsShrinked] = useState(true);
     const resultString = isShrinked ? text.slice(0, maxCharacter) : text;
@@ -75,11 +76,10 @@ function Teachers({ teachers, deleteUser, loading, error }) {
                   ></img>
                 </div>
                 <div className="teachers-info">
-                  <h3 className="teachers-firstname">
+                  <h3 className="teachers-name">
                     {`${teacher.firstname} ${teacher.lastname}`}
                   </h3>
 
-                  <p className="teachers-title">{teacher.title}</p>
                   <p className="teachers-title">{teacher.price}</p>
                   <p className="teachers-title">{teacher.careers}</p>
 
@@ -91,7 +91,11 @@ function Teachers({ teachers, deleteUser, loading, error }) {
                       <EditIcon color={setColor.primaryColor} />
                     </Link>
 
-                    <ABtn onClick={() => deleteUser(teacher._id).then(window.location.reload())}>
+                    <ABtn
+                      onClick={() =>
+                        deleteUser(teacher._id).then(window.location.reload())
+                      }
+                    >
                       {" "}
                       <RemoveIcon color={setColor.removeColor} />
                     </ABtn>
@@ -242,6 +246,7 @@ const MyCard = styled(animated.div)`
   display: flex;
   padding-bottom: 10px;
   margin-bottom: 30px;
+  padding-top: 10px;
   border: 1.5px solid #b85d1c;
   will-change: transform;
 
@@ -262,17 +267,18 @@ const MyCard = styled(animated.div)`
     padding: 0 2rem;
   }
 
-  .teachers-firstname {
+  .teachers-name {
     font-size: 2rem;
     font-weight: 300;
     margin-bottom: 0;
-    color: #696969;
+    margin-top: 5px;
+    color: #b85d1c;
   }
 
   .teachers-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-style: italic;
-    color: #b85d1c;
+    color: #696969;
   }
 `;
 

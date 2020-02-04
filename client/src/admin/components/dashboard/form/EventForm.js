@@ -11,7 +11,8 @@ import { screenSmallerThan } from "../../globals/Util";
 import { MyParagraph } from "../teachers/Teachers";
 import FileUpload from "./FileUpload";
 import EventContext from "../../../../components/context/eventAPI/eventContext";
-
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   PageWrapper,
   Title,
@@ -97,10 +98,11 @@ export const MyTitle = styled.div`
 //will use userId for save or delete conttent
 function EventForm() {
   const eventContext = useContext(EventContext);
-  const { createEvent, loading, error } = eventContext;
-
+  const { createEvent } = eventContext;
+  // const [error, setError] = useState([false]);
+  const [redirect, setRedirect] = useState(false);
+  const history = useHistory();
   const ref = useRef(null);
-  // const [formValues, setFormValues] = useState();
 
   const [toggle, setToggle] = useState(true);
 
@@ -155,17 +157,15 @@ function EventForm() {
             data.append("title", values.title);
             data.append("url", values.url);
             data.append("description", values.description);
-            createEvent(data);
 
             console.log(values);
-
-            const timeOut = setTimeout(() => {
-              ref.current(" Submitted Successfully!!");
-
-              actions.setSubmitting(false);
-
-              clearTimeout(timeOut);
-            }, 1000);
+            createEvent(data).then(() => {
+              const timeOut = setTimeout(() => {
+                actions.setSubmitting(false);
+                clearTimeout(timeOut);
+                setRedirect(true);
+              }, 1000);
+            });
           }}
         >
           {({
@@ -183,8 +183,8 @@ function EventForm() {
             return (
               <>
                 <Form name="contact" method="post" onSubmit={handleSubmit}>
+                  {redirect ? <Redirect to="/admin" /> : null}
                   <Label htmlFor="title">
-                    Title
                     <MyInput
                       className="browser-default"
                       type="text"

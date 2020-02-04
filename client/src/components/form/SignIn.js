@@ -16,22 +16,11 @@ const SignupSchema = Yup.object().shape({
     .required("Required password")
 });
 
-// function Copyright() {
-//   return (
-//     <p variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <Link color="inherit">Canterbury Music Teacher</Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </p>
-//   );
-// }
-
 const SignIn = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
-  const { login, isAuthenticated, error } = apiContext;
+  const { login, isAuthenticated, errorMessage } = apiContext;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -43,13 +32,13 @@ const SignIn = () => {
   // if (isAuthenticated) {
   //   return <Redirect to="/" />;
   // }
-
+console.log('error',errorMessage)
   return (
     <div className="container">
       <div className="row">
         <div className="col s8 offset-s2 m6 offset-m3">
-          {error && error.length > 0 && (
-            <h5 style={{ color: "red" }}>{error}</h5>
+          {errorMessage && errorMessage.length > 0 && (
+            <h5 style={{ color: "red" }}>{errorMessage}</h5>
           )}
           <div className="card center-align">
             <div className="card-image">

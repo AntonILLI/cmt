@@ -1,52 +1,34 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Formik, Form, Field } from "formik";
 import photo_reset from "../../img/ForgotPassword.jpg";
 import ApiContext from "../context/api/apiContext";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
+
+import PopupMessage from "../../admin/components/globals/PopupMessage";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
 
-import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
-    .min(8, "Too Short!")
-    .required("Required"),
+    .min(6, "Your password is more than 6!")
+    .required("Require password"),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref("password"), null],
     "Passwords must match"
   ),
-  resetPasswordToken: Yup.string().required("Required Token")
+  resetPasswordToken: Yup.string().required("Required Passowrd Reset Code")
 });
 
-function Copyright() {
-  return (
-    <p variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <div color="inherit">Canterbury Music Teacher</div>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </p>
-  );
-}
-
 const ResetPassword = () => {
-  const history = useHistory();
-
+  // const history = useHistory();
+  // const { HasError, setHasError } = useState(false);
   const apiContext = useContext(ApiContext);
-  const { resetPassword, isAuthenticated } = apiContext;
+  const { resetPassword, errorMessage } = apiContext;
   const { resetPasswordToken } = useParams();
 
+  const ref = useRef(null);
   console.log("tokenR:", resetPasswordToken);
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push("/admin");
-    }
-  }, [isAuthenticated, history]);
-
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <div className="container">
@@ -60,7 +42,11 @@ const ResetPassword = () => {
             <div className="card-tabs">
               <ul className="tabs tabs-fixed-width">
                 <li className="tab">
-                  <a href="#test4">Please type your email address</a>
+                  <h6 style={{ color: "#ed5634" }}>
+                    Please type your Password Reset Code,
+                    <br />
+                    password, confirm password
+                  </h6>
                 </li>
               </ul>
             </div>
@@ -75,22 +61,32 @@ const ResetPassword = () => {
                       confirmPassword: ""
                     }}
                     validationSchema={SignupSchema}
-                    onSubmit={values => {
+                    onSubmit={(values, actions) => {
                       const data = new FormData();
                       data.append("password", values.password);
-
-                      resetPassword(data, resetPasswordToken);
+                      actions.setStatus();
+                      resetPassword(data, resetPasswordToken).then(error => {
+                        actions.setSubmitting(false);
+                        actions.setStatus({ error: true });
+                      });
                     }}
                   >
-                    {({ errors, touched, handleSubmit }) => (
+                    {({ errors, touched, handleSubmit, status }) => (
                       <Form
                         name="resetPasword"
                         action=""
                         method="post"
                         onSubmit={handleSubmit}
                       >
+                        {/* {!status.success && (
+                          <h5 style={{ color: "red" }}>
+                            This credential is not valid any more
+                          </h5>
+                        )} */}
+                        {/* )} */}
+                        <PopupMessage children={add => (ref.current = add)} />
                         <div className="input-field col s12">
-                          <i className="material-icons prefix">vpn_key</i>
+                          <i className="material-icons prefix"> vpn_key</i>
 
                           <Field name="resetPasswordToken" />
                           {errors.resetPasswordToken &&
@@ -101,7 +97,13 @@ const ResetPassword = () => {
                           ) : null}
                         </div>
                         <div className="input-field col s12">
-                          <i className="material-icons prefix">Password</i>
+                          <i
+                            className="material-icons prefix"
+                            style={{ paddingLeft: 10 }}
+                          >
+                            {" "}
+                            Password
+                          </i>
 
                           <Field name="password" />
                           {errors.password && touched.password ? (
@@ -110,9 +112,11 @@ const ResetPassword = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-
                         <div className="input-field col s12">
-                          <i className="material-icons prefix">
+                          <i
+                            className="material-icons prefix"
+                            style={{ paddingLeft: 10 }}
+                          >
                             Confirm password
                           </i>
 
@@ -123,7 +127,6 @@ const ResetPassword = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-
                         <div>
                           <button
                             type="submit"
@@ -135,7 +138,6 @@ const ResetPassword = () => {
                             Send
                           </button>
                         </div>
-                        {Copyright()}
                       </Form>
                     )}
                   </Formik>
@@ -150,3 +152,22 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
+
+{
+  /* if (!errorMessage) {
+                        console.log("error", errorMessage);
+                        resetPassword(data, resetPasswordToken);
+                        const timeOut = setTimeout(() => {
+                          ref.current(
+                            "your password has been changed successfully!!"
+                          );
+                          actions.setSubmitting(false);
+                          clearTimeout(timeOut);
+                        }, 1500);
+                      } else {
+                        actions.setErrors({
+                          HasError: "Invalid Reset Token or Something is wrong"
+                        });
+                      }
+                    }} */
+}

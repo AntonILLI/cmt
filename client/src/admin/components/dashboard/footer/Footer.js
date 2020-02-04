@@ -2,7 +2,7 @@
 
 import React from "react";
 import styled from "styled-components";
-
+import { screenSmallerThan } from "../../globals/Util";
 // function Copyright() {
 //   return (
 //     <p variant="body2" color="textSecondary" align="center">
@@ -48,16 +48,33 @@ const MyFooter = styled.footer`
     height: 60px;
     margin-top: 10px;
   }
+  ${screenSmallerThan.giant`
+   flex-direction: column;
+`}
+  ${screenSmallerThan.phone`
+     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+
+`}
 
   .copyright-text {
     font-size: 1.5rem;
     color: #aaa;
   }
+  ${screenSmallerThan.phone`
+   font-size:1rem;
+
+`}
 `;
 const MyText = styled.div`
   font-size: 1.7rem;
   color: #bbb;
+  ${screenSmallerThan.phone`
+   font-size:0.7rem;
 
+`}
   .text-icon {
     font-size: 2.3rem;
     margin: 0.6rem;

@@ -198,9 +198,8 @@ const Home = () => {
                   <div className="inner">
                     <h1>{e.title}</h1>
                     <p>{e.description}</p>
-                    <li>
-                      <a href={e.url}>{e.url}</a>
-                    </li>
+
+                    <a href={e.url}>{e.url}</a>
                   </div>
                 </div>
               ))}

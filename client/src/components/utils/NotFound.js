@@ -18,16 +18,18 @@ function NotFound() {
       justify-content: center;
     }
   `;
-  const icon = [hello.IceCream, hello.Cat, hello.Browser, hello.Ghost];
+  const icon = [hello.Cat, hello.Browser, hello.Ghost];
   var Kawaii = icon[Math.floor(Math.random() * icon.length)];
 
   return (
     <Page>
       <div className="context">
-        <Kawaii size={170} mood="sad" color="#5a32a8" />
+        <Kawaii size={200} mood="sad" color="#5a32a8" />
       </div>
-      <h2>oops,404 error..page is not Found !!</h2>
-      <Link to="/">woosp, back to home</Link>
+      <h2 style={{ fontSize: "60px" }}>oops,404 error..page is not Found !!</h2>
+      <Link to="/" style={{ fontSize: "30px" }}>
+        woosp, back to home
+      </Link>
     </Page>
   );
 }

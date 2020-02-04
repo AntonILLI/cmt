@@ -45,30 +45,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @route  GET /api/v1/auth/logout// @access Private //clear token/cookie
-exports.logout = asyncHandler(async (req, res, next) => {
-  res.cookie("token", "none", {
-    expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
-  }); //expire 10000sec
-
-  res.status(200).json({
-    success: true,
-    data: {}
-  });
-});
-
-//@desc  Get current logged-in user//@route POST/api/v1/auth/me//@accsss Private
-
-exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user
-  });
-});
-
 //@route POST/api/v1/auth/forgotpassword//@accsss Private
 
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
@@ -78,30 +54,27 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("There is no user with that email", 404));
   }
 
-  //get a reset token
+  // Get reset token
   const resetToken = user.getResetPasswordToken();
 
-  //validateBeforeSave:false .. dont need validate
   await user.save({ validateBeforeSave: false });
 
-  //Create reset url
+  // Create reset url
+  //https://canterbury-music-teacher.herokuapp.com/
+  // const resetUrl = `${req.protocol}://${req.get(
+  //   "host"
+  // )}/api/v1/auth/resetpassword/${resetToken}`;
 
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/auth/resetpassword/${resetToken}`;
+  const resetUrl = `${req.protocol}://canterbury-music-teacher.herokuapp.com/resetpassword/${resetToken}`;
 
-  const message = `You are recieving this email because you have requested 
-  the reset of a password . Please make a put request to: \n\n ${resetUrl}`;
+  const message = `You are receiving this email because you has requested the reset of a password.
+   Please go to this link here : \n ${resetUrl}  then  make a put this Code --> ${resetToken}`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: "Password reset token",
+      subject: "Password reset",
       message
-    });
-    res.status(200).json({
-      success: true,
-      data: "Email sent"
     });
   } catch (err) {
     user.resetPasswordToken = undefined;
@@ -111,10 +84,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     });
     return next(new ErrorResponse("Email could not be sent"), 500);
   }
-  res.status(200).json({
-    success: true,
-    data: user
-  });
+  res.status(200).json({ success: true, data: "Email sent", user });
 });
 
 //@desc Reset Password
@@ -123,10 +93,13 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   // Get hashed token
+  // console.log("params:", req.params);
+
   const resetPasswordToken = crypto
     .createHash("sha256")
-    .update(req.params.resettoken)
+    .update(req.params.rtoken)
     .digest("hex");
+  // const resetPasswordToken = crypto.update(req.params.rtoken);
 
   const user = await User.findOne({
     resetPasswordToken,

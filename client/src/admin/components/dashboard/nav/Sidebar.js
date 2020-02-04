@@ -73,12 +73,12 @@ const MySidebar = styled.div`
   width: 8rem;
   height: 100%;
   background-color: #eee;
-  position: fixed;
+  position: fixed !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
+  z-index: 100 !important;
 
   .menu-icon {
     margin-top: 3rem;
@@ -111,5 +111,4 @@ const MySidebar = styled.div`
     color: #555;
   }
 `;
-
 export default Sidebar;

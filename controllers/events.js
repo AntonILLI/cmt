@@ -2,6 +2,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Event = require("../models/Event");
 const User = require("../models/User");
+const path = require("path");
 
 exports.getEvents = asyncHandler(async (req, res, next) => {
   if (req.params.userId) {
@@ -24,7 +25,7 @@ exports.getEvent = asyncHandler(async (req, res, next) => {
   });
   // const blog = await Blog.findById(req.params.id);
 
-  if (!blog) {
+  if (!event) {
     return next(
       new ErrorResponse(`No event with the id of ${req.params.id}`),
       404
@@ -42,20 +43,57 @@ exports.getEvent = asyncHandler(async (req, res, next) => {
 //access Private
 
 exports.createEvent = asyncHandler(async (req, res, next) => {
-  req.body.user = req.user.id;
+  console.log(req.files); //file objects... size,encoding,mimetype
+  //startswith mimetype -->'image'/jpeg//the file will be accessible from req.files.
 
-  //cheked duplicate create
-  let event = await Event.find({ user: req.user.id });
+  if (!req.files) {
+    return next(new ErrorResponse(`Please upload a file`, 400));
+  }
 
-  if (!event) {
+  const photo = req.files.photo;
+
+  // Make sure the image is a photo
+  if (!photo.mimetype.startsWith("image")) {
+    return next(new ErrorResponse(`Please upload an image file`, 400));
+  }
+
+  // Check filesize
+  if (photo.size > process.env.MAX_FILE_UPLOAD) {
     return next(
-      new ErrorResponse(`No user with the Id of  ${req.user.id}`, 404)
+      new ErrorResponse(
+        `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+        400
+      )
     );
   }
 
-  event = await Event.create(req.body);
+  // Create custom filename
+  console.log(__filename);
+  // photo.name = `photo_${path.parse(photo.name).ext}`;//override the name with ext but some how does not work
 
-  res.status(201).json({ success: true, data: event });
+  photo.mv(
+    `${__dirname}/${process.env.FILE_UPLOAD_PATH}/${photo.name}`,
+    async err => {
+      if (err) {
+        console.error(err);
+        return next(new ErrorResponse(`Problem with file upload`, 500));
+      }
+
+      const { description, title, url } = req.body;
+      const TEvent = await Event.create({
+        description,
+        title,
+        url,
+        photo: photo.name,
+        filePath: `/uploads/${photo.name}`
+      });
+
+      res.status(200).json({
+        success: true,
+        data: TEvent
+      });
+    }
+  );
 });
 
 // @route     PUT /api/v1/courses/:id// @access    Private
@@ -70,14 +108,14 @@ exports.updateEvent = asyncHandler(async (req, res, next) => {
   }
 
   // Make sure user is course owner
-  if (event.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to update event`,
-        401
-      )
-    );
-  }
+  // if (event.user.toString() !== req.user.id) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.user.id} is not authorized to update event`,
+  //       401
+  //     )
+  //   );
+  // }
 
   event = await Event.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -97,19 +135,19 @@ exports.deleteEvent = asyncHandler(async (req, res, next) => {
 
   if (!event) {
     return next(
-      new ErrorResponse(`No blog with the id of ${req.params.id}`),
+      new ErrorResponse(`No event with the id of ${req.params.id}`),
       404
     );
   }
 
-  if (event.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to delete event`,
-        401
-      )
-    );
-  }
+  // if (event.user.toString() !== req.user.id) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.user.id} is not authorized to delete event`,
+  //       401
+  //     )
+  //   );
+  // }
 
   await event.remove();
 

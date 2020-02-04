@@ -8,7 +8,9 @@ import {
   LOGOUT,
   USER_LOAD,
   RESET_PASSWORD,
-  FORGOT_PASS
+  RESET_FAIL,
+  FORGOT_PASS,
+  FORGOT_FAIL
 } from "./types";
 
 //state management
@@ -60,6 +62,8 @@ export default (state, action) => {
     case USER_ERROR:
     case AUTH_ERROR:
     case LOGIN_FAIL:
+    case FORGOT_FAIL:
+    case RESET_FAIL:
     case LOGOUT:
       localStorage.removeItem("token");
       return {
@@ -68,8 +72,14 @@ export default (state, action) => {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload
+        errorMessage: action.payload
       };
+    // case FORGOT_FAIL:
+    // case RESET_FAIL:
+    //   return {
+    //     ...state,
+    //     errorData: [action.payload]
+    //   };
 
     default:
       return state;
