@@ -9,29 +9,8 @@ import { secoundryColor } from "../../globals/colors";
 const Main = styled.div`
   height: 100%;
   padding: 20px 8px 0px 8px;
-<<<<<<< HEAD
   margin: 0 5rem 18rem 8rem;
 `;
-=======
-  margin: 0 5rem 8rem 8rem;
-`;
-//flex direction row is default
-// const TitleCol = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
-
-// const Title = styled.span`
-//   margin-left: 8px;
-// `;
-
-// const ABtn = styled.div`
-//   cursor: pointer;
-//   background-color: transparent;
-//   outline: none !important;
-//   border: none !important;
-// `;
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
 const MyTitle = styled.div`
   padding: 5rem;
@@ -146,23 +125,11 @@ const EventTable = ({ location, events, deleteEvent }) => {
         </div>
       </MyTitle>
 
-<<<<<<< HEAD
       <Table data={events} deleteEvent={deleteEvent} rowConfig={rowConfig} />
-=======
-      <Table
-        currentPage={params.has("page") ? parseInt(params.get("page")) : 1}
-        totalPages={10}
-        basePageLink="/admin/eventTable"
-        data={events}
-        deleteEvent={deleteEvent}
-        rowConfig={rowConfig}
-      />
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     </Main>
   );
 };
 
-<<<<<<< HEAD
 {
   /* currentPage={params.has("page") ? parseInt(params.get("page")) : 1} */
 }
@@ -171,6 +138,4 @@ const EventTable = ({ location, events, deleteEvent }) => {
         basePageLink="/admin/eventTable" */
 }
 
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 export default EventTable;

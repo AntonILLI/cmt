@@ -1,11 +1,7 @@
 //custom reusable button component for many pages
 
 import styled from "styled-components";
-<<<<<<< HEAD
 import { setColor } from "../globals/colors";
-=======
-import { setColor } from "./colors";
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
 const setRem = (number = 16) => {
   return `${number / 16}rem`;

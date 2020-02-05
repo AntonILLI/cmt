@@ -43,7 +43,6 @@ export const Label = styled.label`
 `;
 
 export const MyInput = styled(Input)`
-<<<<<<< HEAD
   background-color: white !important;
   border: 1px solid lightblue !important;
   border-radius: 4px !important;
@@ -54,18 +53,6 @@ export const MyInput = styled(Input)`
   width: 100% !important;
   margin-top: 0.5rem !important;
   padding: 0.75rem 0.75rem !important;
-=======
-  background-color: white;
-  border: 1px solid lightgrey;
-  border-radius: 4px;
-  font-size: 1.5rem;
-  line-height: ${props => (props.height ? "5rem" : "1.5rem")};
-  font-style: normal;
-  font-weight: 400;
-  width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.75rem 0.75rem;
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   &:focus,
   &:active {

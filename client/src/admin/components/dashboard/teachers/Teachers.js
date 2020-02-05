@@ -3,22 +3,13 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ReactParticles from "react-particles-js";
 import configJson from "../../globals/configJson.js";
-<<<<<<< HEAD
 import { Link, useHistory } from "react-router-dom";
-=======
-import { Link } from "react-router-dom";
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import { PrimaryBtn } from "../../globals/Button";
 import { animated, useSpring } from "react-spring";
 import { screenSmallerThan } from "../../globals/Util";
 import { setColor } from "../../globals/colors";
 import EditIcon from "../svg-icons/Edit";
 import RemoveIcon from "../svg-icons/Remove";
-<<<<<<< HEAD
-
-=======
-import { useHistory } from 'react-router-dom';
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import CallModal from "../../modal/CallModal";
 
 function Teachers({ teachers, deleteUser, loading, error }) {
@@ -51,13 +42,10 @@ function Teachers({ teachers, deleteUser, loading, error }) {
       </StyledParagraph>
     );
   };
-<<<<<<< HEAD
   // const deleteTeacher = id => {
   //   deleteUser(id);
   //   history.push("/admin");
   // };
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   return (
     <MySection>
@@ -80,10 +68,7 @@ function Teachers({ teachers, deleteUser, loading, error }) {
               <TeacherCards key={teacher._id}>
                 <div className="teachers-image-wrapper">
                   <img
-<<<<<<< HEAD
                     alt=""
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                     style={{ height: 150, width: 210 }}
                     src={require(`../../../../../public/uploads/${teacher.photo}`)}
                     className="teachers-image"

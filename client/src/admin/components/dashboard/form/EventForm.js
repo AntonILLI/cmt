@@ -11,12 +11,8 @@ import { screenSmallerThan } from "../../globals/Util";
 import { MyParagraph } from "../teachers/Teachers";
 import FileUpload from "./FileUpload";
 import EventContext from "../../../../components/context/eventAPI/eventContext";
-<<<<<<< HEAD
 import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-=======
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import {
   PageWrapper,
   Title,
@@ -102,18 +98,11 @@ export const MyTitle = styled.div`
 //will use userId for save or delete conttent
 function EventForm() {
   const eventContext = useContext(EventContext);
-<<<<<<< HEAD
   const { createEvent } = eventContext;
   // const [error, setError] = useState([false]);
   const [redirect, setRedirect] = useState(false);
   const history = useHistory();
   const ref = useRef(null);
-=======
-  const { createEvent, loading, error } = eventContext;
-
-  const ref = useRef(null);
-  // const [formValues, setFormValues] = useState();
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   const [toggle, setToggle] = useState(true);
 
@@ -158,10 +147,7 @@ function EventForm() {
           initialValues={{
             title: "",
             description: "",
-<<<<<<< HEAD
             url: "",
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             photo: null
           }}
           validationSchema={validationSchema}
@@ -169,7 +155,6 @@ function EventForm() {
             const data = new FormData();
             data.append("photo", values.photo);
             data.append("title", values.title);
-<<<<<<< HEAD
             data.append("url", values.url);
             data.append("description", values.description);
 
@@ -181,20 +166,6 @@ function EventForm() {
                 setRedirect(true);
               }, 1000);
             });
-=======
-            data.append("description", values.description);
-            createEvent(data);
-
-            console.log(values);
-
-            const timeOut = setTimeout(() => {
-              ref.current(" Submitted Successfully!!");
-
-              actions.setSubmitting(false);
-
-              clearTimeout(timeOut);
-            }, 1000);
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
           }}
         >
           {({
@@ -212,13 +183,8 @@ function EventForm() {
             return (
               <>
                 <Form name="contact" method="post" onSubmit={handleSubmit}>
-<<<<<<< HEAD
                   {redirect ? <Redirect to="/admin" /> : null}
                   <Label htmlFor="title">
-=======
-                  <Label htmlFor="title">
-                    Title
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                     <MyInput
                       className="browser-default"
                       type="text"
@@ -257,7 +223,6 @@ function EventForm() {
                     </StyledInlineErrorMessage>
                   )}
 
-<<<<<<< HEAD
                   <Label htmlFor="url">
                     Event Link (Optional)
                     <MyInput
@@ -277,8 +242,6 @@ function EventForm() {
                     </StyledInlineErrorMessage>
                   )}
 
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                   <Label htmlFor="photo">
                     Image
                     <MyInput

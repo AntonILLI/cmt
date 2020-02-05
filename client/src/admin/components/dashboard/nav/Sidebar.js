@@ -1,6 +1,5 @@
 //side bar (menu icon)
 
-<<<<<<< HEAD
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -23,13 +22,6 @@ const Sidebar = () => {
       </p>
     );
   }
-=======
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import MenuToggle from "./MenuToggle";
-const Sidebar = () => {
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   return (
     <>
       <MySidebar>
@@ -65,23 +57,13 @@ const Sidebar = () => {
           </li>
 
           <li>
-<<<<<<< HEAD
             <Link to="/" onClick={e => handleLogout(e)} className="icon-link">
-=======
-            <Link to="/" className="icon-link">
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
               <i className="fas fa-sign-out-alt"></i>
             </Link>
           </li>
         </ul>
 
-<<<<<<< HEAD
         <div className="year">{Copyright()}</div>
-=======
-        <div className="year">
-          <p>2019</p>
-        </div>
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
       </MySidebar>
     </>
   );
@@ -91,20 +73,12 @@ const MySidebar = styled.div`
   width: 8rem;
   height: 100%;
   background-color: #eee;
-<<<<<<< HEAD
   position: fixed !important;
-=======
-  position: fixed;
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-<<<<<<< HEAD
   z-index: 100 !important;
-=======
-  z-index: 10;
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   .menu-icon {
     margin-top: 3rem;
@@ -137,8 +111,4 @@ const MySidebar = styled.div`
     color: #555;
   }
 `;
-<<<<<<< HEAD
-=======
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 export default Sidebar;

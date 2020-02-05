@@ -4,18 +4,10 @@ import photo_reset from "../../img/ForgotPassword.jpg";
 import ApiContext from "../context/api/apiContext";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-<<<<<<< HEAD
-
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import PopupMessage from "../../admin/components/globals/PopupMessage";
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
-=======
-import { useHistory, Redirect } from "react-router";
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Your password is more than 6!")
@@ -24,7 +16,6 @@ const SignupSchema = Yup.object().shape({
     [Yup.ref("password"), null],
     "Passwords must match"
   ),
-<<<<<<< HEAD
   resetPasswordToken: Yup.string().required("Required Passowrd Reset Code")
 });
 
@@ -35,28 +26,6 @@ const ResetPassword = () => {
   const { resetPassword, errorMessage } = apiContext;
   const { resetPasswordToken } = useParams();
 
-=======
-  resetPasswordToken: Yup.string().required("Required Token")
-});
-
-// function Copyright() {
-//   return (
-//     <p variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <div color="inherit">Canterbury Music Teacher</div>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </p>
-//   );
-// }
-
-const ResetPassword = () => {
-  const history = useHistory();
-
-  const apiContext = useContext(ApiContext);
-  const { resetPassword } = apiContext;
-  const { resetPasswordToken } = useParams();
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   const ref = useRef(null);
   console.log("tokenR:", resetPasswordToken);
 
@@ -72,15 +41,11 @@ const ResetPassword = () => {
             <div className="card-tabs">
               <ul className="tabs tabs-fixed-width">
                 <li className="tab">
-<<<<<<< HEAD
                   <h6 style={{ color: "#ed5634" }}>
                     Please type your Password Reset Code,
                     <br />
                     password, confirm password
                   </h6>
-=======
-                  <a href="#test4">Please type your email address</a>
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                 </li>
               </ul>
             </div>
@@ -98,7 +63,6 @@ const ResetPassword = () => {
                     onSubmit={(values, actions) => {
                       const data = new FormData();
                       data.append("password", values.password);
-<<<<<<< HEAD
                       actions.setStatus();
                       resetPassword(data, resetPasswordToken).then(error => {
                         actions.setSubmitting(false);
@@ -107,28 +71,12 @@ const ResetPassword = () => {
                     }}
                   >
                     {({ errors, touched, handleSubmit, status }) => (
-=======
-
-                      resetPassword(data, resetPasswordToken);
-
-                      const timeOut = setTimeout(() => {
-                        ref.current(
-                          "Successfully sent it, you will recieved a confirmation email in your email box!!"
-                        );
-                        actions.setSubmitting(false);
-                        clearTimeout(timeOut);
-                      }, 1500);
-                    }}
-                  >
-                    {({ errors, touched, handleSubmit }) => (
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                       <Form
                         name="resetPasword"
                         action=""
                         method="post"
                         onSubmit={handleSubmit}
                       >
-<<<<<<< HEAD
                         {/* {!status.success && (
                           <h5 style={{ color: "red" }}>
                             This credential is not valid any more
@@ -138,11 +86,6 @@ const ResetPassword = () => {
                         <PopupMessage children={add => (ref.current = add)} />
                         <div className="input-field col s12">
                           <i className="material-icons prefix"> vpn_key</i>
-=======
-                        <PopupMessage children={add => (ref.current = add)} />
-                        <div className="input-field col s12">
-                          <i className="material-icons prefix">vpn_key</i>
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
                           <Field name="resetPasswordToken" />
                           {errors.resetPasswordToken &&
@@ -153,7 +96,6 @@ const ResetPassword = () => {
                           ) : null}
                         </div>
                         <div className="input-field col s12">
-<<<<<<< HEAD
                           <i
                             className="material-icons prefix"
                             style={{ paddingLeft: 10 }}
@@ -161,9 +103,6 @@ const ResetPassword = () => {
                             {" "}
                             Password
                           </i>
-=======
-                          <i className="material-icons prefix">Password</i>
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
                           <Field name="password" />
                           {errors.password && touched.password ? (
@@ -172,17 +111,11 @@ const ResetPassword = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-<<<<<<< HEAD
                         <div className="input-field col s12">
                           <i
                             className="material-icons prefix"
                             style={{ paddingLeft: 10 }}
                           >
-=======
-
-                        <div className="input-field col s12">
-                          <i className="material-icons prefix">
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                             Confirm password
                           </i>
 
@@ -193,10 +126,6 @@ const ResetPassword = () => {
                             </StyledInlineErrorMessage>
                           ) : null}
                         </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                         <div>
                           <button
                             type="submit"
@@ -222,7 +151,6 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
-<<<<<<< HEAD
 
 {
   /* if (!errorMessage) {
@@ -242,5 +170,3 @@ export default ResetPassword;
                       }
                     }} */
 }
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb

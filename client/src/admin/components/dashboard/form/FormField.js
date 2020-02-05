@@ -3,11 +3,7 @@ import React, { useState, useRef, useContext } from "react";
 import { Formik, Form, FieldArray, ErrorMessage, Field } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
-<<<<<<< HEAD
 import { useHistory } from "react-router-dom";
-=======
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { MultiSelect } from "./MultiSelect";
@@ -61,20 +57,13 @@ const validationSchema = Yup.object().shape({
 export const MySection = styled.section`
   margin: 0 5rem 8rem 8rem;
   padding-bottom: 7rem;
-<<<<<<< HEAD
   /* ${screenSmallerThan.tablet`
     margin-left:0;
     msrgin-right:0;
-=======
-  ${screenSmallerThan.tablet`
-  
-    margin-left:3rem;
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     flex-direction: column;
     justify-content:center;
     align-items:center;
     
-<<<<<<< HEAD
   `} */
 
   ${screenSmallerThan.phone`
@@ -85,9 +74,6 @@ export const MySection = styled.section`
     align-items:center;
 
   `}
-=======
-  `} /* background-color: #15141b; */
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 `;
 
 export const MyTitle = styled.div`
@@ -99,7 +85,6 @@ export const MyTitle = styled.div`
     font-size: 4rem;
     font-weight: 300;
     letter-spacing: 0.2rem;
-<<<<<<< HEAD
 
     ${screenSmallerThan.phone`
    font-size:1rem;
@@ -107,8 +92,6 @@ export const MyTitle = styled.div`
    font-weight: 150;
    letter-spacing: 0.1rem;
  `}
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   }
 
   .small-underline {
@@ -117,13 +100,10 @@ export const MyTitle = styled.div`
     background-color: #b85d1c;
     margin: 0 auto 1rem auto;
   }
-<<<<<<< HEAD
   ${screenSmallerThan.phone`
   width:4rem
 
  `}
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   .big-underline {
     width: 9rem;
@@ -146,11 +126,8 @@ function FormField({ userId }) {
 
   const adminContext = useContext(AdminContext);
   const { addUsers, loading, error } = adminContext;
-<<<<<<< HEAD
   const { redirect, setRedirect } = useState(false);
   const history = useHistory();
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   const getValues = values => values.fields;
 
@@ -219,24 +196,17 @@ function FormField({ userId }) {
             console.log(JSON.stringify(values, null, 2));
 
             addUsers(data);
-<<<<<<< HEAD
             {
               /* setRedirect(true); */
             }
-=======
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             const timeOut = setTimeout(() => {
               ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
               clearTimeout(timeOut);
-<<<<<<< HEAD
 
               {
                 /* history.push("/admin"); */
               }
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             }, 1000);
           }}
         >
@@ -244,13 +214,8 @@ function FormField({ userId }) {
             values,
             errors,
             touched,
-<<<<<<< HEAD
             handleSubmit,
             setFieldValue,
-=======
-            setFieldValue,
-            handleSubmit,
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             isSubmitting,
             handleReset,
             dirty,
@@ -359,13 +324,8 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-<<<<<<< HEAD
                   <Label style={{ marginTop: "20px" }} htmlFor="photo">
                     Image(upload photo sould be 200 height * 300 in size width)
-=======
-                  <Label htmlFor="photo">
-                    Image
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                     <MyInput
                       className="browser-default"
                       name="photo"
@@ -383,10 +343,6 @@ function FormField({ userId }) {
                       {errors.photo}
                     </StyledInlineErrorMessage>
                   )}
-<<<<<<< HEAD
-
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                   <Label htmlFor="careers">
                     Music skills
                     <MultiSelect
@@ -402,22 +358,14 @@ function FormField({ userId }) {
                       className="browser-default"
                       placeholder="Add Price"
                       name="price"
-<<<<<<< HEAD
                       Width
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                       render={arrayHelpers => (
                         <div>
                           {values.price && values.price.length > 0 ? (
                             values.price.map((price, index) => (
-<<<<<<< HEAD
                               <div key={index} style={{ paddingRight: "27px" }}>
                                 <MyInput
                                   className="browser-default"
-=======
-                              <div key={index}>
-                                <Field
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                                   name={`${price}.${index}`}
                                   onChange={e => {
                                     setFieldValue("price.0", e.target.value);
@@ -444,11 +392,7 @@ function FormField({ userId }) {
                               type="button"
                               onClick={() => arrayHelpers.push("")}
                             >
-<<<<<<< HEAD
                               Add Fees
-=======
-                              Add Price
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                             </button>
                           )}
                         </div>

@@ -13,28 +13,10 @@ const SignupSchema = Yup.object().shape({
     .required("Require email")
 });
 
-<<<<<<< HEAD
 const ForgotPassword = () => {
   const ref = useRef(null);
   const apiContext = useContext(ApiContext);
   const { forgotPassword, errorMessage } = apiContext;
-=======
-function Copyright() {
-  return (
-    <p variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <div color="inherit">Canterbury Music Teacher</div>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </p>
-  );
-}
-
-const ForgotPassword = () => {
-  const ref = useRef(null);
-  const apiContext = useContext(ApiContext);
-  const { forgotPassword } = apiContext;
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   return (
     <div className="container">
@@ -64,7 +46,6 @@ const ForgotPassword = () => {
                     onSubmit={(values, actions) => {
                       const data = new FormData();
                       data.append("email", values.email);
-<<<<<<< HEAD
 
                       forgotPassword(data);
                       actions.setSubmitting(false);
@@ -76,17 +57,6 @@ const ForgotPassword = () => {
                       } else {
                         actions.setErrors(errorMessage);
                       }
-=======
-                      forgotPassword(data);
-
-                      const timeOut = setTimeout(() => {
-                        ref.current(
-                          "Successfully sent it, you will recieved a confirmation email in your email box!!"
-                        );
-                        actions.setSubmitting(false);
-                        clearTimeout(timeOut);
-                      }, 1500);
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                     }}
                   >
                     {({ errors, touched, handleSubmit }) => (
@@ -96,20 +66,13 @@ const ForgotPassword = () => {
                         method="post"
                         onSubmit={handleSubmit}
                       >
-<<<<<<< HEAD
                         <h5 style={{ color: "red" }}>{errors.HasError}</h5>
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                         <PopupMessage children={add => (ref.current = add)} />
                         <div className="input-field col s12">
                           <i className="material-icons prefix">email</i>
 
                           <Field name="email" />
-<<<<<<< HEAD
                           {errors.email && touched.email ? (
-=======
-                          {StyledInlineErrorMessage.email && touched.email ? (
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                             <StyledInlineErrorMessage>
                               {errors.email}
                             </StyledInlineErrorMessage>
@@ -127,10 +90,6 @@ const ForgotPassword = () => {
                             Reset-Passowrd
                           </button>
                         </div>
-<<<<<<< HEAD
-=======
-                        {Copyright()}
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
                       </Form>
                     )}
                   </Formik>

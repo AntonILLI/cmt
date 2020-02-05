@@ -4,11 +4,8 @@ import ApiContext from "./apiContext";
 import apiReducer from "./apiReducer";
 import {
   AUTH_USER,
-<<<<<<< HEAD
   ADMIN_USERS,
   ADMIN_ERROR,
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -27,19 +24,11 @@ const ApiState = props => {
     token: localStorage.getItem("token"),
     users: null,
     user: null,
-<<<<<<< HEAD
     teachers: [],
     isAuthenticated: null,
     loading: true,
     errorMessage: null
   };
-=======
-    isAuthenticated: null,
-    loading: true,
-    error: null
-  };
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   //authUser() is run in external file,
   //type:AUTH_LOADED...which will be set as a siwtch fuc in reducer will run
   //then inside state will be chnaged(upadated)...payload:res.data---> user:action.payload
@@ -68,7 +57,6 @@ const ApiState = props => {
     }
   };
 
-<<<<<<< HEAD
   const adminUsers = async () => {
     try {
       const res = await axios.get("/api/v1/users/admin", {});
@@ -79,8 +67,6 @@ const ApiState = props => {
     }
   };
 
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   const login = async userData => {
     const config = {
       headers: {
@@ -93,11 +79,7 @@ const ApiState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-<<<<<<< HEAD
       userLoad();
-=======
-      setAuthToken(localStorage.token);
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
@@ -115,18 +97,10 @@ const ApiState = props => {
 
     try {
       const res = await axios.post(
-<<<<<<< HEAD
         "/api/v1/auth/forgotPassword",
         Temail,
         config
       );
-=======
-        `/api/v1/auth/forgotPassword`,
-        Temail,
-        config
-      );
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
       dispatch({
         type: FORGOT_PASS,
         payload: res.data
@@ -134,11 +108,7 @@ const ApiState = props => {
     } catch (err) {
       dispatch({
         type: FORGOT_FAIL,
-<<<<<<< HEAD
         payload: err.response.data.success
-=======
-        payload: err.response.data.error
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
       });
     }
   };
@@ -162,16 +132,10 @@ const ApiState = props => {
         payload: res.data
       });
     } catch (err) {
-<<<<<<< HEAD
       console.log("err:", err.response);
       dispatch({
         type: RESET_FAIL,
         payload: err.response.data.error
-=======
-      dispatch({
-        type: RESET_FAIL,
-        payload: err.response.data.message
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
       });
     }
   };
@@ -188,17 +152,11 @@ const ApiState = props => {
         loading: state.loading,
         users: state.users,
         user: state.user,
-<<<<<<< HEAD
         errorMessage: state.errorMessage,
         teachers: state.teachers,
         authUser,
         userLoad,
         adminUsers,
-=======
-        error: state.error,
-        authUser,
-        userLoad,
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
         login,
         logout,
         resetPassword,

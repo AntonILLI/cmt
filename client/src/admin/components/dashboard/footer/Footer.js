@@ -2,7 +2,6 @@
 
 import React from "react";
 import styled from "styled-components";
-<<<<<<< HEAD
 import { screenSmallerThan } from "../../globals/Util";
 // function Copyright() {
 //   return (
@@ -12,8 +11,6 @@ import { screenSmallerThan } from "../../globals/Util";
 //     </p>
 //   );
 // }
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
 const Footer = () => {
   return (
@@ -21,11 +18,7 @@ const Footer = () => {
       <div className="footer-part">
         <div className="copyright-text">
           <p>
-<<<<<<< HEAD
             Copyright &copy; 2020. Canterbury Music Teachers. All Rights
-=======
-            Copyright &copy; 2019. Canterbury Music Teachers. All Rights
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
             Reserved
           </p>
         </div>
@@ -55,7 +48,6 @@ const MyFooter = styled.footer`
     height: 60px;
     margin-top: 10px;
   }
-<<<<<<< HEAD
   ${screenSmallerThan.giant`
    flex-direction: column;
 `}
@@ -66,32 +58,23 @@ const MyFooter = styled.footer`
     height: 4rem;
 
 `}
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 
   .copyright-text {
     font-size: 1.5rem;
     color: #aaa;
   }
-<<<<<<< HEAD
   ${screenSmallerThan.phone`
    font-size:1rem;
 
 `}
-=======
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
 `;
 const MyText = styled.div`
   font-size: 1.7rem;
   color: #bbb;
-<<<<<<< HEAD
   ${screenSmallerThan.phone`
    font-size:0.7rem;
 
 `}
-=======
-
->>>>>>> d0b64319a84d7dce92c396baf9c2386b8f130adb
   .text-icon {
     font-size: 2.3rem;
     margin: 0.6rem;
