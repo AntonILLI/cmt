@@ -10,7 +10,7 @@ const errorHandler = require("./middleware/error.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-// Test commit
+
 dotenv.config({ path: "./config/config.env" });
 
 const connectDB = async () => {
