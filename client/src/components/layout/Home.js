@@ -90,6 +90,18 @@ const Card = ({ users }) => {
                       </span>
                     </div>
                   </li>
+                  <li>
+                    <div className="collapsible-header">
+                      <i className="material-icons">email</i>Email
+                    </div>
+                    <div className="collapsible-body">
+                      <span>
+                        <ul>
+                          <li>{user.email}</li>
+                        </ul>
+                      </span>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
