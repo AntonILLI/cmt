@@ -6,12 +6,16 @@ import ApiContext from "../context/api/apiContext";
 import EventContext from "../context/eventAPI/eventContext";
 import LoadingComponent from "../loading/LoadingComponent";
 import "../../css/materialize.css";
+import "../../css/materialize.min.css";
 import "../../css/sliders.css";
 import "../../css/slider-animations.css";
 import M from "materialize-css";
-
+import Gallery from "./Gallery";
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
+// const Card = () => {
+//   const apiContext = useContext(ApiContext);
+// const { userLoad, users, loading, error } = apiContext;
 
 const Card = ({ users }) => {
   useEffect(() => {
@@ -126,10 +130,6 @@ const Home = () => {
     //Auto init all other materialize scripts
     M.AutoInit();
 
-    //Explicitly initilize slider
-    const slider = document.querySelectorAll(".slider");
-    M.Slider.init(slider, {});
-
     //Explicitly initilize modal
     const modal = document.querySelectorAll(".modal");
     console.log(modal);
@@ -218,6 +218,29 @@ const Home = () => {
             </Slider>
           </div>
         </div>
+      </div>
+      
+      <div className="parallax-container">
+        <div className="parallax">
+          <img
+            alt=""
+            src="https://cdn.pixabay.com/photo/2018/01/18/12/39/music-3090204_960_720.jpg"
+          />
+        </div>
+      </div>
+
+      <div className="section white">
+        <div className="row container">
+          <h2 className="header">Gallery</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+            Parallax is an effect where the background content or image in this
+            case, is moved at a different speed than the foreground content
+            while scrolling.
+          </p>
+          <Gallery />
+        </div>
+      </div>
+
 
         <div className="parallax-container">
           <div className="parallax">
@@ -228,53 +251,51 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="section white">
-          <div className="row container">
-            <h2 className="header">Start Today</h2>
-            <p className="grey-text text-darken-3 lighten-3">
-              Learn playing music with this interactive piano. Tap the keys on
-              the keyboard or use a mouse.
-            </p>
-
-            <ContactForm />
-          </div>
+      <div className="section white">
+        <div className="row container">
+          <h2 className="header">Start Today</h2>
+          <p className="grey-text text-darken-3 lighten-3">
+            Learn playing music with this interactive piano. Tap the keys on the
+            keyboard or use a mouse.
+          </p>
+          <ContactForm />
         </div>
-
-        <footer className="page-footer brown darken-4">
-          <div className="container">
-            <div className="row">
-              <div className="col l6 s12">
-                <h5 className="white-text">Footer Content</h5>
-                <p className="grey-text text-lighten-4">
-                  You can use rows and columns here to organize your footer
-                  content.
-                </p>
-              </div>
-              <div className="col l4 offset-l2 s12">
-                <h5 className="white-text">Links</h5>
-                <ul>
-                  <li>
-                    <a className="grey-text text-lighten-3" href="#!">
-                      Link 1
-                    </a>
-                  </li>
-                  <li>
-                    <a className="grey-text text-lighten-3" href="#!">
-                      Link 2
-                    </a>
-                  </li>
-                  <li>
-                    <a className="grey-text text-lighten-3" href="#!">
-                      Link 3
-                    </a>
-                  </li>
-                  <li>
-                    <a className="grey-text text-lighten-3" href="#!">
-                      Link 4
-                    </a>
-                  </li>
-                </ul>
-              </div>
+      </div>
+                    
+      <footer className="page-footer brown darken-4">
+        <div className="container">
+          <div className="row">
+            <div className="col l6 s12">
+              <h5 className="white-text">Footer Content</h5>
+              <p className="grey-text text-lighten-4">
+                You can use rows and columns here to organize your footer
+                content.
+              </p>
+            </div>
+            <div className="col l4 offset-l2 s12">
+              <h5 className="white-text">Links</h5>
+              <ul>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 1
+                  </a>
+                </li>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 2
+                  </a>
+                </li>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 3
+                  </a>
+                </li>
+                <li>
+                  <a className="grey-text text-lighten-3" href="#!">
+                    Link 4
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
           <div className="footer-copyright">
@@ -285,8 +306,8 @@ const Home = () => {
               </a>
             </div>
           </div>
-        </footer>
       </div>
+    </footer>
       {/* ) : (
         <LoadingComponent />
       )} */}

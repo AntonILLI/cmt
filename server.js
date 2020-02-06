@@ -3,15 +3,17 @@ const path = require("path");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const fileupload = require("express-fileupload");
 const mongoose = require("mongoose");
 const errorHandler = require("./middleware/error.js");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-
+const sendEmail = require('../cmt/utils/sendEmail')
 dotenv.config({ path: "./config/config.env" });
+
+sendEmail();
 
 const connectDB = async () => {
   const conn = await mongoose.connect(process.env.MONGO_URI, {
@@ -39,7 +41,6 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(fileupload());
 
-app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -76,8 +77,16 @@ if (process.env.NODE_ENV === "production") {
 
   app.get("*", function(req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    const name = req.body.name;
+    const email = req.body.email;
+    const message = req.body.message;
   });
 }
+
+app.post('/send', function (req, res) {
+  const name = req.body.name
+  console.log(name)
+})
 
 const PORT = process.env.PORT || 5000;
 
@@ -96,43 +105,4 @@ process.on("unhandledRejection", (err, promise) => {
   server.close(() => process.exit(1));
 });
 
-app.post("/send", (req, res) => {
-  var name = req.body.name;
-  var email = req.body.email;
-  var message = req.body.message;
-
-  async function main() {
-    // Generate test SMTP service account from ethereal.email
-    // Only needed if you don't have a real mail account for testing
-    let testAccount = await nodemailer.createTestAccount();
-
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      secure: false,
-      auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_PASSWORD
-      }
-    });
-
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
-      from: `${name} <${email}>`, // sender address
-      to: "bar@example.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: `<b>${message}</b>` // html body
-    });
-
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-  }
-
-  main().catch(console.error);
-});
+app.use(cors());
