@@ -159,13 +159,14 @@ function EventForm() {
             data.append("description", values.description);
 
             console.log(values);
-            createEvent(data).then(() => {
-              const timeOut = setTimeout(() => {
-                actions.setSubmitting(false);
-                clearTimeout(timeOut);
-                setRedirect(true);
-              }, 1000);
-            });
+            createEvent(data);
+            {
+              /* ref.current("Submitted Successfully!!"); */
+            }
+            const timeOut = setTimeout(() => {
+              clearTimeout(timeOut);
+              setRedirect(true);
+            }, 5000);
           }}
         >
           {({
@@ -183,8 +184,10 @@ function EventForm() {
             return (
               <>
                 <Form name="contact" method="post" onSubmit={handleSubmit}>
-                  {redirect ? <Redirect to="/admin" /> : null}
+                  {redirect ? <Redirect to="/admin/event" /> : null}
+                  {/* <PopupMessage children={add => (ref.current = add)} /> */}
                   <Label htmlFor="title">
+                    Title
                     <MyInput
                       className="browser-default"
                       type="text"
@@ -278,10 +281,6 @@ function EventForm() {
                   <PopupMessage children={add => (ref.current = add)} />
                 </Form>
                 <hr />
-                {/* <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
-                <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
-                {/* {formValues && <strong>Submitted values:</strong>}
-                {JSON.stringify(values, null, 2)} */}
               </>
             );
           }}
