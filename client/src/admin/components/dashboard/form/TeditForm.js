@@ -2,9 +2,10 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik, Form, ErrorMessage, FieldArray } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
-import { useHistory } from "react-router-dom";
+
 import { MultiSelect } from "./MultiSelect";
 import { screenSmallerThan } from "../../globals/Util";
 
@@ -175,7 +176,9 @@ function TeditForm({ params }) {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
-              console.log(values);
+              {
+                /* console.log(values); */
+              }
 
               const data = new FormData();
               data.append("firstname", values.firstname);
@@ -185,15 +188,16 @@ function TeditForm({ params }) {
               data.append("photo", values.photo);
               data.append("careers", values.careers);
               data.append("price", values.price);
-              console.log("id:", params);
+
               updateUser(data, params);
 
               const timeOut = setTimeout(() => {
-                ref.current("Submitted Successfully!!");
-                actions.setSubmitting(false);
+                history.replace("/admin");
 
-                clearTimeout(timeOut);
-              }, 1000);
+                actions.setSubmitting(true);
+
+               
+              }, 500);
             }}
           >
             {({
@@ -211,7 +215,7 @@ function TeditForm({ params }) {
               return (
                 <>
                   <Form name="TeditForm" method="post" onSubmit={handleSubmit}>
-                    <PopupMessage children={add => (ref.current = add)} />
+                    {/* <PopupMessage children={add => (ref.current = add)} /> */}
 
                     <Label htmlFor="firstname">First Name</Label>
 
@@ -296,7 +300,8 @@ function TeditForm({ params }) {
                     )}
 
                     <Label htmlFor="photo">
-                      Image
+                      Image (upload photo sould be 200 height * 300 in size
+                      width)
                       <MyInput
                         className="browser-default"
                         name="photo"
@@ -398,11 +403,6 @@ function TeditForm({ params }) {
                   </Form>
 
                   <hr />
-                  <div style={{ color: "black" }}>
-                    {" "}
-                    {JSON.stringify(teacher, null, 2)}
-                    {JSON.stringify(values, null, 2)}
-                  </div>
                 </>
               );
             }}
