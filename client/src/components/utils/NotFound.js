@@ -6,6 +6,7 @@ import styled from "styled-components";
 function NotFound() {
   const Page = styled.div`
     padding-top: 10rem;
+    height: 100%;
     padding-bottom: 10rem;
     background-color: #b7b9ae;
     font-family: sans-serif;
@@ -18,13 +19,13 @@ function NotFound() {
       justify-content: center;
     }
   `;
-  const icon = [hello.Cat, hello.Browser, hello.Ghost];
+  const icon = [hello.Cat, hello.Browser, hello.Ghost, hello.File];
   var Kawaii = icon[Math.floor(Math.random() * icon.length)];
 
   return (
     <Page>
       <div className="context">
-        <Kawaii size={200} mood="sad" color="#5a32a8" />
+        <Kawaii size={250} mood="ko" color="#5a32a8" />
       </div>
       <h2 style={{ fontSize: "60px" }}>oops,404 error..page is not Found !!</h2>
       <Link to="/" style={{ fontSize: "30px" }}>
@@ -34,3 +35,4 @@ function NotFound() {
   );
 }
 export default NotFound;
+
