@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useRef } from "react";
 import { Formik, Form, Field } from "formik";
 import photo_forgot from "../../img/ForgotPassword.jpg";
 import ApiContext from "../context/api/apiContext";
-import PopupMessage from "../../admin/components/globals/PopupMessage";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+
 import { StyledInlineErrorMessage } from "../../admin/components/dashboard/form/InputStyles";
 // import { Link } from "react-router-dom";
 
@@ -16,8 +17,8 @@ const SignupSchema = Yup.object().shape({
 const ForgotPassword = () => {
   const ref = useRef(null);
   const apiContext = useContext(ApiContext);
-  const { forgotPassword, errorMessage } = apiContext;
-
+  const { forgotPassword } = apiContext;
+  const history = useHistory();
   return (
     <div className="container">
       <div className="row">
@@ -47,16 +48,12 @@ const ForgotPassword = () => {
                       const data = new FormData();
                       data.append("email", values.email);
 
-                      forgotPassword(data);
-                      actions.setSubmitting(false);
-                      console.log("error:", errorMessage);
-                      if (Object.entries(errorMessage) === 0) {
-                        ref.current(
-                          "Successfully sent it, you will recieved a confirmation email in your email box!!"
-                        );
-                      } else {
-                        actions.setErrors(errorMessage);
-                      }
+                      forgotPassword(data).then(() => {
+                        setTimeout(() => {
+                          actions.setSubmitting(false);
+                          history.push("/signIn");
+                        }, 1000);
+                      });
                     }}
                   >
                     {({ errors, touched, handleSubmit }) => (
@@ -67,11 +64,11 @@ const ForgotPassword = () => {
                         onSubmit={handleSubmit}
                       >
                         <h5 style={{ color: "red" }}>{errors.HasError}</h5>
-                        <PopupMessage children={add => (ref.current = add)} />
+
                         <div className="input-field col s12">
                           <i className="material-icons prefix">email</i>
 
-                          <Field name="email" />
+                          <Field name="email" placeholder="email" />
                           {errors.email && touched.email ? (
                             <StyledInlineErrorMessage>
                               {errors.email}
@@ -104,3 +101,4 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
+
