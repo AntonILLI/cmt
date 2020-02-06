@@ -7,7 +7,7 @@ import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { screenSmallerThan } from "../../globals/Util";
 import EventContext from "../../../../components/context/eventAPI/eventContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import {
   PageWrapper,
   Label,
@@ -119,14 +119,14 @@ function EditForm({ id }) {
               updateEvent(data, id);
 
               const timeOut = setTimeout(() => {
-                ref.current("Submitted Successfully!!");
                 actions.setSubmitting(false);
-
+                history.replace("/admin");
                 clearTimeout(timeOut);
               }, 3000);
             }}
           >
             {({
+              props,
               values,
               errors,
               touched,
@@ -243,8 +243,8 @@ function EditForm({ id }) {
                   </Form>
 
                   <hr />
-                  {JSON.stringify(event, null, 2)}
-                  {JSON.stringify(values, null, 2)}
+                  {/* {JSON.stringify(event, null, 2)}
+                  {JSON.stringify(values, null, 2)} */}
                 </>
               );
             }}
