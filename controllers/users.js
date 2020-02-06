@@ -95,7 +95,6 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       photo: req.files.photo.name,
-      password: req.body.password,
       careers: req.body.careers,
       price: req.body.price,
       url: req.body.url
@@ -132,3 +131,4 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     data: {}
   });
 });
+
