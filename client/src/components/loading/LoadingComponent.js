@@ -24,10 +24,11 @@ const LoadingComponent = () => {
     <div style={style}>
       <FadeIn>
         <div className="d-flex justify-content-center align-items-center">
-          <Lottie options={defaultOptions} height={800} width={"100%"} />
+          <Lottie options={defaultOptions} height={1200} width={"100%"} />
         </div>
       </FadeIn>
     </div>
   );
 };
 export default LoadingComponent;
+
