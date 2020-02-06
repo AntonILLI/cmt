@@ -141,12 +141,33 @@ function FormField({ userId }) {
       value: "guitar"
     },
     {
-      label: "jazz",
-      value: "jazz"
+      label: "aural",
+      value: "aural"
     },
     {
       label: "vocal training",
       value: "vocal training"
+    },
+    {
+      label: "flute",
+      value: "flute"
+    },
+    {
+      label: "recorder",
+      value: "recorder"
+    },
+
+    {
+      label: "piccolo",
+      value: "piccolo"
+    },
+    {
+      label: "music theory",
+      value: "music theory"
+    },
+    {
+      label: "viola repaire",
+      value: "viola repaire"
     },
     {
       label: "others",
@@ -197,17 +218,13 @@ function FormField({ userId }) {
 
             addUsers(data);
             {
-              /* setRedirect(true); */
+              /* ref.current("Submitted Successfully!!");
+               */
             }
             const timeOut = setTimeout(() => {
-              ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
               clearTimeout(timeOut);
-
-              {
-                /* history.push("/admin"); */
-              }
-            }, 1000);
+            }, 2000);
           }}
         >
           {({
@@ -224,7 +241,7 @@ function FormField({ userId }) {
             return (
               <>
                 <Form name="contact" method="post" onSubmit={handleSubmit}>
-                  <PopupMessage children={add => (ref.current = add)} />
+                  {/* <PopupMessage children={add => (ref.current = add)} /> */}
                   <Label htmlFor="firstname">
                     First Name
                     <MyInput
@@ -419,7 +436,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-                {JSON.stringify(values, null, 2)}
+                {/* {JSON.stringify(values, null, 2)} */}
               </>
             );
           }}
@@ -430,3 +447,4 @@ function FormField({ userId }) {
 }
 
 export default FormField;
+
