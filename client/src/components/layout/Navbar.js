@@ -33,11 +33,6 @@ const Navbar = () => {
             </a>
             <ul className="right hide-on-med-and-down">
               <li>
-                <Link to="/" className="nav-link">
-                  Home <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li>
                 <Link to="/admin">Admin-DashBoard</Link>
               </li>
               <li>
@@ -98,7 +93,7 @@ const Navbar = () => {
 
         <ul className="sidenav" id="mobile-demo">
           <li>
-            <Link className="nav-link">
+            <Link to="/" className="nav-link">
               Home <span className="sr-only">(current)</span>
             </Link>
           </li>
