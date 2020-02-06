@@ -62,8 +62,6 @@ export default (state, action) => {
     case USER_ERROR:
     case AUTH_ERROR:
     case LOGIN_FAIL:
-    case FORGOT_FAIL:
-    case RESET_FAIL:
     case LOGOUT:
       localStorage.removeItem("token");
       return {
@@ -72,14 +70,14 @@ export default (state, action) => {
         isAuthenticated: false,
         loading: false,
         user: null,
+        error: action.payload
+      };
+    case FORGOT_FAIL:
+    case RESET_FAIL:
+      return {
+        ...state,
         errorMessage: action.payload
       };
-    // case FORGOT_FAIL:
-    // case RESET_FAIL:
-    //   return {
-    //     ...state,
-    //     errorData: [action.payload]
-    //   };
 
     default:
       return state;
