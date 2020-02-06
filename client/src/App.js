@@ -15,7 +15,7 @@ import AuthRoute from "./AuthRoute";
 import setAuthToken from "./components/utils/SetAuthToken";
 const Home = lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import("./components/layout/Home")), 1000);
+    setTimeout(() => resolve(import("./components/layout/Home")), 3000);
   });
 });
 
@@ -33,7 +33,7 @@ const Navbar = lazy(() => {
 
 const Admin = lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import("./admin/Admin")), 500);
+    setTimeout(() => resolve(import("./admin/Admin")), 1000);
   });
 });
 
