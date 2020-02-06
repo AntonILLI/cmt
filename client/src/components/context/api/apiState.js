@@ -27,6 +27,7 @@ const ApiState = props => {
     teachers: [],
     isAuthenticated: null,
     loading: true,
+    error: null,
     errorMessage: null
   };
   //authUser() is run in external file,
@@ -106,9 +107,10 @@ const ApiState = props => {
         payload: res.data
       });
     } catch (err) {
+      console.log("err:", err.response.data.error);
       dispatch({
         type: FORGOT_FAIL,
-        payload: err.response.data.success
+        payload: err.response.data.error
       });
     }
   };
@@ -132,10 +134,10 @@ const ApiState = props => {
         payload: res.data
       });
     } catch (err) {
-      console.log("err:", err.response);
+      console.log("err:", err.response.status);
       dispatch({
         type: RESET_FAIL,
-        payload: err.response.data.error
+        payload: err.response.status
       });
     }
   };
@@ -152,8 +154,9 @@ const ApiState = props => {
         loading: state.loading,
         users: state.users,
         user: state.user,
-        errorMessage: state.errorMessage,
+        error: state.error,
         teachers: state.teachers,
+        errorMessage: state.errorMessage,
         authUser,
         userLoad,
         adminUsers,
