@@ -20,7 +20,7 @@ const SignIn = () => {
   const history = useHistory();
 
   const apiContext = useContext(ApiContext);
-  const { login, isAuthenticated, errorMessage } = apiContext;
+  const { login, isAuthenticated, error } = apiContext;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -32,13 +32,13 @@ const SignIn = () => {
   // if (isAuthenticated) {
   //   return <Redirect to="/" />;
   // }
-console.log('error',errorMessage)
+  console.log("error", error);
   return (
     <div className="container">
       <div className="row">
         <div className="col s8 offset-s2 m6 offset-m3">
-          {errorMessage && errorMessage.length > 0 && (
-            <h5 style={{ color: "red" }}>{errorMessage}</h5>
+          {error && error.length > 0 && (
+            <h5 style={{ color: "red" }}>{error}</h5>
           )}
           <div className="card center-align">
             <div className="card-image">
@@ -78,7 +78,7 @@ console.log('error',errorMessage)
                         <div className="input-field col s12">
                           <i className="material-icons prefix">email</i>
 
-                          <Field name="email" />
+                          <Field name="email" placeholder="email" />
                           {errors.email && touched.email ? (
                             <StyledInlineErrorMessage>
                               {errors.email}
@@ -87,7 +87,11 @@ console.log('error',errorMessage)
                         </div>
                         <div className="input-field col s12">
                           <i className="material-icons prefix">vpn_key</i>
-                          <Field name="password" />
+                          <Field
+                            name="password"
+                            type="password"
+                            placeholder="password"
+                          />
                           {errors.password && touched.password ? (
                             <StyledInlineErrorMessage>
                               {errors.password}
@@ -120,3 +124,4 @@ console.log('error',errorMessage)
 };
 
 export default SignIn;
+
