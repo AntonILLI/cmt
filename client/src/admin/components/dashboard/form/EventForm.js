@@ -11,7 +11,8 @@ import { screenSmallerThan } from "../../globals/Util";
 import { MyParagraph } from "../teachers/Teachers";
 import FileUpload from "./FileUpload";
 import EventContext from "../../../../components/context/eventAPI/eventContext";
-
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   PageWrapper,
   Title,
@@ -97,10 +98,11 @@ export const MyTitle = styled.div`
 //will use userId for save or delete conttent
 function EventForm() {
   const eventContext = useContext(EventContext);
-  const { createEvent, loading, error } = eventContext;
-
+  const { createEvent } = eventContext;
+  // const [error, setError] = useState([false]);
+  const [redirect, setRedirect] = useState(false);
+  const history = useHistory();
   const ref = useRef(null);
-  // const [formValues, setFormValues] = useState();
 
   const [toggle, setToggle] = useState(true);
 
@@ -145,6 +147,7 @@ function EventForm() {
           initialValues={{
             title: "",
             description: "",
+            url: "",
             photo: null
           }}
           validationSchema={validationSchema}
@@ -152,18 +155,18 @@ function EventForm() {
             const data = new FormData();
             data.append("photo", values.photo);
             data.append("title", values.title);
+            data.append("url", values.url);
             data.append("description", values.description);
-            createEvent(data);
 
             console.log(values);
-
+            createEvent(data);
+            {
+              /* ref.current("Submitted Successfully!!"); */
+            }
             const timeOut = setTimeout(() => {
-              ref.current(" Submitted Successfully!!");
-
-              actions.setSubmitting(false);
-
               clearTimeout(timeOut);
-            }, 1000);
+              setRedirect(true);
+            }, 5000);
           }}
         >
           {({
@@ -181,6 +184,8 @@ function EventForm() {
             return (
               <>
                 <Form name="contact" method="post" onSubmit={handleSubmit}>
+                  {redirect ? <Redirect to="/admin/event" /> : null}
+                  {/* <PopupMessage children={add => (ref.current = add)} /> */}
                   <Label htmlFor="title">
                     Title
                     <MyInput
@@ -221,6 +226,25 @@ function EventForm() {
                     </StyledInlineErrorMessage>
                   )}
 
+                  <Label htmlFor="url">
+                    Event Link (Optional)
+                    <MyInput
+                      className="browser-default"
+                      type="text"
+                      name="url"
+                      autoCorrect="off"
+                      autoComplete="url"
+                      placeholder="your event link ..ex) www.example.com "
+                      valid={touched.url && !errors.url}
+                      error={touched.url && errors.url}
+                    />
+                  </Label>
+                  {errors.url && touched.url && (
+                    <StyledInlineErrorMessage>
+                      {errors.url}
+                    </StyledInlineErrorMessage>
+                  )}
+
                   <Label htmlFor="photo">
                     Image
                     <MyInput
@@ -257,10 +281,6 @@ function EventForm() {
                   <PopupMessage children={add => (ref.current = add)} />
                 </Form>
                 <hr />
-                {/* <strong>Errors:</strong> {JSON.stringify(errors, null, 2)}
-                <strong>Touched:</strong> {JSON.stringify(touched, null, 2)}
-                {/* {formValues && <strong>Submitted values:</strong>}
-                {JSON.stringify(values, null, 2)} */}
               </>
             );
           }}

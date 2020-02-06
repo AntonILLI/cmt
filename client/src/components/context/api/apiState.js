@@ -4,6 +4,8 @@ import ApiContext from "./apiContext";
 import apiReducer from "./apiReducer";
 import {
   AUTH_USER,
+  ADMIN_USERS,
+  ADMIN_ERROR,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -22,11 +24,12 @@ const ApiState = props => {
     token: localStorage.getItem("token"),
     users: null,
     user: null,
+    teachers: [],
     isAuthenticated: null,
     loading: true,
-    error: null
+    error: null,
+    errorMessage: null
   };
-
   //authUser() is run in external file,
   //type:AUTH_LOADED...which will be set as a siwtch fuc in reducer will run
   //then inside state will be chnaged(upadated)...payload:res.data---> user:action.payload
@@ -55,6 +58,16 @@ const ApiState = props => {
     }
   };
 
+  const adminUsers = async () => {
+    try {
+      const res = await axios.get("/api/v1/users/admin", {});
+      console.log(res);
+      dispatch({ type: ADMIN_USERS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: ADMIN_ERROR });
+    }
+  };
+
   const login = async userData => {
     const config = {
       headers: {
@@ -67,7 +80,7 @@ const ApiState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      setAuthToken(localStorage.token);
+      userLoad();
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
@@ -85,16 +98,16 @@ const ApiState = props => {
 
     try {
       const res = await axios.post(
-        `/api/v1/auth/forgotPassword`,
+        "/api/v1/auth/forgotPassword",
         Temail,
         config
       );
-
       dispatch({
         type: FORGOT_PASS,
         payload: res.data
       });
     } catch (err) {
+      console.log("err:", err.response.data.error);
       dispatch({
         type: FORGOT_FAIL,
         payload: err.response.data.error
@@ -121,9 +134,10 @@ const ApiState = props => {
         payload: res.data
       });
     } catch (err) {
+      console.log("err:", err.response.status);
       dispatch({
         type: RESET_FAIL,
-        payload: err.response.data.message
+        payload: err.response.status
       });
     }
   };
@@ -141,8 +155,11 @@ const ApiState = props => {
         users: state.users,
         user: state.user,
         error: state.error,
+        teachers: state.teachers,
+        errorMessage: state.errorMessage,
         authUser,
         userLoad,
+        adminUsers,
         login,
         logout,
         resetPassword,

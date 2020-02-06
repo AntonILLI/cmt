@@ -1,8 +1,8 @@
 const asyncHandler = require("../middleware/async");
-const User = require("../models/user");
+const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 const path = require("path");
-const decrypt = require("../utils/decrypt");
+
 //@route Get/api/v1/auth/users//@accsss Private/Admin
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
@@ -13,8 +13,6 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
-
-  user.password = await decrypt(user.password);
 
   res.status(200).json({
     success: true,
@@ -97,7 +95,6 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       photo: req.files.photo.name,
-      password: req.body.password,
       careers: req.body.careers,
       price: req.body.price,
       url: req.body.url
@@ -134,3 +131,4 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     data: {}
   });
 });
+

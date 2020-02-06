@@ -10,22 +10,11 @@ import { useHistory, Redirect } from "react-router";
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")
-    .required("Required"),
+    .required("Required email"),
   password: Yup.string()
-    .min(6, "Too Short!")
-    .required("Required")
+    .min(6, "Too short!")
+    .required("Required password")
 });
-
-// function Copyright() {
-//   return (
-//     <p variant="body2" color="textSecondary" align="center">
-//       {"Copyright © "}
-//       <Link color="inherit">Canterbury Music Teacher</Link>{" "}
-//       {new Date().getFullYear()}
-//       {"."}
-//     </p>
-//   );
-// }
 
 const SignIn = () => {
   const history = useHistory();
@@ -35,20 +24,21 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/admin/dashboard");
+      history.push("/admin");
     }
+    // eslint-disable-next-line
   }, [isAuthenticated, history]);
 
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
-  }
-
+  // if (isAuthenticated) {
+  //   return <Redirect to="/" />;
+  // }
+  console.log("error", error);
   return (
     <div className="container">
       <div className="row">
         <div className="col s8 offset-s2 m6 offset-m3">
           {error && error.length > 0 && (
-            <h4 style={{ color: "red" }}>{error}</h4>
+            <h5 style={{ color: "red" }}>{error}</h5>
           )}
           <div className="card center-align">
             <div className="card-image">
@@ -88,7 +78,7 @@ const SignIn = () => {
                         <div className="input-field col s12">
                           <i className="material-icons prefix">email</i>
 
-                          <Field name="email" />
+                          <Field name="email" placeholder="email" />
                           {errors.email && touched.email ? (
                             <StyledInlineErrorMessage>
                               {errors.email}
@@ -97,7 +87,11 @@ const SignIn = () => {
                         </div>
                         <div className="input-field col s12">
                           <i className="material-icons prefix">vpn_key</i>
-                          <Field name="password" />
+                          <Field
+                            name="password"
+                            type="password"
+                            placeholder="password"
+                          />
                           {errors.password && touched.password ? (
                             <StyledInlineErrorMessage>
                               {errors.password}
@@ -130,3 +124,4 @@ const SignIn = () => {
 };
 
 export default SignIn;
+

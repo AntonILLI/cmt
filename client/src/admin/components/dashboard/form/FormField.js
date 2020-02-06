@@ -3,7 +3,7 @@ import React, { useState, useRef, useContext } from "react";
 import { Formik, Form, FieldArray, ErrorMessage, Field } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
-
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { MultiSelect } from "./MultiSelect";
@@ -57,14 +57,23 @@ const validationSchema = Yup.object().shape({
 export const MySection = styled.section`
   margin: 0 5rem 8rem 8rem;
   padding-bottom: 7rem;
-  ${screenSmallerThan.tablet`
-  
-    margin-left:3rem;
+  /* ${screenSmallerThan.tablet`
+    margin-left:0;
+    msrgin-right:0;
     flex-direction: column;
     justify-content:center;
     align-items:center;
     
-  `} /* background-color: #15141b; */
+  `} */
+
+  ${screenSmallerThan.phone`
+    margin:0;
+    padding:0;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+
+  `}
 `;
 
 export const MyTitle = styled.div`
@@ -76,6 +85,13 @@ export const MyTitle = styled.div`
     font-size: 4rem;
     font-weight: 300;
     letter-spacing: 0.2rem;
+
+    ${screenSmallerThan.phone`
+   font-size:1rem;
+   left:-1rem;
+   font-weight: 150;
+   letter-spacing: 0.1rem;
+ `}
   }
 
   .small-underline {
@@ -84,6 +100,10 @@ export const MyTitle = styled.div`
     background-color: #b85d1c;
     margin: 0 auto 1rem auto;
   }
+  ${screenSmallerThan.phone`
+  width:4rem
+
+ `}
 
   .big-underline {
     width: 9rem;
@@ -106,6 +126,8 @@ function FormField({ userId }) {
 
   const adminContext = useContext(AdminContext);
   const { addUsers, loading, error } = adminContext;
+  const { redirect, setRedirect } = useState(false);
+  const history = useHistory();
 
   const getValues = values => values.fields;
 
@@ -119,12 +141,33 @@ function FormField({ userId }) {
       value: "guitar"
     },
     {
-      label: "jazz",
-      value: "jazz"
+      label: "aural",
+      value: "aural"
     },
     {
       label: "vocal training",
       value: "vocal training"
+    },
+    {
+      label: "flute",
+      value: "flute"
+    },
+    {
+      label: "recorder",
+      value: "recorder"
+    },
+
+    {
+      label: "piccolo",
+      value: "piccolo"
+    },
+    {
+      label: "music theory",
+      value: "music theory"
+    },
+    {
+      label: "viola repaire",
+      value: "viola repaire"
     },
     {
       label: "others",
@@ -174,20 +217,22 @@ function FormField({ userId }) {
             console.log(JSON.stringify(values, null, 2));
 
             addUsers(data);
-
+            {
+              /* ref.current("Submitted Successfully!!");
+               */
+            }
             const timeOut = setTimeout(() => {
-              ref.current("Submitted Successfully!!");
               actions.setSubmitting(false);
               clearTimeout(timeOut);
-            }, 1000);
+            }, 2000);
           }}
         >
           {({
             values,
             errors,
             touched,
-            setFieldValue,
             handleSubmit,
+            setFieldValue,
             isSubmitting,
             handleReset,
             dirty,
@@ -196,7 +241,7 @@ function FormField({ userId }) {
             return (
               <>
                 <Form name="contact" method="post" onSubmit={handleSubmit}>
-                  <PopupMessage children={add => (ref.current = add)} />
+                  {/* <PopupMessage children={add => (ref.current = add)} /> */}
                   <Label htmlFor="firstname">
                     First Name
                     <MyInput
@@ -296,8 +341,8 @@ function FormField({ userId }) {
                     </StyledInlineErrorMessage>
                   )}
 
-                  <Label htmlFor="photo">
-                    Image
+                  <Label style={{ marginTop: "20px" }} htmlFor="photo">
+                    Image(upload photo sould be 200 height * 300 in size width)
                     <MyInput
                       className="browser-default"
                       name="photo"
@@ -330,12 +375,14 @@ function FormField({ userId }) {
                       className="browser-default"
                       placeholder="Add Price"
                       name="price"
+                      Width
                       render={arrayHelpers => (
                         <div>
                           {values.price && values.price.length > 0 ? (
                             values.price.map((price, index) => (
-                              <div key={index}>
-                                <Field
+                              <div key={index} style={{ paddingRight: "27px" }}>
+                                <MyInput
+                                  className="browser-default"
                                   name={`${price}.${index}`}
                                   onChange={e => {
                                     setFieldValue("price.0", e.target.value);
@@ -362,7 +409,7 @@ function FormField({ userId }) {
                               type="button"
                               onClick={() => arrayHelpers.push("")}
                             >
-                              Add Price
+                              Add Fees
                             </button>
                           )}
                         </div>
@@ -389,7 +436,7 @@ function FormField({ userId }) {
                 </Form>
 
                 <hr />
-                {JSON.stringify(values, null, 2)}
+                {/* {JSON.stringify(values, null, 2)} */}
               </>
             );
           }}
@@ -400,3 +447,4 @@ function FormField({ userId }) {
 }
 
 export default FormField;
+

@@ -1,17 +1,28 @@
 import React, { useContext, useEffect } from "react";
 import Teachers from "../dashboard/teachers/Teachers";
 import AbsoluteWrapper from "../globals/AbsoluteWrapper";
-
+import { useHistory } from "react-router-dom";
 import AdminContext from "../../../components/context/adminAPI/adminContext";
 
 const Dashboard = ({ location }) => {
-  const adminContext = useContext(AdminContext);
+  const apiContext = useContext(AdminContext);
 
-  const { adminUsers, teachers, deleteUser, loading, error } = adminContext;
+  const history = useHistory();
+  const {
+    adminUsers,
+    teachers,
+    deleteUser,
+    isAuthenticated,
+    loading,
+    error
+  } = apiContext;
 
   useEffect(() => {
     adminUsers();
-    //eslint-disable-next-line
+    if (isAuthenticated) {
+      history.push("/");
+    }
+    //eslint-disable-next-lineo
   }, []);
 
   return (

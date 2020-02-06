@@ -1,10 +1,10 @@
-const crypto = require("crypto"),
-  algorithm = "aes-256-ctr",
-  password = "d6F3Efeq";
+const crypto = require("crypto");
 
-const encrypt = text => {
+var encrypt = function(text) {
+  var algorithm = "aes-256-ctr";
+  var password = "gh6ttr";
   var cipher = crypto.createCipher(algorithm, password);
-  var crypted = cipher.update(text, "utf8", "hex");
+  var crypted = cipher.update(JSON.stringify(text), "utf8", "hex");
   crypted += cipher.final("hex");
   return crypted;
 };

@@ -3,14 +3,13 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ReactParticles from "react-particles-js";
 import configJson from "../../globals/configJson.js";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { PrimaryBtn } from "../../globals/Button";
 import { animated, useSpring } from "react-spring";
 import { screenSmallerThan } from "../../globals/Util";
 import { setColor } from "../../globals/colors";
 import EditIcon from "../svg-icons/Edit";
 import RemoveIcon from "../svg-icons/Remove";
-import { useHistory } from 'react-router-dom';
 import CallModal from "../../modal/CallModal";
 
 function Teachers({ teachers, deleteUser, loading, error }) {
@@ -43,6 +42,10 @@ function Teachers({ teachers, deleteUser, loading, error }) {
       </StyledParagraph>
     );
   };
+  // const deleteTeacher = id => {
+  //   deleteUser(id);
+  //   history.push("/admin");
+  // };
 
   return (
     <MySection>
@@ -65,6 +68,7 @@ function Teachers({ teachers, deleteUser, loading, error }) {
               <TeacherCards key={teacher._id}>
                 <div className="teachers-image-wrapper">
                   <img
+                    alt=""
                     style={{ height: 150, width: 210 }}
                     src={require(`../../../../../public/uploads/${teacher.photo}`)}
                     className="teachers-image"

@@ -8,7 +8,7 @@ const {
   deleteUser,
   userPhotoUpload
 } = require("../controllers/users");
-const User = require("../models/user");
+const User = require("../models/User");
 
 const router = express.Router();
 const advancedResults = require("../middleware/advancedResults");

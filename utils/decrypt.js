@@ -1,8 +1,8 @@
-const crypto = require("crypto"),
-  algorithm = "aes-256-ctr",
-  password = "d6F3Efeq";
+const crypto = require("crypto");
 
-const decrypt = text => {
+var decrypt = function(text) {
+  var algorithm = "aes-256-ctr";
+  var password = "gh6ttr";
   var decipher = crypto.createDecipher(algorithm, password);
   var dec = decipher.update(text, "hex", "utf8");
   dec += decipher.final("utf8");

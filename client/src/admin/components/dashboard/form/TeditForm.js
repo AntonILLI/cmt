@@ -1,11 +1,12 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik, Form, ErrorMessage, FieldArray } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
-import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
-import { MultiSelect } from "../../dashboard/form/MultiSelect";
+
+import { MultiSelect } from "./MultiSelect";
 import { screenSmallerThan } from "../../globals/Util";
 
 import {
@@ -27,9 +28,6 @@ const validationSchema = Yup.object().shape({
   lastname: Yup.string()
     .min(2, "Your lastname is too short")
     .required("Please enter your last name"),
-  password: Yup.string()
-    .min(6, "Your password is more than 6")
-    .required("Please enter you password"),
   email: Yup.string()
     .email("The email is incorrect")
     .required("Please enter your email"),
@@ -156,12 +154,6 @@ function TeditForm({ params }) {
     }
   ];
 
-  // const handleChange = e => {
-  //   setFormValue({
-  //     ...formValue,
-  //     [e.target.name]: e.target.value
-  //   });
-  // };
   return (
     <MySection>
       <PageWrapper Border Margin Width>
@@ -177,7 +169,6 @@ function TeditForm({ params }) {
               firstname: teacher.firstname,
               lastname: teacher.lastname,
               email: teacher.email,
-              password: teacher.password,
               description: teacher.description,
               photo: null,
               careers: [],
@@ -185,26 +176,28 @@ function TeditForm({ params }) {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
-              console.log(values);
+              {
+                /* console.log(values); */
+              }
 
               const data = new FormData();
               data.append("firstname", values.firstname);
               data.append("lastname", values.lastname);
               data.append("email", values.email);
-              data.append("password", values.password);
               data.append("description", values.description);
               data.append("photo", values.photo);
               data.append("careers", values.careers);
               data.append("price", values.price);
-              console.log("id:", params);
+
               updateUser(data, params);
 
               const timeOut = setTimeout(() => {
-                ref.current("Submitted Successfully!!");
-                actions.setSubmitting(false);
+                history.replace("/admin");
 
-                clearTimeout(timeOut);
-              }, 1000);
+                actions.setSubmitting(true);
+
+               
+              }, 500);
             }}
           >
             {({
@@ -222,7 +215,7 @@ function TeditForm({ params }) {
               return (
                 <>
                   <Form name="TeditForm" method="post" onSubmit={handleSubmit}>
-                    <PopupMessage children={add => (ref.current = add)} />
+                    {/* <PopupMessage children={add => (ref.current = add)} /> */}
 
                     <Label htmlFor="firstname">First Name</Label>
 
@@ -261,29 +254,6 @@ function TeditForm({ params }) {
                         {errors.lastname}
                       </StyledInlineErrorMessage>
                     )}
-
-                    <Label htmlFor="password">
-                      Password
-                      <MyInput
-                        className="browser-default"
-                        value={values.password}
-                        type="text"
-                        name="password"
-                        autoCapitalize="off"
-                        autoCorrect="off"
-                        autoComplete="password"
-                        placeholder="your password"
-                        valid={touched.password && !errors.password}
-                        error={touched.password && errors.password}
-                      />
-                    </Label>
-                    <ErrorMessage name="password">
-                      {msg => (
-                        <StyledInlineErrorMessage>
-                          {msg}
-                        </StyledInlineErrorMessage>
-                      )}
-                    </ErrorMessage>
 
                     <Label htmlFor="email">
                       Email
@@ -330,7 +300,8 @@ function TeditForm({ params }) {
                     )}
 
                     <Label htmlFor="photo">
-                      Image
+                      Image (upload photo sould be 200 height * 300 in size
+                      width)
                       <MyInput
                         className="browser-default"
                         name="photo"
@@ -432,11 +403,6 @@ function TeditForm({ params }) {
                   </Form>
 
                   <hr />
-                  <div style={{ color: "black" }}>
-                    {" "}
-                    {JSON.stringify(teacher, null, 2)}
-                    {JSON.stringify(values, null, 2)}
-                  </div>
                 </>
               );
             }}

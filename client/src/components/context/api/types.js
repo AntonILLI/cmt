@@ -16,3 +16,5 @@ export const RESET_PASSWORD = "RESET_PASSWORD";
 export const RESET_FAIL = "RESET_FAIL";
 export const FORGOT_PASS = "FORGOT_PASS";
 export const FORGOT_FAIL = "FORGOT_FAIL";
+export const ADMIN_USERS = "ADMIN_USERS";
+export const ADMIN_ERROR = "ADMIN_ERROR";

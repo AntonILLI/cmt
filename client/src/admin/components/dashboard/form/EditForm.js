@@ -3,12 +3,11 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
 import PopupMessage from "../../globals/PopupMessage";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import FileUpload from "./FileUpload";
 import { screenSmallerThan } from "../../globals/Util";
 import EventContext from "../../../../components/context/eventAPI/eventContext";
-
+import { useHistory, Redirect } from "react-router-dom";
 import {
   PageWrapper,
   Label,
@@ -17,26 +16,6 @@ import {
   Submit
 } from "./InputStyles";
 
-// const BtnWrapper = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-evenly;
-//   margin-left: 5rem;
-//   align-items: center;
-//   padding: 1rem;
-// `;
-// const MyForm = styled.form`
-//   margin-bottom: 100px;
-// `;
-// const ImgWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   padding-top: 3rem;
-//   height: 50%;
-//   width: 50%;
-// `;
-
-//will use userId for save or delete conttent
 const FileSize = 15000000;
 const FormatType = ["image/jpg", "image/jpeg", "image/png"];
 
@@ -140,14 +119,14 @@ function EditForm({ id }) {
               updateEvent(data, id);
 
               const timeOut = setTimeout(() => {
-                ref.current("Submitted Successfully!!");
                 actions.setSubmitting(false);
-
+                history.replace("/admin");
                 clearTimeout(timeOut);
-              }, 1000);
+              }, 3000);
             }}
           >
             {({
+              props,
               values,
               errors,
               touched,
@@ -264,8 +243,8 @@ function EditForm({ id }) {
                   </Form>
 
                   <hr />
-                  {JSON.stringify(event, null, 2)}
-                  {JSON.stringify(values, null, 2)}
+                  {/* {JSON.stringify(event, null, 2)}
+                  {JSON.stringify(values, null, 2)} */}
                 </>
               );
             }}

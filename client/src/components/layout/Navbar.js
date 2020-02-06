@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ApiContext from "../context/api/apiContext";
 
@@ -8,12 +8,17 @@ import ApiContext from "../context/api/apiContext";
 const Navbar = () => {
   const apiContext = useContext(ApiContext);
 
-  const { logout, isAuthenticated } = apiContext;
+  const { logout, authUser, isAuthenticated } = apiContext;
 
   const handleLogout = e => {
     e.preventDefault();
     logout();
   };
+  useEffect(() => {
+    if (isAuthenticated) {
+      authUser();
+    }
+  }, []);
 
   const authLink = (
     <>
@@ -27,11 +32,6 @@ const Navbar = () => {
               <i className="material-icons">menu</i>
             </a>
             <ul className="right hide-on-med-and-down">
-              <li>
-                <Link to="/" className="nav-link">
-                  Home <span className="sr-only">(current)</span>
-                </Link>
-              </li>
               <li>
                 <Link to="/admin">Admin-DashBoard</Link>
               </li>
@@ -80,16 +80,11 @@ const Navbar = () => {
                   Home <span className="sr-only">(current)</span>
                 </Link>
               </li>
-              <li>
-                <Link to="#">Components</Link>
-              </li>
-              <li>
-                <Link href="#">Javascript</Link>
-              </li>
+
               <li>
                 <Link to="/signIn">
                   {/* <AudiotrackSharpIcon /> */}
-                  <span>Sign-IN</span>
+                  <span>Sign-In</span>
                 </Link>
               </li>
             </ul>
@@ -98,12 +93,9 @@ const Navbar = () => {
 
         <ul className="sidenav" id="mobile-demo">
           <li>
-            <Link className="nav-link">
+            <Link to="/" className="nav-link">
               Home <span className="sr-only">(current)</span>
             </Link>
-          </li>
-          <li>
-            <Link to="#">Components</Link>
           </li>
 
           <li>
@@ -119,7 +111,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <ul>{isAuthenticated ? authLink : guestLink}</ul>
+      <ul>{localStorage.getItem("token") ? authLink : guestLink}</ul>
     </div>
   );
 };

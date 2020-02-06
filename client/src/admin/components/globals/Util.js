@@ -5,8 +5,8 @@ import { css } from "styled-components";
 export const sizes = {
   giant: 1440,
   desktop: 1024,
-  tablet: 760,
-  phone: 420
+  tablet: 617,
+  phone: 397
 };
 
 //acumulator return object which is ...props and css() function grab ...props

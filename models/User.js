@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const encrypt = require("../utils/encrypt");
-const decrypt = require("../utils/decrypt");
+// const encrypt = require("../utils/encrypt");
+
 const UserSchema = new mongoose.Schema({
   firstname: {
     type: String,
@@ -61,9 +61,9 @@ UserSchema.pre("save", async function(next) {
   if (!this.isModified("password")) {
     next();
   }
-  this.password = await encrypt(this.password);
-  // const salt = await bcrypt.genSalt(10);
-  // this.password = await bcrypt.hash(this.password, salt);
+  // this.password = await encrypt(this.password);
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 //Sign JWT mongo id//add expire time
@@ -74,12 +74,12 @@ UserSchema.methods.getSignedJwtToken = function() {
 };
 
 UserSchema.methods.matchPassword = async function(enteredPassword) {
-  this.password = await decrypt(this.password);
-  console.log("pass:", this.password);
-  if (this.password === enteredPassword) {
-    return this.password;
-  }
-  // return await bcrypt.compare(enteredPassword, this.password);
+  return await bcrypt.compare(enteredPassword, this.password);
+  // this.password = await decrypt(this.password);
+  // console.log("pass:", this.password);
+  // if (this.password === enteredPassword) {
+  //   return this.password;
+  // }
 };
 
 UserSchema.methods.getResetPasswordToken = function() {

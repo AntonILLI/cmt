@@ -159,7 +159,11 @@ const Table = ({
       label: "Delete",
       content: item => (
         <>
-          <ABtn onClick={() => deleteEvent(item._id)}>
+          <ABtn
+            onClick={() =>
+              deleteEvent(item._id).then(window.location.reload(true))
+            }
+          >
             <RemoveIcon color={setColor.removeColor} />
           </ABtn>
         </>
@@ -211,11 +215,11 @@ const Table = ({
         </thead>
         <tbody>{data.map(item => row(item))}</tbody>
       </T>
-      <TablePagination
+      {/* <TablePagination
         currentPage={currentPage}
         totalPages={totalPages}
         basePageLink={basePageLink}
-      />
+      /> */}
     </Main>
   );
 };

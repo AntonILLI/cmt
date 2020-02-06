@@ -1,10 +1,27 @@
 //side bar (menu icon)
 
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import MenuToggle from "./MenuToggle";
+import MenuToggle from "../nav/MenuToggle";
+import ApiContext from "../../../../components/context/api/apiContext";
 const Sidebar = () => {
+  const apiContext = useContext(ApiContext);
+
+  const { logout, loading, isAuthenticated } = apiContext;
+  const handleLogout = e => {
+    e.preventDefault();
+    logout();
+  };
+
+  function Copyright() {
+    return (
+      <p variant="body2" color="textSecondary" align="center">
+        {"©"}
+        {new Date().getFullYear()}
+      </p>
+    );
+  }
   return (
     <>
       <MySidebar>
@@ -40,15 +57,13 @@ const Sidebar = () => {
           </li>
 
           <li>
-            <Link to="/" className="icon-link">
+            <Link to="/" onClick={e => handleLogout(e)} className="icon-link">
               <i className="fas fa-sign-out-alt"></i>
             </Link>
           </li>
         </ul>
 
-        <div className="year">
-          <p>2019</p>
-        </div>
+        <div className="year">{Copyright()}</div>
       </MySidebar>
     </>
   );
@@ -58,12 +73,12 @@ const MySidebar = styled.div`
   width: 8rem;
   height: 100%;
   background-color: #eee;
-  position: fixed;
+  position: fixed !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
+  z-index: 100 !important;
 
   .menu-icon {
     margin-top: 3rem;
@@ -96,5 +111,4 @@ const MySidebar = styled.div`
     color: #555;
   }
 `;
-
 export default Sidebar;

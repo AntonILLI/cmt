@@ -1,7 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Event = require("../models/Event");
-const User = require("../models/user");
+const User = require("../models/User");
 const path = require("path");
 
 exports.getEvents = asyncHandler(async (req, res, next) => {
